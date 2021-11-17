@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset
 import com.rapatao.projects.ruleset.engine.Matcher
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ScriptableObject
+import kotlin.reflect.full.memberProperties
 
 class Evaluator {
 
@@ -26,10 +27,10 @@ class Evaluator {
 
         val scope = context.initSafeStandardObjects()
 
-        val map = inputData.javaClass.declaredFields.associate {
-            it.isAccessible = true
-            Pair(it.name, it.get(inputData))
-        }
+        val map: Map<String, Any?> = inputData.javaClass.kotlin.memberProperties
+            .associate {
+                Pair(it.name, it.get(inputData))
+            }
 
         val params = map.createParams()
 
@@ -111,7 +112,7 @@ class Evaluator {
         return "(function($jsParams){return true == ($this)})($jsParams);"
     }
 
-    private fun Map<String, Any>.createParams() = this.keys.map { it }
+    private fun Map<String, Any?>.createParams() = this.keys.map { it }
 
     private fun Boolean.isFalse(): Boolean = !this
 }

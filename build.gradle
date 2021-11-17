@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
     implementation 'org.mozilla:rhino:1.7.13'
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
