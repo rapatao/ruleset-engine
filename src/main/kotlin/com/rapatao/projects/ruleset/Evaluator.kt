@@ -39,7 +39,7 @@ class Evaluator {
             ScriptableObject.putConstProperty(scope, "$argumentPrefix$it", jsObject)
         }
 
-        val processIsTrue = rule.isTrue?.processIsTrue(context, scope, params) ?: true
+        val processIsTrue = rule.expression?.processIsTrue(context, scope, params) ?: true
         val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope, params) ?: true
         val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope, params) ?: true
         val processAllMatch = rule.allMatch?.processAllMatch(context, scope, params) ?: true
@@ -53,7 +53,7 @@ class Evaluator {
         params: List<String>
     ): Boolean {
         val noneMatch = this.firstOrNull {
-            val isTrue = it.isTrue?.processIsTrue(context, scope, params) == true
+            val isTrue = it.expression?.processIsTrue(context, scope, params) == true
             val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
             val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) == true
             val allMatch = it.allMatch?.processAllMatch(context, scope, params) == true
@@ -70,7 +70,7 @@ class Evaluator {
         params: List<String>
     ): Boolean {
         val anyMatch = this.firstOrNull {
-            val isTrue = it.isTrue?.processIsTrue(context, scope, params) == true
+            val isTrue = it.expression?.processIsTrue(context, scope, params) == true
             val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) ?: false
             val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
             val allMatch = it.allMatch?.processAllMatch(context, scope, params) == true
@@ -87,7 +87,7 @@ class Evaluator {
         params: List<String>
     ): Boolean {
         val allMatch = this.firstOrNull {
-            val isTrue = it.isTrue?.processIsTrue(context, scope, params)?.isFalse() ?: false
+            val isTrue = it.expression?.processIsTrue(context, scope, params)?.isFalse() ?: false
             val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params)?.isFalse() ?: false
             val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params)?.isFalse() ?: false
             val allMatch = it.allMatch?.processAllMatch(context, scope, params)?.isFalse() ?: false
