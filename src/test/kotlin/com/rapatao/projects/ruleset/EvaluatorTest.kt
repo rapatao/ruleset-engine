@@ -282,7 +282,7 @@ internal class EvaluatorTest {
 
     @Test
 //    @Disabled
-    fun temp() {
+    fun `runs the last test scenario`() {
         val caseNumber = tests().size
 
         val cases: List<Arguments> = tests()
@@ -292,7 +292,6 @@ internal class EvaluatorTest {
             test[1] as Boolean
         )
     }
-
 }
 
 data class RequestData(val item: Item)
