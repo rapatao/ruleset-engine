@@ -5,6 +5,11 @@ import com.rapatao.projects.ruleset.engine.Matcher.Companion.allMatch
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.anyMatch
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.expression
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.noneMatch
+import com.rapatao.projects.ruleset.engine.expressions.IsBetween
+import com.rapatao.projects.ruleset.engine.expressions.IsBetween.Companion.isFieldBetween
+import com.rapatao.projects.ruleset.engine.expressions.IsEqualTo
+import com.rapatao.projects.ruleset.engine.expressions.IsEqualTo.Companion.isFieldEquals
+import com.rapatao.projects.ruleset.engine.expressions.IsTrue.Companion.isTrue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -15,7 +20,7 @@ import java.math.BigDecimal
 internal class EvaluatorTest {
 
     private val inputData = RequestData(
-        item = Item(price = BigDecimal.TEN, domainId = "<domain-id-1>")
+        item = Item(price = BigDecimal.TEN)
     )
 
     private val evaluator = Evaluator()
@@ -254,7 +259,7 @@ internal class EvaluatorTest {
                     allMatch = listOf(expression("\$item.price <= 1000")),
                     noneMatch = listOf(expression("\$item.price >= 1000")),
                     anyMatch = listOf(expression("\$item.price <= 1000")),
-                    expression = "\$item.price <= 1000"
+                    expression = isTrue("\$item.price <= 1000")
                 ),
                 true
             ),
@@ -264,7 +269,49 @@ internal class EvaluatorTest {
                     allMatch = listOf(expression("\$item.price <= 1000")),
                     noneMatch = listOf(expression("\$item.price >= 1000")),
                     anyMatch = listOf(expression("\$item.price <= 1000")),
-                    expression = "\$item.price >= 1000"
+                    expression = isTrue("\$item.price >= 1000")
+                ),
+                false
+            ),
+            // 27
+            Arguments.of(
+                expression(
+                    isFieldBetween("\$item.price") to 1 and 1000
+                ),
+                true
+            ),
+            // 28
+            Arguments.of(
+                expression(
+                    IsBetween("\$item.price", 1, 1000)
+                ),
+                true
+            ),
+            // 29
+            Arguments.of(
+                expression(
+                    IsBetween("\$item.price", 100, 1000)
+                ),
+                false
+            ),
+            // 30
+            Arguments.of(
+                expression(
+                    IsEqualTo("\$item.price", BigDecimal.TEN)
+                ),
+                true
+            ),
+            // 31
+            Arguments.of(
+                expression(
+                    isFieldEquals("\$item.price") to BigDecimal.TEN
+                ),
+                true
+            ),
+            // 32
+            Arguments.of(
+                expression(
+                    isFieldEquals("\$item.price") to BigDecimal.ZERO
                 ),
                 false
             ),
@@ -281,7 +328,6 @@ internal class EvaluatorTest {
     }
 
     @Test
-//    @Disabled
     fun `runs the last test scenario`() {
         val caseNumber = tests().size
 
@@ -295,4 +341,4 @@ internal class EvaluatorTest {
 }
 
 data class RequestData(val item: Item)
-data class Item(val price: BigDecimal, val domainId: String?)
+data class Item(val price: BigDecimal)
