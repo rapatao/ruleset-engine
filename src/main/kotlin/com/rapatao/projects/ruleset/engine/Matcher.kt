@@ -4,8 +4,7 @@ data class Matcher(
     val allMatch: List<Matcher>? = null,
     val anyMatch: List<Matcher>? = null,
     val noneMatch: List<Matcher>? = null,
-    val expression: String? = null,
-    val result: Result? = null
+    val expression: String? = null
 ) {
     companion object {
         fun expression(rule: String) = Matcher(expression = rule)
