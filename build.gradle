@@ -62,3 +62,12 @@ kover {
     jacocoEngineVersion.set("${jacocoVersion}")
     generateReportOnCheck.set(true)
 }
+
+tasks.koverVerify {
+    rule {
+        name = "Minimal line coverage rate in percents"
+        bound {
+            minValue = 90
+        }
+    }
+}
