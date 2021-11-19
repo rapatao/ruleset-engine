@@ -1,7 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlinx:kover:${koverVersion}"
+    }
+}
+
 plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "java-library"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
+    id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
 }
 
 group 'com.rapatao.projects.ruleset'
@@ -35,19 +45,20 @@ java {
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
+    buildUponDefaultConfig = true
+    allRules = false
 
     reports {
-        html.enabled = true // observe findings in your browser with structure and code snippets
-        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+        html.enabled = true
+        xml.enabled = true
+        txt.enabled = true
+        sarif.enabled = true
     }
 }
-//tasks.withType(Detekt).configureEach {
-//    jvmTarget = "11"
-//}
-//tasks.withType(DetektCreateBaselineTask).configureEach {
-//    jvmTarget = "11"
-//}
+
+kover {
+    enabled = true
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO)
+    jacocoEngineVersion.set("${jacocoVersion}")
+    generateReportOnCheck.set(true)
+}
