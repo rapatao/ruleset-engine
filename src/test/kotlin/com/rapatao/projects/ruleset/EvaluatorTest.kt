@@ -342,6 +342,69 @@ internal class EvaluatorTest {
                 ),
                 true
             ),
+            // 37
+            Arguments.of(
+                expression(
+                    field("item.price") greaterThan BigDecimal.ZERO
+                ),
+                true
+            ),
+            // 38
+            Arguments.of(
+                expression(
+                    field("item.price") greaterThan BigDecimal.TEN
+                ),
+                false
+            ),
+            // 39
+            Arguments.of(
+                expression(
+                    field("item.price") greaterOrEqualThan BigDecimal.TEN
+                ),
+                true
+            ),
+            // 40
+            Arguments.of(
+                expression(
+                    field("item.price") greaterOrEqualThan BigDecimal.valueOf(100)
+                ),
+                false
+            ),
+            // 41
+            Arguments.of(
+                expression(
+                    field("item.price") lessThan BigDecimal.valueOf(100)
+                ),
+                true
+            ),
+            // 42
+            Arguments.of(
+                expression(
+                    field("item.price") lessThan BigDecimal.ONE
+                ),
+                false
+            ),
+            // 43
+            Arguments.of(
+                expression(
+                    field("item.price") lessOrEqualThan BigDecimal.valueOf(100)
+                ),
+                true
+            ),
+            // 44
+            Arguments.of(
+                expression(
+                    field("item.price") lessOrEqualThan BigDecimal.TEN
+                ),
+                true
+            ),
+            // 45
+            Arguments.of(
+                expression(
+                    field("item.price") lessOrEqualThan BigDecimal.ONE
+                ),
+                false
+            ),
         )
     }
 
