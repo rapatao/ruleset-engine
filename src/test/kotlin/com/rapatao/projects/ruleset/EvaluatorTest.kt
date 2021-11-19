@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.Matcher
+import com.rapatao.projects.ruleset.engine.expressions.Expression
+import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
@@ -17,6 +19,7 @@ internal class EvaluatorTest {
     private val evaluator = Evaluator()
     private val mapper = jacksonObjectMapper()
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        .addMixIn(Expression::class.java, ExpressionMixin::class.java)
 
     companion object : Scenarios() {
         @JvmStatic
