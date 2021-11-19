@@ -1,6 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
-    id 'java-library'
+    id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
+    id "java-library"
+    id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
 }
 
 group 'com.rapatao.projects.ruleset'
@@ -32,3 +33,21 @@ java {
         languageVersion = JavaLanguageVersion.of(11)
     }
 }
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
+}
+//tasks.withType(Detekt).configureEach {
+//    jvmTarget = "11"
+//}
+//tasks.withType(DetektCreateBaselineTask).configureEach {
+//    jvmTarget = "11"
+//}

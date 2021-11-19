@@ -12,5 +12,4 @@ import com.rapatao.projects.ruleset.engine.types.BooleanExpression
         JsonSubTypes.Type(BetweenExpression::class),
     ]
 )
-interface ExpressionMixin {
-}
+interface ExpressionMixin

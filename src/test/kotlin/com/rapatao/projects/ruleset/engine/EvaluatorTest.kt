@@ -3,11 +3,11 @@ package com.rapatao.projects.ruleset.engine
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.rapatao.projects.ruleset.engine.cases.Scenarios
+import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,20 +21,20 @@ internal class EvaluatorTest {
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
 
-    companion object : Scenarios() {
+    companion object {
         @JvmStatic
-        fun tests() = super.scenarios()
+        fun tests() = TestData.allCases()
     }
 
     private fun doEvaluationTest(ruleSet: Matcher, expected: Boolean) {
-        MatcherAssert.assertThat(
-            evaluator.evaluate(rule = ruleSet, inputData = inputData),
+        assertThat(
+            evaluator.evaluate(rule = ruleSet, inputData = TestData.inputData),
             Matchers.equalTo(expected)
         )
     }
 
     private fun compareMatcherList(source: List<Matcher>?, target: List<Matcher>?) {
-        MatcherAssert.assertThat(source?.size, Matchers.equalTo(target?.size))
+        assertThat(source?.size, Matchers.equalTo(target?.size))
 
         source?.forEachIndexed { index, matcher ->
             compareMatcher(matcher, target!![index])
@@ -43,7 +43,7 @@ internal class EvaluatorTest {
 
     private fun compareMatcher(source: Matcher, target: Matcher) {
         if (target.expression != null) {
-            MatcherAssert.assertThat(target.expression, Matchers.instanceOf(source.expression!!.javaClass))
+            assertThat(target.expression, Matchers.instanceOf(source.expression!!.javaClass))
         }
 
         compareMatcherList(source.allMatch, target.allMatch)

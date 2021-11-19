@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.Arguments
 
 object MatcherCases {
 
+    @Suppress("LongMethod")
     fun cases(): List<Arguments> = listOf(
         Arguments.of(
             noneMatch(

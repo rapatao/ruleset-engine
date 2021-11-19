@@ -3,7 +3,7 @@ package com.rapatao.projects.ruleset.engine.cases
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
-open class Scenarios {
+object TestData {
 
     data class RequestData(
         val item: Item,
@@ -19,5 +19,5 @@ open class Scenarios {
         item = Item(price = BigDecimal.TEN)
     )
 
-    fun scenarios(): List<Arguments> = ExpressionCases.cases() + MatcherCases.cases()
+    fun allCases(): List<Arguments> = ExpressionCases.cases() + MatcherCases.cases()
 }
