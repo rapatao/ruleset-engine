@@ -1,10 +1,10 @@
 package com.rapatao.projects.ruleset
 
 import com.rapatao.projects.ruleset.engine.Matcher
-import com.rapatao.projects.ruleset.engine.Matcher.Companion.allMatch
-import com.rapatao.projects.ruleset.engine.Matcher.Companion.anyMatch
-import com.rapatao.projects.ruleset.engine.Matcher.Companion.expression
-import com.rapatao.projects.ruleset.engine.Matcher.Companion.noneMatch
+import com.rapatao.projects.ruleset.engine.MatcherBuilder.allMatch
+import com.rapatao.projects.ruleset.engine.MatcherBuilder.anyMatch
+import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
+import com.rapatao.projects.ruleset.engine.MatcherBuilder.noneMatch
 import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.field
 import com.rapatao.projects.ruleset.engine.expressions.types.IsBetween
 import com.rapatao.projects.ruleset.engine.expressions.types.IsEqualTo
