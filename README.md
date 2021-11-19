@@ -11,6 +11,28 @@ builder: `com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder`
 
 To create custom operations, just extends the interface `com.rapatao.projects.ruleset.engine.types.Expression`
 
+### Examples
+
+````kotlin
+field("field").isTrue()
+
+field("field") equalsTo 10
+
+field("field") equalsTo "\"value\""
+
+field("field") equalsTo "value"
+
+field("field") between 10 and 20
+
+field("field") greaterThan 10
+
+field("field") greaterOrEqualThan 10
+
+field("field") lessThan 10
+
+field("field") lessOrEqualThan 10
+````
+
 ## Supported group operations
 
 A grouped operation is `true` when all inner operations result in:
@@ -18,6 +40,40 @@ A grouped operation is `true` when all inner operations result in:
 * `anyMatch`: any operation must be evaluated as `true`
 * `allMatch`: all operations must be evaluated as `true`
 * `noneMatch`: all operations must be evaluated as `false`
+
+### Examples
+
+````kotlin
+allMatch(
+    expression(isTrue("field")),
+    expression(field("price").lessThan(10.0)),
+)
+
+anyMatch(
+    expression(isTrue("field")),
+    expression(field("price").lessThan(10.0)),
+)
+
+noneMatch(
+    expression(isTrue("field")),
+    expression(field("price").lessThan(10.0)),
+)
+
+Matcher(
+    allMatch = listOf(
+        expression(isTrue("field")),
+        expression(field("price").lessThan(10.0)),
+    ),
+    anyMatch = listOf(
+        expression(isTrue("field")),
+        expression(field("price").lessThan(10.0)),
+    ),
+    noneMatch = listOf(
+        expression(isTrue("field")),
+        expression(field("price").lessThan(10.0)),
+    )
+)
+````
 
 ## JSON Serialization
 
@@ -38,7 +94,7 @@ val json = "{ definition as json }"
 val asMatcher: Matcher = mapper.readValue(json)
 ```
 
-### JSON examples
+### Examples
 
 ```json
 {"expression":{"left":"field","operator":"EQUALS","right":true}}

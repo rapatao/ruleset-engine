@@ -22,14 +22,14 @@ internal class SerializationExamplesBuilder {
 
     private val cases = listOf(
         expression(field("field").isTrue()),
-        expression(field("field").equalsTo(10)),
-        expression(field("field").equalsTo("\"value\"")),
-        expression(field("field").equalsTo("value")),
-        expression(field("field").between(10).and(20)),
-        expression(field("field").greaterThan(10)),
-        expression(field("field").greaterOrEqualThan(10)),
-        expression(field("field").lessThan(10)),
-        expression(field("field").lessOrEqualThan(10)),
+        expression(field("field") equalsTo 10),
+        expression(field("field") equalsTo "\"value\""),
+        expression(field("field") equalsTo "value"),
+        expression(field("field") between 10 and 20),
+        expression(field("field") greaterThan 10),
+        expression(field("field") greaterOrEqualThan 10),
+        expression(field("field") lessThan 10),
+        expression(field("field") lessOrEqualThan 10),
 
         allMatch(
             expression(isTrue("field")),
