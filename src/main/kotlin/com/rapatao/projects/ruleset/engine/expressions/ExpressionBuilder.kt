@@ -6,7 +6,7 @@ import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.O
 import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.GREATER_THAN
 import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.LESS_THAN
 import com.rapatao.projects.ruleset.engine.expressions.types.IsBetween
-import com.rapatao.projects.ruleset.engine.expressions.types.IsTrue
+import com.rapatao.projects.ruleset.engine.expressions.types.JsExpression
 
 object ExpressionBuilder {
 
@@ -26,9 +26,9 @@ object ExpressionBuilder {
         infix fun lessOrEqualThan(value: Any) =
             BooleanExpression(field, BooleanExpression.Operator.LESS_OR_EQUAL_THAN, value)
 
-        fun isTrue() = IsTrue(field)
+        fun isTrue() = JsExpression(field)
 
-        fun isFalse() = IsTrue("!$field")
+        fun isFalse() = JsExpression("!$field")
 
         inner class BetweenBuilder(private val value: Any) {
             infix fun and(to: Any) = IsBetween(field, value, to)

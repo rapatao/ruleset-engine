@@ -1,441 +1,85 @@
 package com.rapatao.projects.ruleset
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.Matcher
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.allMatch
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.anyMatch
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.noneMatch
-import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.field
-import com.rapatao.projects.ruleset.engine.expressions.types.IsBetween
-import com.rapatao.projects.ruleset.engine.expressions.types.IsEqualTo
-import com.rapatao.projects.ruleset.engine.expressions.types.IsTrue
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.math.BigDecimal
 
 internal class EvaluatorTest {
 
-    private val inputData = RequestData(
-        item = Item(price = BigDecimal.TEN)
-    )
-
     private val evaluator = Evaluator()
+    private val mapper = jacksonObjectMapper()
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
 
-    companion object {
+    companion object : Scenarios() {
         @JvmStatic
-        fun tests() = listOf(
-            // 1
-            Arguments.of(
-                expression("item.price <= 1000"),
-                true
-            ),
-            // 2
-            Arguments.of(
-                expression("item.price >= 1000"),
-                false
-            ),
-            // 3
-            Arguments.of(
-                noneMatch(
-                    expression("item.price >= 1000")
-                ),
-                true
-            ),
-            // 4
-            Arguments.of(
-                noneMatch(
-                    expression("item.price <= 1000"),
-                ),
-                false
-            ),
-            // 5
-            Arguments.of(
-                noneMatch(
-                    expression("item.price >= 1000"),
-                    expression("item.price <= 1000"),
-                ),
-                false
-            ),
-            // 6
-            Arguments.of(
-                noneMatch(
-                    expression("item.price >= 1000"),
-                    expression("item.price >= 100"),
-                ),
-                true
-            ),
-            // 7
-            Arguments.of(
-                noneMatch(
-                    expression("item.price <= 1000"),
-                    expression("item.price <= 100"),
-                ),
-                false
-            ),
-            // 8
-            Arguments.of(
-                noneMatch(
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                ),
-                true
-            ),
-            // 9
-            Arguments.of(
-                noneMatch(
-                    noneMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                ),
-                false
-            ),
-            // 10
-            Arguments.of(
-                noneMatch(
-                    noneMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    expression("item.price >= 1000"),
-                ),
-                false
-            ),
-            // 11
-            Arguments.of(
-                noneMatch(
-                    expression("item.price >= 1000"),
-                    noneMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                ),
-                false
-            ),
-            // 12
-            Arguments.of(
-                anyMatch(
-                    expression("item.price >= 1000"),
-                ),
-                false
-            ),
-            // 13
-            Arguments.of(
-                anyMatch(
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 13
-            Arguments.of(
-                anyMatch(
-                    anyMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    expression("item.price >= 1000"),
-                ),
-                true
-            ),
-            // 15
-            Arguments.of(
-                anyMatch(
-                    anyMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 16
-            Arguments.of(
-                anyMatch(
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 17
-            Arguments.of(
-                anyMatch(
-                    noneMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    expression("item.price >= 1000"),
-                ),
-                true
-            ),
-            // 18
-            Arguments.of(
-                anyMatch(
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price >= 1000"),
-                ),
-                false
-            ),
-            // 19
-            Arguments.of(
-                allMatch(
-                    expression("item.price >= 1000"),
-                ),
-                false
-            ),
-            // 20
-            Arguments.of(
-                allMatch(
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 21
-            Arguments.of(
-                allMatch(
-                    allMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 22
-            Arguments.of(
-                allMatch(
-                    allMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 23
-            Arguments.of(
-                allMatch(
-                    allMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    anyMatch(
-                        noneMatch(
-                            expression("item.price <= 1000"),
-                        ),
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                true
-            ),
-            // 24
-            Arguments.of(
-                allMatch(
-                    allMatch(
-                        expression("item.price <= 1000"),
-                    ),
-                    noneMatch(
-                        expression("item.price >= 1000"),
-                    ),
-                    anyMatch(
-                        noneMatch(
-                            expression("item.price >= 1000"),
-                        ),
-                        expression("item.price >= 1000"),
-                    ),
-                    expression("item.price <= 1000"),
-                ),
-                false
-            ),
-            // 25
-            Arguments.of(
-                Matcher(
-                    allMatch = listOf(expression("item.price <= 1000")),
-                    noneMatch = listOf(expression("item.price >= 1000")),
-                    anyMatch = listOf(expression("item.price <= 1000")),
-                    expression = IsTrue("item.price <= 1000")
-                ),
-                true
-            ),
-            // 26
-            Arguments.of(
-                Matcher(
-                    allMatch = listOf(expression("item.price <= 1000")),
-                    noneMatch = listOf(expression("item.price >= 1000")),
-                    anyMatch = listOf(expression("item.price <= 1000")),
-                    expression = IsTrue("item.price >= 1000")
-                ),
-                false
-            ),
-            // 27
-            Arguments.of(
-                expression(
-                    field("item.price") between 1 and 1000
-                ),
-                true
-            ),
-            // 28
-            Arguments.of(
-                expression(
-                    IsBetween("item.price", 1, 1000)
-                ),
-                true
-            ),
-            // 29
-            Arguments.of(
-                expression(
-                    IsBetween("item.price", 100, 1000)
-                ),
-                false
-            ),
-            // 30
-            Arguments.of(
-                expression(
-                    IsEqualTo("item.price", BigDecimal.TEN)
-                ),
-                true
-            ),
-            // 31
-            Arguments.of(
-                expression(
-                    field("item.price") equalsTo BigDecimal.TEN
-                ),
-                true
-            ),
-            // 32
-            Arguments.of(
-                expression(
-                    field("item.price") equalsTo BigDecimal.ZERO
-                ),
-                false
-            ),
-            // 33
-            Arguments.of(
-                expression(
-                    field("item.trueValue").isTrue()
-                ),
-                true
-            ),
-            // 34
-            Arguments.of(
-                expression(
-                    field("item.trueValue").isFalse()
-                ),
-                false
-            ),
-            // 35
-            Arguments.of(
-                expression(
-                    field("item.falseValue").isTrue()
-                ),
-                false
-            ),
-            // 36
-            Arguments.of(
-                expression(
-                    field("item.falseValue").isFalse()
-                ),
-                true
-            ),
-            // 37
-            Arguments.of(
-                expression(
-                    field("item.price") greaterThan BigDecimal.ZERO
-                ),
-                true
-            ),
-            // 38
-            Arguments.of(
-                expression(
-                    field("item.price") greaterThan BigDecimal.TEN
-                ),
-                false
-            ),
-            // 39
-            Arguments.of(
-                expression(
-                    field("item.price") greaterOrEqualThan BigDecimal.TEN
-                ),
-                true
-            ),
-            // 40
-            Arguments.of(
-                expression(
-                    field("item.price") greaterOrEqualThan BigDecimal.valueOf(100)
-                ),
-                false
-            ),
-            // 41
-            Arguments.of(
-                expression(
-                    field("item.price") lessThan BigDecimal.valueOf(100)
-                ),
-                true
-            ),
-            // 42
-            Arguments.of(
-                expression(
-                    field("item.price") lessThan BigDecimal.ONE
-                ),
-                false
-            ),
-            // 43
-            Arguments.of(
-                expression(
-                    field("item.price") lessOrEqualThan BigDecimal.valueOf(100)
-                ),
-                true
-            ),
-            // 44
-            Arguments.of(
-                expression(
-                    field("item.price") lessOrEqualThan BigDecimal.TEN
-                ),
-                true
-            ),
-            // 45
-            Arguments.of(
-                expression(
-                    field("item.price") lessOrEqualThan BigDecimal.ONE
-                ),
-                false
-            ),
+        fun tests() = super.scenarios()
+    }
+
+    private fun doEvaluationTest(ruleSet: Matcher, expected: Boolean) {
+        assertThat(
+            evaluator.evaluate(rule = ruleSet, inputData = inputData),
+            equalTo(expected)
         )
+    }
+
+    private fun compareMatcherList(source: List<Matcher>?, target: List<Matcher>?) {
+        assertThat(source?.size, equalTo(target?.size))
+
+        source?.forEachIndexed { index, matcher ->
+            compareMatcher(matcher, target!![index])
+        }
+    }
+
+    private fun compareMatcher(source: Matcher, target: Matcher) {
+        if (target.expression != null) {
+            assertThat(target.expression, Matchers.instanceOf(source.expression!!.javaClass))
+        }
+
+        compareMatcherList(source.allMatch, target.allMatch)
+        compareMatcherList(source.anyMatch, target.anyMatch)
+        compareMatcherList(source.noneMatch, target.noneMatch)
+    }
+
+    private fun doSerializationTest(matcher: Matcher, expected: Boolean) {
+        val json = mapper.writeValueAsString(matcher)
+        println(json)
+
+        val matcherFromJson = mapper.readValue<Matcher>(json)
+        println(matcherFromJson)
+
+        compareMatcher(matcher, matcherFromJson)
+
+        doEvaluationTest(matcherFromJson, expected)
     }
 
     @ParameterizedTest
     @MethodSource("tests")
-    fun doTest(ruleSet: Matcher, expected: Boolean) {
-        assertEquals(
-            expected,
-            evaluator.evaluate(rule = ruleSet, inputData = inputData)
-        )
+    fun `should convert json`(ruleSet: Matcher, expected: Boolean) {
+        println(ruleSet)
+
+        doEvaluationTest(ruleSet, expected)
+
+        doSerializationTest(ruleSet, expected)
     }
 
     @Test
     fun `runs the last test scenario`() {
         val caseNumber = tests().size
+        // val caseNumber = 6
 
         val cases: List<Arguments> = tests()
         val test = cases[caseNumber - 1].get()
-        doTest(
+        `should convert json`(
             test[0] as Matcher,
             test[1] as Boolean
         )
     }
 }
-
-data class RequestData(
-    val item: Item,
-)
-
-data class Item(
-    val price: BigDecimal,
-    val trueValue: Boolean = true,
-    val falseValue: Boolean = false,
-)

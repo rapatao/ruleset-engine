@@ -2,10 +2,10 @@ package com.rapatao.projects.ruleset.engine.expressions.types
 
 import com.rapatao.projects.ruleset.engine.expressions.Expression
 
-class BooleanExpression(
-    private val field: String,
-    private val operator: Operator,
-    private val value: Any,
+data class BooleanExpression(
+    val field: String,
+    val operator: Operator,
+    val value: Any,
 ) : Expression {
     override fun parse(): String = "$field ${operator.operator} $value"
 

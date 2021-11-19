@@ -16,7 +16,11 @@ dependencies {
 
     implementation("org.mozilla:rhino:${rhinoVersion}")
 
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
+
     testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
+    implementation("org.hamcrest:hamcrest:${hamcrestVersion}")
 }
 
 test {
