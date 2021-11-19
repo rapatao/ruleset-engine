@@ -2,10 +2,10 @@ package com.rapatao.projects.ruleset.engine.expressions.types
 
 import com.rapatao.projects.ruleset.engine.expressions.Expression
 
-data class IsBetween(
-    val field: String,
+data class BetweenExpression(
+    val value: String,
     val from: Any,
     val to: Any
 ) : Expression {
-    override fun parse(): String = "$field >= $from && $field <= $to"
+    override fun parse(): String = "$value >= $from && $value <= $to"
 }

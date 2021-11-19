@@ -2,7 +2,7 @@ package com.rapatao.projects.ruleset
 
 import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
 import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.field
-import com.rapatao.projects.ruleset.engine.expressions.types.IsBetween
+import com.rapatao.projects.ruleset.engine.expressions.types.BetweenExpression
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
@@ -25,13 +25,13 @@ object ExpressionCases {
         ),
         Arguments.of(
             expression(
-                IsBetween("item.price", 1, 1000)
+                BetweenExpression("item.price", 1, 1000)
             ),
             true
         ),
         Arguments.of(
             expression(
-                IsBetween("item.price", 100, 1000)
+                BetweenExpression("item.price", 100, 1000)
             ),
             false
         ),

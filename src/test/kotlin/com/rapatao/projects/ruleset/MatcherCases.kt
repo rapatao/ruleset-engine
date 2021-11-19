@@ -5,7 +5,7 @@ import com.rapatao.projects.ruleset.engine.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.MatcherBuilder.anyMatch
 import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
 import com.rapatao.projects.ruleset.engine.MatcherBuilder.noneMatch
-import com.rapatao.projects.ruleset.engine.expressions.types.JsExpression
+import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.isTrue
 import org.junit.jupiter.params.provider.Arguments
 
 object MatcherCases {
@@ -210,7 +210,7 @@ object MatcherCases {
                 allMatch = listOf(expression("item.price <= 1000")),
                 noneMatch = listOf(expression("item.price >= 1000")),
                 anyMatch = listOf(expression("item.price <= 1000")),
-                expression = JsExpression("item.price <= 1000")
+                expression = isTrue("item.price <= 1000")
             ),
             true
         ),
@@ -219,7 +219,7 @@ object MatcherCases {
                 allMatch = listOf(expression("item.price <= 1000")),
                 noneMatch = listOf(expression("item.price >= 1000")),
                 anyMatch = listOf(expression("item.price <= 1000")),
-                expression = JsExpression("item.price >= 1000")
+                expression = isTrue("item.price >= 1000")
             ),
             false
         ),

@@ -3,11 +3,11 @@ package com.rapatao.projects.ruleset.engine.expressions.types
 import com.rapatao.projects.ruleset.engine.expressions.Expression
 
 data class BooleanExpression(
-    val field: String,
+    val left: String,
     val operator: Operator,
-    val value: Any,
+    val right: Any,
 ) : Expression {
-    override fun parse(): String = "$field ${operator.operator} $value"
+    override fun parse(): String = "$left ${operator.operator} $right"
 
     enum class Operator(
         val operator: String
