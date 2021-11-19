@@ -8,8 +8,6 @@ import kotlin.reflect.full.memberProperties
 
 class Evaluator {
 
-    private val argumentPrefix = "$"
-
     fun evaluate(rule: Matcher, inputData: Any): Boolean {
         val begin = System.currentTimeMillis()
 
@@ -38,7 +36,7 @@ class Evaluator {
         params.forEach {
             val value = map[it]
             val jsObject = Context.javaToJS(value, scope)
-            ScriptableObject.putConstProperty(scope, "$argumentPrefix$it", jsObject)
+            ScriptableObject.putConstProperty(scope, it, jsObject)
         }
 
         val processIsTrue = rule.expression?.processExpression(context, scope, params) ?: true
@@ -110,7 +108,7 @@ class Evaluator {
     }
 
     private fun String.buildScript(params: List<String>): String {
-        val jsParams = params.joinToString(",") { param -> "$argumentPrefix$param" }
+        val jsParams = params.joinToString(",")
         return "(function($jsParams){return true == ($this)})($jsParams);"
     }
 

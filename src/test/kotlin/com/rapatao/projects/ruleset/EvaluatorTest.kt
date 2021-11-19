@@ -30,49 +30,49 @@ internal class EvaluatorTest {
         fun tests() = listOf(
             // 1
             Arguments.of(
-                expression("\$item.price <= 1000"),
+                expression("item.price <= 1000"),
                 true
             ),
             // 2
             Arguments.of(
-                expression("\$item.price >= 1000"),
+                expression("item.price >= 1000"),
                 false
             ),
             // 3
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price >= 1000")
+                    expression("item.price >= 1000")
                 ),
                 true
             ),
             // 4
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 false
             ),
             // 5
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price >= 1000"),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price >= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 false
             ),
             // 6
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price >= 1000"),
-                    expression("\$item.price >= 100"),
+                    expression("item.price >= 1000"),
+                    expression("item.price >= 100"),
                 ),
                 true
             ),
             // 7
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price <= 1000"),
-                    expression("\$item.price <= 100"),
+                    expression("item.price <= 1000"),
+                    expression("item.price <= 100"),
                 ),
                 false
             ),
@@ -80,7 +80,7 @@ internal class EvaluatorTest {
             Arguments.of(
                 noneMatch(
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
                 ),
                 true
@@ -89,7 +89,7 @@ internal class EvaluatorTest {
             Arguments.of(
                 noneMatch(
                     noneMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
                 ),
                 false
@@ -98,18 +98,18 @@ internal class EvaluatorTest {
             Arguments.of(
                 noneMatch(
                     noneMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 false
             ),
             // 11
             Arguments.of(
                 noneMatch(
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                     noneMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
                 ),
                 false
@@ -117,14 +117,14 @@ internal class EvaluatorTest {
             // 12
             Arguments.of(
                 anyMatch(
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 false
             ),
             // 13
             Arguments.of(
                 anyMatch(
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -132,9 +132,9 @@ internal class EvaluatorTest {
             Arguments.of(
                 anyMatch(
                     anyMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 true
             ),
@@ -142,9 +142,9 @@ internal class EvaluatorTest {
             Arguments.of(
                 anyMatch(
                     anyMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -152,9 +152,9 @@ internal class EvaluatorTest {
             Arguments.of(
                 anyMatch(
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -162,9 +162,9 @@ internal class EvaluatorTest {
             Arguments.of(
                 anyMatch(
                     noneMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 true
             ),
@@ -172,23 +172,23 @@ internal class EvaluatorTest {
             Arguments.of(
                 anyMatch(
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 false
             ),
             // 19
             Arguments.of(
                 allMatch(
-                    expression("\$item.price >= 1000"),
+                    expression("item.price >= 1000"),
                 ),
                 false
             ),
             // 20
             Arguments.of(
                 allMatch(
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -196,9 +196,9 @@ internal class EvaluatorTest {
             Arguments.of(
                 allMatch(
                     allMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -206,12 +206,12 @@ internal class EvaluatorTest {
             Arguments.of(
                 allMatch(
                     allMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -219,18 +219,18 @@ internal class EvaluatorTest {
             Arguments.of(
                 allMatch(
                     allMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
                     anyMatch(
                         noneMatch(
-                            expression("\$item.price <= 1000"),
+                            expression("item.price <= 1000"),
                         ),
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 true
             ),
@@ -238,80 +238,80 @@ internal class EvaluatorTest {
             Arguments.of(
                 allMatch(
                     allMatch(
-                        expression("\$item.price <= 1000"),
+                        expression("item.price <= 1000"),
                     ),
                     noneMatch(
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
                     anyMatch(
                         noneMatch(
-                            expression("\$item.price >= 1000"),
+                            expression("item.price >= 1000"),
                         ),
-                        expression("\$item.price >= 1000"),
+                        expression("item.price >= 1000"),
                     ),
-                    expression("\$item.price <= 1000"),
+                    expression("item.price <= 1000"),
                 ),
                 false
             ),
             // 25
             Arguments.of(
                 Matcher(
-                    allMatch = listOf(expression("\$item.price <= 1000")),
-                    noneMatch = listOf(expression("\$item.price >= 1000")),
-                    anyMatch = listOf(expression("\$item.price <= 1000")),
-                    expression = isTrue("\$item.price <= 1000")
+                    allMatch = listOf(expression("item.price <= 1000")),
+                    noneMatch = listOf(expression("item.price >= 1000")),
+                    anyMatch = listOf(expression("item.price <= 1000")),
+                    expression = isTrue("item.price <= 1000")
                 ),
                 true
             ),
             // 26
             Arguments.of(
                 Matcher(
-                    allMatch = listOf(expression("\$item.price <= 1000")),
-                    noneMatch = listOf(expression("\$item.price >= 1000")),
-                    anyMatch = listOf(expression("\$item.price <= 1000")),
-                    expression = isTrue("\$item.price >= 1000")
+                    allMatch = listOf(expression("item.price <= 1000")),
+                    noneMatch = listOf(expression("item.price >= 1000")),
+                    anyMatch = listOf(expression("item.price <= 1000")),
+                    expression = isTrue("item.price >= 1000")
                 ),
                 false
             ),
             // 27
             Arguments.of(
                 expression(
-                    isFieldBetween("\$item.price") to 1 and 1000
+                    isFieldBetween("item.price") to 1 and 1000
                 ),
                 true
             ),
             // 28
             Arguments.of(
                 expression(
-                    IsBetween("\$item.price", 1, 1000)
+                    IsBetween("item.price", 1, 1000)
                 ),
                 true
             ),
             // 29
             Arguments.of(
                 expression(
-                    IsBetween("\$item.price", 100, 1000)
+                    IsBetween("item.price", 100, 1000)
                 ),
                 false
             ),
             // 30
             Arguments.of(
                 expression(
-                    IsEqualTo("\$item.price", BigDecimal.TEN)
+                    IsEqualTo("item.price", BigDecimal.TEN)
                 ),
                 true
             ),
             // 31
             Arguments.of(
                 expression(
-                    isFieldEquals("\$item.price") to BigDecimal.TEN
+                    isFieldEquals("item.price") to BigDecimal.TEN
                 ),
                 true
             ),
             // 32
             Arguments.of(
                 expression(
-                    isFieldEquals("\$item.price") to BigDecimal.ZERO
+                    isFieldEquals("item.price") to BigDecimal.ZERO
                 ),
                 false
             ),
