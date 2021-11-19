@@ -1,7 +1,7 @@
 package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.expressions.Expression
-import com.rapatao.projects.ruleset.engine.expressions.IsTrue
+import com.rapatao.projects.ruleset.engine.expressions.types.IsTrue
 
 data class Matcher(
     val allMatch: List<Matcher>? = null,

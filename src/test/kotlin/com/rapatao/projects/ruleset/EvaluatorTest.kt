@@ -5,11 +5,10 @@ import com.rapatao.projects.ruleset.engine.Matcher.Companion.allMatch
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.anyMatch
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.expression
 import com.rapatao.projects.ruleset.engine.Matcher.Companion.noneMatch
-import com.rapatao.projects.ruleset.engine.expressions.IsBetween
-import com.rapatao.projects.ruleset.engine.expressions.IsBetween.Companion.isFieldBetween
-import com.rapatao.projects.ruleset.engine.expressions.IsEqualTo
-import com.rapatao.projects.ruleset.engine.expressions.IsEqualTo.Companion.isFieldEquals
-import com.rapatao.projects.ruleset.engine.expressions.IsTrue.Companion.isTrue
+import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.field
+import com.rapatao.projects.ruleset.engine.expressions.types.IsBetween
+import com.rapatao.projects.ruleset.engine.expressions.types.IsEqualTo
+import com.rapatao.projects.ruleset.engine.expressions.types.IsTrue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -259,7 +258,7 @@ internal class EvaluatorTest {
                     allMatch = listOf(expression("item.price <= 1000")),
                     noneMatch = listOf(expression("item.price >= 1000")),
                     anyMatch = listOf(expression("item.price <= 1000")),
-                    expression = isTrue("item.price <= 1000")
+                    expression = IsTrue("item.price <= 1000")
                 ),
                 true
             ),
@@ -269,14 +268,14 @@ internal class EvaluatorTest {
                     allMatch = listOf(expression("item.price <= 1000")),
                     noneMatch = listOf(expression("item.price >= 1000")),
                     anyMatch = listOf(expression("item.price <= 1000")),
-                    expression = isTrue("item.price >= 1000")
+                    expression = IsTrue("item.price >= 1000")
                 ),
                 false
             ),
             // 27
             Arguments.of(
                 expression(
-                    isFieldBetween("item.price") to 1 and 1000
+                    field("item.price") between 1 and 1000
                 ),
                 true
             ),
@@ -304,16 +303,44 @@ internal class EvaluatorTest {
             // 31
             Arguments.of(
                 expression(
-                    isFieldEquals("item.price") to BigDecimal.TEN
+                    field("item.price") equalsTo BigDecimal.TEN
                 ),
                 true
             ),
             // 32
             Arguments.of(
                 expression(
-                    isFieldEquals("item.price") to BigDecimal.ZERO
+                    field("item.price") equalsTo BigDecimal.ZERO
                 ),
                 false
+            ),
+            // 33
+            Arguments.of(
+                expression(
+                    field("item.trueValue").isTrue()
+                ),
+                true
+            ),
+            // 34
+            Arguments.of(
+                expression(
+                    field("item.trueValue").isFalse()
+                ),
+                false
+            ),
+            // 35
+            Arguments.of(
+                expression(
+                    field("item.falseValue").isTrue()
+                ),
+                false
+            ),
+            // 36
+            Arguments.of(
+                expression(
+                    field("item.falseValue").isFalse()
+                ),
+                true
             ),
         )
     }
@@ -340,5 +367,12 @@ internal class EvaluatorTest {
     }
 }
 
-data class RequestData(val item: Item)
-data class Item(val price: BigDecimal)
+data class RequestData(
+    val item: Item,
+)
+
+data class Item(
+    val price: BigDecimal,
+    val trueValue: Boolean = true,
+    val falseValue: Boolean = false,
+)
