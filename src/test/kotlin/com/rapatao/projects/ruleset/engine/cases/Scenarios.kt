@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset
+package com.rapatao.projects.ruleset.engine.cases
 
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal

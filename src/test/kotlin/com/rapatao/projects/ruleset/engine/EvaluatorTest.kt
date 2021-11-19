@@ -1,15 +1,14 @@
-package com.rapatao.projects.ruleset
+package com.rapatao.projects.ruleset.engine
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.cases.Scenarios
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
-import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
-import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -28,14 +27,14 @@ internal class EvaluatorTest {
     }
 
     private fun doEvaluationTest(ruleSet: Matcher, expected: Boolean) {
-        assertThat(
+        MatcherAssert.assertThat(
             evaluator.evaluate(rule = ruleSet, inputData = inputData),
-            equalTo(expected)
+            Matchers.equalTo(expected)
         )
     }
 
     private fun compareMatcherList(source: List<Matcher>?, target: List<Matcher>?) {
-        assertThat(source?.size, equalTo(target?.size))
+        MatcherAssert.assertThat(source?.size, Matchers.equalTo(target?.size))
 
         source?.forEachIndexed { index, matcher ->
             compareMatcher(matcher, target!![index])
@@ -44,7 +43,7 @@ internal class EvaluatorTest {
 
     private fun compareMatcher(source: Matcher, target: Matcher) {
         if (target.expression != null) {
-            assertThat(target.expression, Matchers.instanceOf(source.expression!!.javaClass))
+            MatcherAssert.assertThat(target.expression, Matchers.instanceOf(source.expression!!.javaClass))
         }
 
         compareMatcherList(source.allMatch, target.allMatch)

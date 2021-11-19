@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset
+package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
