@@ -1,6 +1,4 @@
-package com.rapatao.projects.ruleset.engine
-
-import com.rapatao.projects.ruleset.engine.expressions.Expression
+package com.rapatao.projects.ruleset.engine.types
 
 data class Matcher(
     val allMatch: List<Matcher>? = null,

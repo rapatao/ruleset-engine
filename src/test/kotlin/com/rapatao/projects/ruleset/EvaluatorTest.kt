@@ -3,8 +3,9 @@ package com.rapatao.projects.ruleset
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.rapatao.projects.ruleset.engine.Matcher
-import com.rapatao.projects.ruleset.engine.expressions.Expression
+import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.Matcher
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers

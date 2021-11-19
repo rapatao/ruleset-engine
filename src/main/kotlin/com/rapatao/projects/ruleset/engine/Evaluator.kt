@@ -1,7 +1,7 @@
-package com.rapatao.projects.ruleset
+package com.rapatao.projects.ruleset.engine
 
-import com.rapatao.projects.ruleset.engine.Matcher
-import com.rapatao.projects.ruleset.engine.expressions.Expression
+import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.Matcher
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ScriptableObject
 import kotlin.reflect.full.memberProperties

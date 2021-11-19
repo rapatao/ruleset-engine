@@ -1,8 +1,8 @@
 package com.rapatao.projects.ruleset
 
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
-import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.field
-import com.rapatao.projects.ruleset.engine.expressions.types.BetweenExpression
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.field
+import com.rapatao.projects.ruleset.engine.types.BetweenExpression
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 

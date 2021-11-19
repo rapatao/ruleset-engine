@@ -1,7 +1,8 @@
-package com.rapatao.projects.ruleset.engine
+package com.rapatao.projects.ruleset.engine.types.builder
 
-import com.rapatao.projects.ruleset.engine.expressions.Expression
-import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.isTrue
+import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.Matcher
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.isTrue
 
 object MatcherBuilder {
     fun expression(expression: Expression) = Matcher(expression = expression)

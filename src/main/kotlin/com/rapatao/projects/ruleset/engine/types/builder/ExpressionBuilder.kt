@@ -1,12 +1,12 @@
-package com.rapatao.projects.ruleset.engine.expressions
+package com.rapatao.projects.ruleset.engine.types.builder
 
-import com.rapatao.projects.ruleset.engine.expressions.types.BetweenExpression
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.EQUALS
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.GREATER_OR_EQUAL_THAN
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.GREATER_THAN
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.LESS_OR_EQUAL_THAN
-import com.rapatao.projects.ruleset.engine.expressions.types.BooleanExpression.Operator.LESS_THAN
+import com.rapatao.projects.ruleset.engine.types.BetweenExpression
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.EQUALS
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.GREATER_OR_EQUAL_THAN
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.GREATER_THAN
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.LESS_OR_EQUAL_THAN
+import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.LESS_THAN
 
 object ExpressionBuilder {
 

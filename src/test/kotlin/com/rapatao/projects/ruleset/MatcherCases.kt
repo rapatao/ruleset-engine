@@ -1,11 +1,11 @@
 package com.rapatao.projects.ruleset
 
-import com.rapatao.projects.ruleset.engine.Matcher
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.allMatch
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.anyMatch
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.expression
-import com.rapatao.projects.ruleset.engine.MatcherBuilder.noneMatch
-import com.rapatao.projects.ruleset.engine.expressions.ExpressionBuilder.isTrue
+import com.rapatao.projects.ruleset.engine.types.Matcher
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.anyMatch
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.noneMatch
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.isTrue
 import org.junit.jupiter.params.provider.Arguments
 
 object MatcherCases {

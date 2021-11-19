@@ -1,6 +1,4 @@
-package com.rapatao.projects.ruleset.engine.expressions.types
-
-import com.rapatao.projects.ruleset.engine.expressions.Expression
+package com.rapatao.projects.ruleset.engine.types
 
 data class BooleanExpression(
     val left: String,
