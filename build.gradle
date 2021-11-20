@@ -12,10 +12,12 @@ plugins {
     id "java-library"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
+    id "signing"
+    id 'maven-publish'
 }
 
-group 'com.rapatao.projects.ruleset'
-version '1.0-SNAPSHOT'
+group "com.rapatao.ruleset"
+version "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -31,7 +33,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 
     testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
-    implementation("org.hamcrest:hamcrest:${hamcrestVersion}")
+    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
 }
 
 test {
@@ -70,4 +72,71 @@ tasks.koverVerify {
             minValue = 90
         }
     }
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier.set("javadoc")
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+            pom {
+                name = "RuleSet Engine"
+                description = "A simple but fully customizable rule engine"
+                url = "https://github.com/rapatao/ruleset-engine"
+                packaging = "jar"
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "rapatao"
+                        name = "Luiz Henrique Rapatao"
+                        email = "rapatao@rapatao.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/rapatao/ruleset-engine.git"
+                    developerConnection = "scm:git:ssh://github.com/rapatao/ruleset-engine.git"
+                    url = "https://github.com/rapatao/ruleset-engine"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = uri("${buildDir}/publishing-repository")
+        }
+        maven {
+            def releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            def snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = ossrhUsername
+                password = ossrhPassword
+            }
+        }
+    }
+
 }
