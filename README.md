@@ -1,6 +1,29 @@
 # ruleset-engine
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.rapatao.ruleset/ruleset-engine.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:com.rapatao.ruleset%20AND%20a:ruleset-engine)
+[![Sonatype OSS](https://img.shields.io/nexus/r/com.rapatao.ruleset/ruleset-engine?label=Sonatype%20OSS&server=https%3A%2F%2Foss.sonatype.org)](https://ossindex.sonatype.org/component/pkg:maven/com.rapatao.ruleset/ruleset-engine)
+
 A simple rule engine that uses [Rhino](https://github.com/mozilla/rhino) implementation of JavaScript to evaluate expressions.
+
+## Get started
+
+To get started, add the following dependency:
+
+### Gradle
+
+```
+implementation "com.rapatao.ruleset:ruleset-engine:$rulesetVersion"
+```
+
+### Maven
+
+```
+<dependency>
+  <groupId>com.rapatao.ruleset</groupId>
+  <artifactId>ruleset-engine</artifactId>
+  <version>$rulesetVersion</version>
+</dependency>
+```
 
 ## Supported operations (expressions)
 
