@@ -1,19 +1,12 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlinx:kover:${koverVersion}"
-    }
-}
+import kotlinx.kover.gradle.plugin.dsl.MetricType
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "java-library"
-    id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
-    id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
     id "signing"
     id 'maven-publish'
+    id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
+    id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
+    id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
 }
 
 group "com.rapatao.ruleset"
@@ -51,27 +44,30 @@ java {
 detekt {
     buildUponDefaultConfig = true
     allRules = false
+}
 
-    reports {
-        html.enabled = true
-        xml.enabled = true
-        txt.enabled = true
-        sarif.enabled = true
+koverReport {
+    verify {
+        rule {
+            enabled = true
+            bound {
+                metric = MetricType.BRANCH
+                minValue = 80
+            }
+            bound {
+                metric = MetricType.LINE
+                minValue = 90
+            }
+            bound {
+                metric = MetricType.INSTRUCTION
+                minValue = 90
+            }
+        }
     }
-}
 
-kover {
-    enabled = true
-    coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO)
-    jacocoEngineVersion.set("${jacocoVersion}")
-    generateReportOnCheck.set(true)
-}
-
-tasks.koverVerify {
-    rule {
-        name = "Minimal line coverage rate in percents"
-        bound {
-            minValue = 90
+    defaults {
+        html {
+            onCheck = true
         }
     }
 }

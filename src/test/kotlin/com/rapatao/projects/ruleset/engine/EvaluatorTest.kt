@@ -6,9 +6,13 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -29,12 +33,12 @@ internal class EvaluatorTest {
     private fun doEvaluationTest(ruleSet: Matcher, expected: Boolean) {
         assertThat(
             evaluator.evaluate(rule = ruleSet, inputData = TestData.inputData),
-            Matchers.equalTo(expected)
+            equalTo(expected)
         )
     }
 
     private fun compareMatcherList(source: List<Matcher>?, target: List<Matcher>?) {
-        assertThat(source?.size, Matchers.equalTo(target?.size))
+        assertThat(source?.size, equalTo(target?.size))
 
         source?.forEachIndexed { index, matcher ->
             compareMatcher(matcher, target!![index])
@@ -84,5 +88,31 @@ internal class EvaluatorTest {
             test[0] as Matcher,
             test[1] as Boolean
         )
+    }
+
+    @Test
+    fun `should support map as input data`() {
+        val input = mapOf(
+            "item" to mapOf(
+                "price" to 0,
+            ),
+            "attributes" to mapOf(
+                "info" to mapOf(
+                    "title" to "superb title",
+                    "description" to "super description",
+                ),
+            )
+        )
+
+        val rule = allMatch(
+            expression(left("item.price") equalsTo 0),
+            expression(left("attributes.info.title") equalsTo "superb title"),
+            expression(left("attributes.info.description") equalsTo "super description")
+        )
+
+        val evaluator = Evaluator()
+        val result = evaluator.evaluate(rule, input)
+
+        assertThat(result, equalTo(true))
     }
 }

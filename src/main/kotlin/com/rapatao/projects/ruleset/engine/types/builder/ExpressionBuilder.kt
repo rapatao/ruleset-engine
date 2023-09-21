@@ -10,29 +10,34 @@ import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.LESS
 
 object ExpressionBuilder {
 
-    fun field(field: String) = Builder(field)
+    @Deprecated("use ExpressionBuilder.left method",
+        ReplaceWith("left(left)", "com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left")
+    )
+    fun field(left: String) = left(left)
 
-    fun isTrue(expression: String) = BooleanExpression(expression, EQUALS, true)
+    fun left(left: Any) = Builder(left)
 
-    class Builder(private val field: String) {
-        infix fun equalsTo(value: Any) = BooleanExpression(field, EQUALS, value)
+    fun isTrue(expression: Any) = BooleanExpression(expression, EQUALS, true)
 
-        infix fun between(value: Any) = BetweenBuilder(value)
+    class Builder(private val left: Any) {
+        infix fun equalsTo(right: Any) = BooleanExpression(left, EQUALS, right)
 
-        infix fun greaterThan(value: Any) = BooleanExpression(field, GREATER_THAN, value)
+        infix fun between(from: Any) = BetweenBuilder(from)
 
-        infix fun greaterOrEqualThan(value: Any) = BooleanExpression(field, GREATER_OR_EQUAL_THAN, value)
+        infix fun greaterThan(right: Any) = BooleanExpression(left, GREATER_THAN, right)
 
-        infix fun lessThan(value: Any) = BooleanExpression(field, LESS_THAN, value)
+        infix fun greaterOrEqualThan(right: Any) = BooleanExpression(left, GREATER_OR_EQUAL_THAN, right)
 
-        infix fun lessOrEqualThan(value: Any) = BooleanExpression(field, LESS_OR_EQUAL_THAN, value)
+        infix fun lessThan(right: Any) = BooleanExpression(left, LESS_THAN, right)
 
-        fun isTrue() = BooleanExpression(field, EQUALS, true)
+        infix fun lessOrEqualThan(right: Any) = BooleanExpression(left, LESS_OR_EQUAL_THAN, right)
 
-        fun isFalse() = BooleanExpression(field, EQUALS, false)
+        fun isTrue() = BooleanExpression(left, EQUALS, true)
 
-        inner class BetweenBuilder(private val value: Any) {
-            infix fun and(to: Any) = BetweenExpression(field, value, to)
+        fun isFalse() = BooleanExpression(left, EQUALS, false)
+
+        inner class BetweenBuilder(private val from: Any) {
+            infix fun and(to: Any) = BetweenExpression(left, from, to)
         }
     }
 }

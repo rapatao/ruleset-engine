@@ -1,11 +1,14 @@
 package com.rapatao.projects.ruleset.engine.types
 
 data class BooleanExpression(
-    val left: String,
+    val left: Any,
     val operator: Operator,
     val right: Any,
 ) : Expression {
-    override fun parse(): String = "$left ${operator.operator} $right"
+
+    override fun parse(): String {
+        return "$left ${operator.operator} ${wrap(right)}"
+    }
 
     enum class Operator(
         val operator: String
