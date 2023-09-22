@@ -12,13 +12,13 @@ To get started, add the following dependency:
 
 ### Gradle
 
-```
+```groovy
 implementation "com.rapatao.ruleset:ruleset-engine:$rulesetVersion"
 ```
 
 ### Maven
 
-```
+```xml
 <dependency>
   <groupId>com.rapatao.ruleset</groupId>
   <artifactId>ruleset-engine</artifactId>
