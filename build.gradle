@@ -7,6 +7,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
+    id 'nu.studer.credentials' version "${credentialsVersion}"
 }
 
 group "com.rapatao.ruleset"
@@ -73,9 +74,13 @@ koverReport {
 }
 
 signing {
+    useGpgCmd()
     sign configurations.archives
     sign publishing.publications
 }
+
+String ossrhUsername = credentials.forKey('ossrhUsername')
+String ossrhPassword = credentials.forKey('ossrhPassword')
 
 publishing {
     publications {
@@ -123,5 +128,4 @@ publishing {
             }
         }
     }
-
 }
