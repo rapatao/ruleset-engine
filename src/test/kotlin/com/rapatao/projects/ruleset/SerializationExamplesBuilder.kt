@@ -23,6 +23,7 @@ internal class SerializationExamplesBuilder {
     private val cases = listOf(
         expression(left("field").isTrue()),
         expression(left("field") equalsTo 10),
+        expression(left(10) equalsTo 10),
         expression(left("field") equalsTo "\"value\""),
         expression(left("field") equalsTo "value"),
         expression(left("field") between 10 and 20),

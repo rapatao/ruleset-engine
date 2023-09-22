@@ -143,6 +143,16 @@ val asMatcher: Matcher = mapper.readValue(json)
 ```json
 {
     "expression": {
+        "left": 10,
+        "operator": "EQUALS",
+        "right": 10
+    }
+}
+```
+
+```json
+{
+    "expression": {
         "left": "field",
         "operator": "EQUALS",
         "right": "\"value\""
@@ -163,7 +173,7 @@ val asMatcher: Matcher = mapper.readValue(json)
 ```json
 {
     "expression": {
-        "value": "field",
+        "left": "field",
         "from": 10,
         "to": 20
     }
