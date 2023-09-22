@@ -3,7 +3,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.rapatao.ruleset/ruleset-engine.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:com.rapatao.ruleset%20AND%20a:ruleset-engine)
 [![Sonatype OSS](https://img.shields.io/nexus/r/com.rapatao.ruleset/ruleset-engine?label=Sonatype%20OSS&server=https%3A%2F%2Foss.sonatype.org)](https://ossindex.sonatype.org/component/pkg:maven/com.rapatao.ruleset/ruleset-engine)
 
-A simple rule engine that uses [Rhino](https://github.com/mozilla/rhino) implementation of JavaScript to evaluate expressions.
+A simple rule engine that uses [Rhino](https://github.com/mozilla/rhino) implementation of JavaScript to evaluate
+expressions.
 
 ## Get started
 
@@ -37,23 +38,23 @@ To create custom operations, just extends the interface `com.rapatao.projects.ru
 ### Examples
 
 ````kotlin
-field("field").isTrue()
+left("field").isTrue()
 
-field("field") equalsTo 10
+left("field") equalsTo 10
 
-field("field") equalsTo "\"value\""
+left("field") equalsTo "\"value\""
 
-field("field") equalsTo "value"
+left("field") equalsTo "value"
 
-field("field") between 10 and 20
+left("field") between 10 and 20
 
-field("field") greaterThan 10
+left("field") greaterThan 10
 
-field("field") greaterOrEqualThan 10
+left("field") greaterOrEqualThan 10
 
-field("field") lessThan 10
+left("field") lessThan 10
 
-field("field") lessOrEqualThan 10
+left("field") lessOrEqualThan 10
 ````
 
 ## Supported group operations
@@ -120,41 +121,239 @@ val asMatcher: Matcher = mapper.readValue(json)
 ### Examples
 
 ```json
-{"expression":{"left":"field","operator":"EQUALS","right":true}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "EQUALS",
+        "right": true
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"EQUALS","right":10}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "EQUALS",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"EQUALS","right":"\"value\""}}
+{
+    "expression": {
+        "left": 10,
+        "operator": "EQUALS",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"EQUALS","right":"value"}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "EQUALS",
+        "right": "\"value\""
+    }
+}
 ```
+
 ```json
-{"expression":{"value":"field","from":10,"to":20}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "EQUALS",
+        "right": "value"
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"GREATER_THAN","right":10}}
+{
+    "expression": {
+        "left": "field",
+        "from": 10,
+        "to": 20
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"GREATER_OR_EQUAL_THAN","right":10}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "GREATER_THAN",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"LESS_THAN","right":10}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "GREATER_OR_EQUAL_THAN",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"expression":{"left":"field","operator":"LESS_OR_EQUAL_THAN","right":10}}
+{
+    "expression": {
+        "left": "field",
+        "operator": "LESS_THAN",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"allMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}]}
+{
+    "expression": {
+        "left": "field",
+        "operator": "LESS_OR_EQUAL_THAN",
+        "right": 10
+    }
+}
 ```
+
 ```json
-{"anyMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}]}
+{
+    "allMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ]
+}
 ```
+
 ```json
-{"noneMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}]}
+{
+    "anyMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ]
+}
 ```
+
 ```json
-{"allMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}],"anyMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}],"noneMatch":[{"expression":{"left":"field","operator":"EQUALS","right":true}},{"expression":{"left":"price","operator":"LESS_THAN","right":10.0}}]}
+{
+    "noneMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ]
+}
+```
+
+```json
+{
+    "allMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ],
+    "anyMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ],
+    "noneMatch": [
+        {
+            "expression": {
+                "left": "field",
+                "operator": "EQUALS",
+                "right": true
+            }
+        },
+        {
+            "expression": {
+                "left": "price",
+                "operator": "LESS_THAN",
+                "right": 10.0
+            }
+        }
+    ]
+}
+```
+
+### Example of usage
+
+```kotlin
+import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
+import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder
+
+val rule = MatcherBuilder.expression(left("item.price") equalsTo 0)
+
+val evaluator = Evaluator()
+
+val result = evaluator.evaluate(rule, mapOf("item" to mapOf("price" to 0)))
+println(result) // true
+
+
+data class Item(val price: Double)
+data class Input(val item: Item)
+
+val result2 = evaluator.evaluate(rule, Input(item = Item(price = 0.0)))
+println(result) // true
 ```

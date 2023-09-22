@@ -4,47 +4,23 @@ import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ScriptableObject
-import kotlin.reflect.full.memberProperties
 
 class Evaluator {
+    private val factory: InternalContextFactory = InternalContextFactory()
 
     fun evaluate(rule: Matcher, inputData: Any): Boolean {
-        val begin = System.currentTimeMillis()
-
-        val result = internalEvaluate(rule, inputData)
-
-        val end = System.currentTimeMillis()
-
-        println("RuleSet processed in ${end - begin} ms")
-
-        return result
+        return internalEvaluate(rule, inputData)
     }
 
     private fun internalEvaluate(rule: Matcher, inputData: Any): Boolean {
-        val context = Context.enter()
-        context.optimizationLevel = -1
+        return factory.call(inputData) { context, scope, params ->
+            val processIsTrue = rule.expression?.processExpression(context, scope, params) ?: true
+            val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope, params) ?: true
+            val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope, params) ?: true
+            val processAllMatch = rule.allMatch?.processAllMatch(context, scope, params) ?: true
 
-        val scope = context.initSafeStandardObjects()
-
-        val map: Map<String, Any?> = inputData.javaClass.kotlin.memberProperties
-            .associate {
-                Pair(it.name, it.get(inputData))
-            }
-
-        val params = map.createParams()
-
-        params.forEach {
-            val value = map[it]
-            val jsObject = Context.javaToJS(value, scope)
-            ScriptableObject.putConstProperty(scope, it, jsObject)
+            processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
         }
-
-        val processIsTrue = rule.expression?.processExpression(context, scope, params) ?: true
-        val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope, params) ?: true
-        val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope, params) ?: true
-        val processAllMatch = rule.allMatch?.processAllMatch(context, scope, params) ?: true
-
-        return processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
     }
 
     private fun List<Matcher>.processNoneMatch(
@@ -87,10 +63,10 @@ class Evaluator {
         params: List<String>
     ): Boolean {
         val allMatch = this.firstOrNull {
-            val isTrue = it.expression?.processExpression(context, scope, params)?.isFalse() ?: false
-            val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params)?.isFalse() ?: false
-            val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params)?.isFalse() ?: false
-            val allMatch = it.allMatch?.processAllMatch(context, scope, params)?.isFalse() ?: false
+            val isTrue = it.expression?.processExpression(context, scope, params) == false
+            val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) == false
+            val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
+            val allMatch = it.allMatch?.processAllMatch(context, scope, params) == false
 
             isTrue || anyMatch || noneMatch || allMatch
         } == null
@@ -98,11 +74,13 @@ class Evaluator {
         return allMatch
     }
 
-    private fun Expression.processExpression(context: Context, scope: ScriptableObject, params: List<String>): Boolean {
+    private fun Expression.processExpression(
+        context: Context,
+        scope: ScriptableObject,
+        params: List<String>
+    ): Boolean {
         val script = this.parse()
         val result = context.evaluateString(scope, script.buildScript(params), script, 1, null)
-
-        println("$script == $result")
 
         return true == result
     }
@@ -111,8 +89,4 @@ class Evaluator {
         val jsParams = params.joinToString(",")
         return "(function($jsParams){return true == ($this)})($jsParams);"
     }
-
-    private fun Map<String, Any?>.createParams() = this.keys.map { it }
-
-    private fun Boolean.isFalse(): Boolean = !this
 }

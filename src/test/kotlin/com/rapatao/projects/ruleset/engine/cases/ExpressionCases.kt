@@ -1,7 +1,7 @@
 package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.types.BetweenExpression
-import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.field
+import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
@@ -20,7 +20,7 @@ object ExpressionCases {
         ),
         Arguments.of(
             expression(
-                field("item.price") between 1 and 1000
+                left("item.price") between 1 and 1000
             ),
             true
         ),
@@ -38,92 +38,92 @@ object ExpressionCases {
         ),
         Arguments.of(
             expression(
-                field("item.price") equalsTo BigDecimal.TEN
+                left("item.price") equalsTo BigDecimal.TEN
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") equalsTo BigDecimal.ZERO
+                left("item.price") equalsTo BigDecimal.ZERO
             ),
             false
         ),
         Arguments.of(
             expression(
-                field("item.trueValue").isTrue()
+                left("item.trueValue").isTrue()
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.trueValue").isFalse()
+                left("item.trueValue").isFalse()
             ),
             false
         ),
         Arguments.of(
             expression(
-                field("item.falseValue").isTrue()
+                left("item.falseValue").isTrue()
             ),
             false
         ),
         Arguments.of(
             expression(
-                field("item.falseValue").isFalse()
+                left("item.falseValue").isFalse()
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") greaterThan BigDecimal.ZERO
+                left("item.price") greaterThan BigDecimal.ZERO
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") greaterThan BigDecimal.TEN
+                left("item.price") greaterThan BigDecimal.TEN
             ),
             false
         ),
         Arguments.of(
             expression(
-                field("item.price") greaterOrEqualThan BigDecimal.TEN
+                left("item.price") greaterOrEqualThan BigDecimal.TEN
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") greaterOrEqualThan BigDecimal.valueOf(100)
+                left("item.price") greaterOrEqualThan BigDecimal.valueOf(100)
             ),
             false
         ),
         Arguments.of(
             expression(
-                field("item.price") lessThan BigDecimal.valueOf(100)
+                left("item.price") lessThan BigDecimal.valueOf(100)
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") lessThan BigDecimal.ONE
+                left("item.price") lessThan BigDecimal.ONE
             ),
             false
         ),
         // 43
         Arguments.of(
             expression(
-                field("item.price") lessOrEqualThan BigDecimal.valueOf(100)
+                left("item.price") lessOrEqualThan BigDecimal.valueOf(100)
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") lessOrEqualThan BigDecimal.TEN
+                left("item.price") lessOrEqualThan BigDecimal.TEN
             ),
             true
         ),
         Arguments.of(
             expression(
-                field("item.price") lessOrEqualThan BigDecimal.ONE
+                left("item.price") lessOrEqualThan BigDecimal.ONE
             ),
             false
         ),

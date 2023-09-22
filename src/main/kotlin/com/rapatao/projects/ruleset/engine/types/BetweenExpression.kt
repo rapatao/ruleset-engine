@@ -1,9 +1,9 @@
 package com.rapatao.projects.ruleset.engine.types
 
 data class BetweenExpression(
-    val value: String,
+    val left: Any,
     val from: Any,
     val to: Any
 ) : Expression {
-    override fun parse(): String = "$value >= $from && $value <= $to"
+    override fun parse(): String = "$left >= $from && $left <= $to"
 }

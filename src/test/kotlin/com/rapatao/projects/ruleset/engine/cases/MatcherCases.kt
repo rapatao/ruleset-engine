@@ -224,5 +224,9 @@ object MatcherCases {
             ),
             false
         ),
+        Arguments.of(
+            expression(true),
+            true
+        ),
     )
 }
