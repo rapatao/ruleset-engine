@@ -7,7 +7,7 @@ data class BooleanExpression(
 ) : Expression {
 
     override fun parse(): String {
-        return "$left ${operator.operator} ${wrap(right)}"
+        return "$left ${operator.operator} $right"
     }
 
     enum class Operator(

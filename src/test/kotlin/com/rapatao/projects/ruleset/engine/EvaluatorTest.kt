@@ -106,8 +106,8 @@ internal class EvaluatorTest {
 
         val rule = allMatch(
             expression(left("item.price") equalsTo 0),
-            expression(left("attributes.info.title") equalsTo "superb title"),
-            expression(left("attributes.info.description") equalsTo "super description")
+            expression(left("attributes.info.title") equalsTo "\"superb title\""),
+            expression(left("attributes.info.description") equalsTo "\"super description\"")
         )
 
         val evaluator = Evaluator()
