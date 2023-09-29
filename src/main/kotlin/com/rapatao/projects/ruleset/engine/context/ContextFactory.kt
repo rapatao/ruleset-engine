@@ -6,8 +6,9 @@ import org.mozilla.javascript.Context
 import org.mozilla.javascript.ContextFactory
 import org.mozilla.javascript.ScriptableObject
 
-internal class InternalContextFactory(
-    val optimizationLevel: Int
+open class ContextFactory(
+    val optimizationLevel: Int = -1,
+    val wrapJavaPrimitives: Boolean = false,
 ) : ContextFactory() {
     override fun hasFeature(cx: Context, featureIndex: Int): Boolean {
         if (Context.FEATURE_ENABLE_JAVA_MAP_ACCESS == featureIndex) {
@@ -23,6 +24,7 @@ internal class InternalContextFactory(
     ): Boolean {
         return this.call { context ->
             context.optimizationLevel = optimizationLevel
+            context.wrapFactory.isJavaPrimitiveWrap = wrapJavaPrimitives
 
             val scope = context.initSafeStandardObjects()
 

@@ -1,6 +1,6 @@
 package com.rapatao.projects.ruleset.engine
 
-import com.rapatao.projects.ruleset.engine.context.InternalContextFactory
+import com.rapatao.projects.ruleset.engine.context.ContextFactory
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import org.mozilla.javascript.Context
@@ -8,14 +8,11 @@ import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
 
 class Evaluator(
-    val optimizationLevel: Int = -1,
+    val contextFactory: ContextFactory = ContextFactory(),
 ) {
-    private val factory: InternalContextFactory = InternalContextFactory(
-        optimizationLevel = optimizationLevel,
-    )
 
     fun evaluate(rule: Matcher, inputData: Any): Boolean {
-        return factory.call(inputData) { context, scope ->
+        return contextFactory.call(inputData) { context, scope ->
             val processIsTrue = rule.expression?.processExpression(context, scope) ?: true
             val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope) ?: true
             val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope) ?: true
