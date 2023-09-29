@@ -1,23 +1,25 @@
 package com.rapatao.projects.ruleset.engine
 
+import com.rapatao.projects.ruleset.engine.context.InternalContextFactory
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
 import org.mozilla.javascript.Context
+import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
 
-class Evaluator {
-    private val factory: InternalContextFactory = InternalContextFactory()
+class Evaluator(
+    val optimizationLevel: Int = -1,
+) {
+    private val factory: InternalContextFactory = InternalContextFactory(
+        optimizationLevel = optimizationLevel,
+    )
 
     fun evaluate(rule: Matcher, inputData: Any): Boolean {
-        return internalEvaluate(rule, inputData)
-    }
-
-    private fun internalEvaluate(rule: Matcher, inputData: Any): Boolean {
-        return factory.call(inputData) { context, scope, params ->
-            val processIsTrue = rule.expression?.processExpression(context, scope, params) ?: true
-            val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope, params) ?: true
-            val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope, params) ?: true
-            val processAllMatch = rule.allMatch?.processAllMatch(context, scope, params) ?: true
+        return factory.call(inputData) { context, scope ->
+            val processIsTrue = rule.expression?.processExpression(context, scope) ?: true
+            val processNoneMatch = rule.noneMatch?.processNoneMatch(context, scope) ?: true
+            val processAnyMatch = rule.anyMatch?.processAnyMatch(context, scope) ?: true
+            val processAllMatch = rule.allMatch?.processAllMatch(context, scope) ?: true
 
             processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
         }
@@ -26,13 +28,12 @@ class Evaluator {
     private fun List<Matcher>.processNoneMatch(
         context: Context,
         scope: ScriptableObject,
-        params: List<String>
     ): Boolean {
         val noneMatch = this.firstOrNull {
-            val isTrue = it.expression?.processExpression(context, scope, params) == true
-            val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
-            val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) == true
-            val allMatch = it.allMatch?.processAllMatch(context, scope, params) == true
+            val isTrue = it.expression?.processExpression(context, scope) == true
+            val noneMatch = it.noneMatch?.processNoneMatch(context, scope) == false
+            val anyMatch = it.anyMatch?.processAnyMatch(context, scope) == true
+            val allMatch = it.allMatch?.processAllMatch(context, scope) == true
 
             isTrue || noneMatch || anyMatch || allMatch
         } == null
@@ -43,13 +44,12 @@ class Evaluator {
     private fun List<Matcher>.processAnyMatch(
         context: Context,
         scope: ScriptableObject,
-        params: List<String>
     ): Boolean {
         val anyMatch = this.firstOrNull {
-            val isTrue = it.expression?.processExpression(context, scope, params) == true
-            val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) ?: false
-            val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
-            val allMatch = it.allMatch?.processAllMatch(context, scope, params) == true
+            val isTrue = it.expression?.processExpression(context, scope) == true
+            val anyMatch = it.anyMatch?.processAnyMatch(context, scope) ?: false
+            val noneMatch = it.noneMatch?.processNoneMatch(context, scope) == false
+            val allMatch = it.allMatch?.processAllMatch(context, scope) == true
 
             isTrue || anyMatch || noneMatch || allMatch
         } != null
@@ -60,13 +60,12 @@ class Evaluator {
     private fun List<Matcher>.processAllMatch(
         context: Context,
         scope: ScriptableObject,
-        params: List<String>
     ): Boolean {
         val allMatch = this.firstOrNull {
-            val isTrue = it.expression?.processExpression(context, scope, params) == false
-            val anyMatch = it.anyMatch?.processAnyMatch(context, scope, params) == false
-            val noneMatch = it.noneMatch?.processNoneMatch(context, scope, params) == false
-            val allMatch = it.allMatch?.processAllMatch(context, scope, params) == false
+            val isTrue = it.expression?.processExpression(context, scope) == false
+            val anyMatch = it.anyMatch?.processAnyMatch(context, scope) == false
+            val noneMatch = it.noneMatch?.processNoneMatch(context, scope) == false
+            val allMatch = it.allMatch?.processAllMatch(context, scope) == false
 
             isTrue || anyMatch || noneMatch || allMatch
         } == null
@@ -77,16 +76,18 @@ class Evaluator {
     private fun Expression.processExpression(
         context: Context,
         scope: ScriptableObject,
-        params: List<String>
     ): Boolean {
-        val script = this.parse()
-        val result = context.evaluateString(scope, script.buildScript(params), script, 1, null)
-
-        return true == result
+        return true == this.parse()
+            .asScript(context)
+            .exec(context, scope)
     }
 
-    private fun String.buildScript(params: List<String>): String {
-        val jsParams = params.joinToString(",")
-        return "(function($jsParams){return true == ($this)})($jsParams);"
+    private fun String.asScript(context: Context): Script {
+        return context.compileString(
+            "true == ($this)",
+            this,
+            0,
+            null,
+        )
     }
 }
