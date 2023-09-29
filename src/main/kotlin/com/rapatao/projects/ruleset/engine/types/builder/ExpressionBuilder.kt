@@ -10,14 +10,16 @@ import com.rapatao.projects.ruleset.engine.types.BooleanExpression.Operator.LESS
 
 object ExpressionBuilder {
 
-    @Deprecated("use ExpressionBuilder.left method",
+    @Deprecated(
+        "use ExpressionBuilder.left method",
         ReplaceWith("left(left)", "com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left")
     )
     fun field(left: String) = left(left)
 
     fun left(left: Any) = Builder(left)
 
-    fun isTrue(expression: Any) = BooleanExpression(expression, EQUALS, true)
+    fun isTrue(expression: Any) = left(expression).isTrue()
+    fun isFalse(expression: Any) = left(expression).isFalse()
 
     class Builder(private val left: Any) {
         infix fun equalsTo(right: Any) = BooleanExpression(left, EQUALS, right)
