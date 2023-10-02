@@ -15,18 +15,21 @@ object ExpressionBuilder {
     fun isFalse(expression: Any) = left(expression).isFalse()
 
     class Builder(private val left: Any) {
-        infix fun equalsTo(right: Any) = Expression(left, EQUALS, right)
+        infix fun equalsTo(right: Any) = Expression(left = left, operator = EQUALS, right = right)
 
-        infix fun greaterThan(right: Any) = Expression(left, GREATER_THAN, right)
+        infix fun greaterThan(right: Any) =
+            Expression(left = left, operator = GREATER_THAN, right = right)
 
-        infix fun greaterOrEqualThan(right: Any) = Expression(left, GREATER_OR_EQUAL_THAN, right)
+        infix fun greaterOrEqualThan(right: Any) =
+            Expression(left = left, operator = GREATER_OR_EQUAL_THAN, right = right)
 
-        infix fun lessThan(right: Any) = Expression(left, LESS_THAN, right)
+        infix fun lessThan(right: Any) = Expression(left = left, operator = LESS_THAN, right = right)
 
-        infix fun lessOrEqualThan(right: Any) = Expression(left, LESS_OR_EQUAL_THAN, right)
+        infix fun lessOrEqualThan(right: Any) =
+            Expression(left = left, operator = LESS_OR_EQUAL_THAN, right = right)
 
-        fun isTrue() = Expression(left, EQUALS, true)
+        fun isTrue() = Expression(left = left, operator = EQUALS, right = true)
 
-        fun isFalse() = Expression(left, EQUALS, false)
+        fun isFalse() = Expression(left = left, operator = EQUALS, right = false)
     }
 }

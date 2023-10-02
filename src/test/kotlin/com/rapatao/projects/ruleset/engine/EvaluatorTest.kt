@@ -1,11 +1,9 @@
 package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.types.Matcher
-import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
+import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
-import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
-import com.rapatao.projects.ruleset.engine.types.builder.greaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.greaterThan
 import com.rapatao.projects.ruleset.engine.types.builder.lessThan
 import org.hamcrest.MatcherAssert.assertThat
@@ -24,7 +22,7 @@ internal class EvaluatorTest {
         fun tests() = TestData.allCases()
     }
 
-    private fun doEvaluationTest(ruleSet: Matcher, expected: Boolean) {
+    private fun doEvaluationTest(ruleSet: Expression, expected: Boolean) {
         assertThat(
             evaluator.evaluate(rule = ruleSet, inputData = TestData.inputData),
             equalTo(expected)
@@ -33,7 +31,7 @@ internal class EvaluatorTest {
 
     @ParameterizedTest
     @MethodSource("tests")
-    fun `should convert json`(ruleSet: Matcher, expected: Boolean) {
+    fun `should convert json`(ruleSet: Expression, expected: Boolean) {
         println(ruleSet)
 
         doEvaluationTest(ruleSet, expected)
@@ -41,13 +39,13 @@ internal class EvaluatorTest {
 
     @Test
     fun `runs the last test scenario`() {
-        val caseNumber = tests().size
-        // val caseNumber = 6
+        // val caseNumber = tests().size
+        val caseNumber = 40
 
         val cases: List<Arguments> = tests()
         val test = cases[caseNumber - 1].get()
         `should convert json`(
-            test[0] as Matcher,
+            test[0] as Expression,
             test[1] as Boolean
         )
     }
@@ -67,9 +65,9 @@ internal class EvaluatorTest {
         )
 
         val rule = allMatch(
-            expression(left("item.price") equalsTo 0),
-            expression(left("attributes.info.title") equalsTo "\"superb title\""),
-            expression(left("attributes.info.description") equalsTo "\"super description\"")
+            "item.price" equalsTo 0,
+            "attributes.info.title" equalsTo "\"superb title\"",
+            "attributes.info.description" equalsTo "\"super description\"",
         )
 
         val result = evaluator.evaluate(rule, input)
@@ -79,12 +77,8 @@ internal class EvaluatorTest {
 
     fun test() {
         allMatch(
-            expression(
-                "left" greaterThan 10
-            ),
-            expression(
-                "left" lessThan 20
-            ),
+            "left" greaterThan 10,
+            "left" lessThan 20,
         )
     }
 }
