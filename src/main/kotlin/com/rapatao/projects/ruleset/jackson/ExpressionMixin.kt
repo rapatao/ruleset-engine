@@ -1,15 +1,24 @@
 package com.rapatao.projects.ruleset.jackson
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.rapatao.projects.ruleset.engine.types.BetweenExpression
-import com.rapatao.projects.ruleset.engine.types.BooleanExpression
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.OnFailure
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
-@JsonSubTypes(
-    value = [
-        JsonSubTypes.Type(BooleanExpression::class),
-        JsonSubTypes.Type(BetweenExpression::class),
-    ]
-)
-interface ExpressionMixin
+interface ExpressionMixin {
+
+    @JsonFormat(
+        with = [
+            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_VALUES,
+            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES
+        ],
+    )
+    fun onFailure(): OnFailure
+
+    @JsonFormat(
+        with = [
+            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_VALUES,
+            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES
+        ],
+    )
+    fun operator(): Expression.Operator
+}

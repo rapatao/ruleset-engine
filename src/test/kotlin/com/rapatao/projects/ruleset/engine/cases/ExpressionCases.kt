@@ -1,10 +1,9 @@
 package com.rapatao.projects.ruleset.engine.cases
 
-import com.rapatao.projects.ruleset.engine.types.BetweenExpression
+import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.expression
 import com.rapatao.projects.ruleset.engine.types.builder.asExpression
-import com.rapatao.projects.ruleset.engine.types.builder.between
 import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.greaterOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.greaterThan
@@ -12,6 +11,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.isFalse
 import com.rapatao.projects.ruleset.engine.types.builder.isTrue
 import com.rapatao.projects.ruleset.engine.types.builder.lessOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.lessThan
+import com.rapatao.projects.ruleset.engine.types.builder.onFailure
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
@@ -25,24 +25,6 @@ object ExpressionCases {
         ),
         Arguments.of(
             expression("item.price >= 1000"),
-            false
-        ),
-        Arguments.of(
-            expression(
-                left("item.price") between 1 and 1000
-            ),
-            true
-        ),
-        Arguments.of(
-            expression(
-                BetweenExpression("item.price", 1, 1000)
-            ),
-            true
-        ),
-        Arguments.of(
-            expression(
-                BetweenExpression("item.price", 100, 1000)
-            ),
             false
         ),
         Arguments.of(
@@ -185,18 +167,6 @@ object ExpressionCases {
         ),
         Arguments.of(
             expression(
-                "item.price" between 1 and 1000
-            ),
-            true
-        ),
-        Arguments.of(
-            expression(
-                "item.price" between 1000 and 2000
-            ),
-            false
-        ),
-        Arguments.of(
-            expression(
                 "item.price" greaterThan BigDecimal.ZERO
             ),
             true
@@ -258,6 +228,18 @@ object ExpressionCases {
         Arguments.of(
             expression(
                 "item.price >= 1000".asExpression(),
+            ),
+            false
+        ),
+        Arguments.of(
+            expression(
+                "item.field.that.dont.exist" equalsTo "10" onFailure OnFailure.TRUE
+            ),
+            true
+        ),
+        Arguments.of(
+            expression(
+                "item.field.that.dont.exist" equalsTo "10" onFailure OnFailure.FALSE
             ),
             false
         ),

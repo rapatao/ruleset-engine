@@ -26,7 +26,6 @@ internal class SerializationExamplesBuilder {
         expression(left(10) equalsTo 10),
         expression(left("field") equalsTo "\"value\""),
         expression(left("field") equalsTo "value"),
-        expression(left("field") between 10 and 20),
         expression(left("field") greaterThan 10),
         expression(left("field") greaterOrEqualThan 10),
         expression(left("field") lessThan 10),

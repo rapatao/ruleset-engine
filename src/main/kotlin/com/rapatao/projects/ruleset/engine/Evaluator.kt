@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset.engine
 import com.rapatao.projects.ruleset.engine.context.ContextFactory
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Matcher
+import com.rapatao.projects.ruleset.engine.types.OnFailure
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
@@ -74,9 +75,17 @@ class Evaluator(
         context: Context,
         scope: ScriptableObject,
     ): Boolean {
-        return true == this.parse()
-            .asScript(context)
-            .exec(context, scope)
+        return try {
+            true == this.parse()
+                .asScript(context)
+                .exec(context, scope)
+        } catch (@SuppressWarnings("TooGenericExceptionCaught") e: Exception) {
+            when (this.onFailure()) {
+                OnFailure.TRUE -> true
+                OnFailure.FALSE -> false
+                OnFailure.THROW -> throw e
+            }
+        }
     }
 
     private fun String.asScript(context: Context): Script {
