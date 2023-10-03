@@ -117,7 +117,7 @@ val mapper = jacksonObjectMapper()
 
 val json = "{ definition as json }"
 
-val asMatcher: Matcher = mapper.readValue(json)
+val asMatcher: Expression = mapper.readValue(json)
 ```
 
 ### Examples
@@ -290,10 +290,9 @@ val asMatcher: Matcher = mapper.readValue(json)
 
 ```kotlin
 import com.rapatao.projects.ruleset.engine.Evaluator
-import com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder.left
-import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder
+import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 
-val rule = MatcherBuilder.expression(left("item.price") equalsTo 0)
+val rule = "item.price" equalsTo 0
 
 val evaluator = Evaluator()
 
