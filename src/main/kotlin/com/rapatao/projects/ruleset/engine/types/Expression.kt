@@ -12,17 +12,5 @@ data class Expression(
     fun operator() = operator
     fun onFailure() = onFailure
 
-    fun parse(): String {
-        return "($left) ${operator?.operator} ($right)"
-    }
-
     fun parseable(): Boolean = operator != null
-
-    enum class Operator(val operator: String) {
-        EQUALS("=="),
-        GREATER_THAN(">"),
-        GREATER_OR_EQUAL_THAN(">="),
-        LESS_THAN("<"),
-        LESS_OR_EQUAL_THAN("<=")
-    }
 }

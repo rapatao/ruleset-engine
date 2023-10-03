@@ -27,10 +27,11 @@ object Helper {
     }
 
     fun compareMatcher(source: Expression, target: Expression) {
-        target.parse().run {
-            assertThat(this, equalTo(source.parse()))
+        target.takeIf { it.parseable() }?.run {
+            assertThat(target.left, equalTo(source.left))
+            assertThat(target.operator, equalTo(source.operator))
+            assertThat(target.right, equalTo(source.right))
             assertThat(target.onFailure, equalTo(source.onFailure))
-
         }
 
         compareMatcherList(source.allMatch, target.allMatch)
