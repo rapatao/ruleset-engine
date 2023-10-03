@@ -1,11 +1,11 @@
 package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
-import com.rapatao.projects.ruleset.engine.types.Expression.Operator.EQUALS
-import com.rapatao.projects.ruleset.engine.types.Expression.Operator.GREATER_OR_EQUAL_THAN
-import com.rapatao.projects.ruleset.engine.types.Expression.Operator.GREATER_THAN
-import com.rapatao.projects.ruleset.engine.types.Expression.Operator.LESS_OR_EQUAL_THAN
-import com.rapatao.projects.ruleset.engine.types.Expression.Operator.LESS_THAN
+import com.rapatao.projects.ruleset.engine.types.Operator.EQUALS
+import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_OR_EQUAL_THAN
+import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_THAN
+import com.rapatao.projects.ruleset.engine.types.Operator.LESS_OR_EQUAL_THAN
+import com.rapatao.projects.ruleset.engine.types.Operator.LESS_THAN
 
 object ExpressionBuilder {
 

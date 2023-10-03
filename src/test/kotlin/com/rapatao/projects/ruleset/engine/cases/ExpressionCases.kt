@@ -11,7 +11,6 @@ import com.rapatao.projects.ruleset.engine.types.builder.isTrue
 import com.rapatao.projects.ruleset.engine.types.builder.lessOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.lessThan
 import org.junit.jupiter.params.provider.Arguments
-import java.math.BigDecimal
 
 object ExpressionCases {
 
@@ -26,11 +25,11 @@ object ExpressionCases {
             false
         ),
         Arguments.of(
-            "item.price" equalsTo BigDecimal.TEN,
+            "item.price" equalsTo 10,
             true
         ),
         Arguments.of(
-            "item.price" equalsTo BigDecimal.ZERO,
+            "item.price" equalsTo 0,
             false
         ),
         Arguments.of(
@@ -50,47 +49,47 @@ object ExpressionCases {
             true
         ),
         Arguments.of(
-            "item.price" greaterThan BigDecimal.ZERO,
+            "item.price" greaterThan 0,
             true
         ),
         Arguments.of(
-            "item.price" greaterThan BigDecimal.TEN,
+            "item.price" greaterThan 10,
             false
         ),
         Arguments.of(
-            "item.price" greaterOrEqualThan BigDecimal.TEN,
+            "item.price" greaterOrEqualThan 10,
             true
         ),
         Arguments.of(
-            "item.price" greaterOrEqualThan BigDecimal.valueOf(100),
+            "item.price" greaterOrEqualThan 100,
             false
         ),
         Arguments.of(
-            "item.price" lessThan BigDecimal.valueOf(100),
+            "item.price" lessThan 100,
             true
         ),
         Arguments.of(
-            "item.price" lessThan BigDecimal.ONE,
+            "item.price" lessThan 1,
             false
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.valueOf(100),
+            "item.price" lessOrEqualThan 100,
             true
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.TEN,
+            "item.price" lessOrEqualThan 10,
             true
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.ONE,
+            "item.price" lessOrEqualThan 1,
             false
         ),
         Arguments.of(
-            "item.price" equalsTo BigDecimal.ONE,
+            "item.price" equalsTo 1,
             false
         ),
         Arguments.of(
-            "item.price" equalsTo BigDecimal.TEN,
+            "item.price" equalsTo 10,
             true
         ),
         Arguments.of(
@@ -118,39 +117,39 @@ object ExpressionCases {
             false
         ),
         Arguments.of(
-            "item.price" greaterThan BigDecimal.ZERO,
+            "item.price" greaterThan 0,
             true
         ),
         Arguments.of(
-            "item.price" greaterThan BigDecimal.TEN,
+            "item.price" greaterThan 10,
             false
         ),
         Arguments.of(
-            "item.price" greaterOrEqualThan BigDecimal.TEN,
+            "item.price" greaterOrEqualThan 10,
             true
         ),
         Arguments.of(
-            "item.price" greaterOrEqualThan BigDecimal.valueOf(100),
+            "item.price" greaterOrEqualThan 100,
             false
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.valueOf(100),
+            "item.price" lessOrEqualThan 100,
             true
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.TEN,
+            "item.price" lessOrEqualThan 10,
             true
         ),
         Arguments.of(
-            "item.price" lessOrEqualThan BigDecimal.ONE,
+            "item.price" lessOrEqualThan 1,
             false
         ),
         Arguments.of(
-            "item.price" lessThan BigDecimal.valueOf(100),
+            "item.price" lessThan 100,
             true
         ),
         Arguments.of(
-            "item.price" lessThan BigDecimal.ONE,
+            "item.price" lessThan 1,
             false
         ),
         Arguments.of(

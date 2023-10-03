@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset.engine
 import com.rapatao.projects.ruleset.engine.context.ContextFactory
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
+import com.rapatao.projects.ruleset.engine.types.Operator
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
@@ -75,8 +76,7 @@ class Evaluator(
         scope: ScriptableObject,
     ): Boolean {
         return try {
-            true == this.parse()
-                .asScript(context)
+            true == this.asScript(context)
                 .exec(context, scope)
         } catch (@SuppressWarnings("TooGenericExceptionCaught") e: Exception) {
             when (this.onFailure) {
@@ -87,10 +87,20 @@ class Evaluator(
         }
     }
 
-    private fun String.asScript(context: Context): Script {
+    private fun Expression.asScript(context: Context): Script {
+        val operator = when (this.operator) {
+            Operator.GREATER_THAN -> ">"
+            Operator.GREATER_OR_EQUAL_THAN -> ">="
+            Operator.LESS_THAN -> "<"
+            Operator.LESS_OR_EQUAL_THAN -> "<="
+            else -> "=="
+        }
+
+        val script = "(${this.left}) $operator (${this.right})"
+
         return context.compileString(
-            "true == ($this)",
-            this,
+            "true == ($script)",
+            script,
             0,
             null,
         )
