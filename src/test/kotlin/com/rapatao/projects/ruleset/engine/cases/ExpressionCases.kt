@@ -199,6 +199,7 @@ object ExpressionCases {
         ),
     )
 
+    @SuppressWarnings("LongMethod")
     private fun betweenCases() = listOf(
         Arguments.of(
             "item.price" from 5 to 15,
