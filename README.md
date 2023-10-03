@@ -72,32 +72,31 @@ A grouped operation is `true` when all inner operations result in:
 
 ````kotlin
 allMatch(
-    expression("field".isTrue()),
-    expression("price" lessThan 10.0),
-)
-
+    "field".isTrue(),
+    "price" lessThan 10.0,
+),
 anyMatch(
-    expression("field".isTrue()),
-    expression("price" lessThan 10.0),
-)
+    "field".isTrue(),
+    "price" lessThan 10.0,
+),
 
 noneMatch(
-    expression("field".isTrue()),
-    expression("price" lessThan 10.0),
-)
+    "field".isTrue(),
+    "price" lessThan 10.0,
+),
 
-Matcher(
+Expression(
     allMatch = listOf(
-        expression("field".isTrue()),
-        expression("price" lessThan 10.0),
+        "field".isTrue(),
+        "price" lessThan 10.0,
     ),
     anyMatch = listOf(
-        expression("field".isTrue()),
-        expression("price" lessThan 10.0),
+        "field".isTrue(),
+        "price" lessThan 10.0,
     ),
     noneMatch = listOf(
-        expression("field".isTrue()),
-        expression("price" lessThan 10.0),
+        "field".isTrue(),
+        "price" lessThan 10.0,
     )
 )
 ````
