@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset.engine
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.helper.Helper.compareMatcher
+import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.helper.Helper.mapper
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure.THROW
@@ -28,6 +29,8 @@ class SerializationTest {
         val matcherFromJson = mapper.readValue<Expression>(json)
 
         compareMatcher(matcher, matcherFromJson)
+
+        doEvaluationTest(matcherFromJson, expected)
     }
 
     @Test

@@ -1,9 +1,11 @@
 package com.rapatao.projects.ruleset.jackson
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 interface ExpressionMixin {
 
     @JsonFormat(

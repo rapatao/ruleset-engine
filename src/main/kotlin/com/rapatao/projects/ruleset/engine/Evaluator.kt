@@ -45,7 +45,7 @@ class Evaluator(
         val anyMatch = this.firstOrNull {
             val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context, scope) == true
             val anyMatch = it.anyMatch?.processAnyMatch(context, scope) ?: false
-            val noneMatch = it.noneMatch?.processNoneMatch(context, scope) == false
+            val noneMatch = it.noneMatch?.processNoneMatch(context, scope) == true
             val allMatch = it.allMatch?.processAllMatch(context, scope) == true
 
             isTrue || anyMatch || noneMatch || allMatch

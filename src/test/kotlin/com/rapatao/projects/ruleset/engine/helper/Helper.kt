@@ -3,6 +3,8 @@ package com.rapatao.projects.ruleset.engine.helper
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.hamcrest.MatcherAssert.assertThat
@@ -14,6 +16,15 @@ object Helper {
     val mapper: ObjectMapper = jacksonObjectMapper()
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+
+    val evaluator = Evaluator()
+
+    fun doEvaluationTest(ruleSet: Expression, expected: Boolean) {
+        assertThat(
+            evaluator.evaluate(rule = ruleSet, inputData = TestData.inputData),
+            equalTo(expected)
+        )
+    }
 
     fun compareMatcher(source: Expression, target: Expression) {
         target.parse().run {
