@@ -19,10 +19,11 @@ implementation "com.rapatao.ruleset:ruleset-engine:$rulesetVersion"
 ### Maven
 
 ```xml
+
 <dependency>
-  <groupId>com.rapatao.ruleset</groupId>
-  <artifactId>ruleset-engine</artifactId>
-  <version>$rulesetVersion</version>
+    <groupId>com.rapatao.ruleset</groupId>
+    <artifactId>ruleset-engine</artifactId>
+    <version>$rulesetVersion</version>
 </dependency>
 ```
 
@@ -124,101 +125,73 @@ val asMatcher: Matcher = mapper.readValue(json)
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "EQUALS",
-        "right": true
-    }
+    "left": "field",
+    "operator": "EQUALS",
+    "right": true
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "EQUALS",
-        "right": 10
-    }
+    "left": "field",
+    "operator": "EQUALS",
+    "right": false
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": 10,
-        "operator": "EQUALS",
-        "right": 10
-    }
+    "left": "field",
+    "operator": "EQUALS",
+    "right": 10
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "EQUALS",
-        "right": "\"value\""
-    }
+    "left": "field",
+    "operator": "EQUALS",
+    "right": "\"value\""
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "EQUALS",
-        "right": "value"
-    }
+    "left": "field",
+    "operator": "EQUALS",
+    "right": "value"
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "from": 10,
-        "to": 20
-    }
+    "left": "field",
+    "operator": "GREATER_THAN",
+    "right": 10
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "GREATER_THAN",
-        "right": 10
-    }
+    "left": "field",
+    "operator": "GREATER_OR_EQUAL_THAN",
+    "right": 10
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "GREATER_OR_EQUAL_THAN",
-        "right": 10
-    }
+    "left": "field",
+    "operator": "LESS_THAN",
+    "right": 10
 }
 ```
 
 ```json
 {
-    "expression": {
-        "left": "field",
-        "operator": "LESS_THAN",
-        "right": 10
-    }
-}
-```
-
-```json
-{
-    "expression": {
-        "left": "field",
-        "operator": "LESS_OR_EQUAL_THAN",
-        "right": 10
-    }
+    "left": "field",
+    "operator": "LESS_OR_EQUAL_THAN",
+    "right": 10
 }
 ```
 
@@ -226,18 +199,14 @@ val asMatcher: Matcher = mapper.readValue(json)
 {
     "allMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ]
 }
@@ -247,18 +216,14 @@ val asMatcher: Matcher = mapper.readValue(json)
 {
     "anyMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ]
 }
@@ -268,18 +233,14 @@ val asMatcher: Matcher = mapper.readValue(json)
 {
     "noneMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ]
 }
@@ -289,50 +250,38 @@ val asMatcher: Matcher = mapper.readValue(json)
 {
     "allMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ],
     "anyMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ],
     "noneMatch": [
         {
-            "expression": {
-                "left": "field",
-                "operator": "EQUALS",
-                "right": true
-            }
+            "left": "field",
+            "operator": "EQUALS",
+            "right": true
         },
         {
-            "expression": {
-                "left": "price",
-                "operator": "LESS_THAN",
-                "right": 10.0
-            }
+            "left": "price",
+            "operator": "LESS_THAN",
+            "right": 10.0
         }
     ]
 }
