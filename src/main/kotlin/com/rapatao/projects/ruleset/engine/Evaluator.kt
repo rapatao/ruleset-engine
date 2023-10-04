@@ -3,7 +3,6 @@ package com.rapatao.projects.ruleset.engine
 import com.rapatao.projects.ruleset.engine.context.ContextFactory
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.Operator
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
@@ -88,15 +87,7 @@ class Evaluator(
     }
 
     private fun Expression.asScript(context: Context): Script {
-        val operator = when (this.operator) {
-            Operator.GREATER_THAN -> ">"
-            Operator.GREATER_OR_EQUAL_THAN -> ">="
-            Operator.LESS_THAN -> "<"
-            Operator.LESS_OR_EQUAL_THAN -> "<="
-            else -> "=="
-        }
-
-        val script = "(${this.left}) $operator (${this.right})"
+        val script = Parser.parse(this)
 
         return context.compileString(
             "true == ($script)",
