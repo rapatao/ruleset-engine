@@ -7,6 +7,7 @@ import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_OR_EQUAL_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.LESS_OR_EQUAL_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.LESS_THAN
+import com.rapatao.projects.ruleset.engine.types.Operator.NOT_EQUALS
 
 object ExpressionBuilder {
 
@@ -21,6 +22,8 @@ object ExpressionBuilder {
 
     class Builder(private val left: Any) {
         infix fun equalsTo(right: Any) = Expression(left = left, operator = EQUALS, right = right)
+
+        infix fun notEqualsTo(right: Any) = Expression(left = left, operator = NOT_EQUALS, right = right)
 
         infix fun greaterThan(right: Any) =
             Expression(left = left, operator = GREATER_THAN, right = right)

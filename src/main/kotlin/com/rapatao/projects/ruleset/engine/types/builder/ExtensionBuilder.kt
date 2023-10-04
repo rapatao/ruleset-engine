@@ -14,6 +14,8 @@ fun Any.isFalse(): Expression = isFalse(this)
 
 infix fun Any.equalsTo(right: Any): Expression = left(this).equalsTo(right)
 
+infix fun Any.notEqualsTo(right: Any): Expression = left(this).notEqualsTo(right)
+
 infix fun Any.greaterThan(from: Any): Expression = left(this).greaterThan(from)
 
 infix fun Any.greaterOrEqualThan(from: Any): Expression = left(this).greaterOrEqualThan(from)

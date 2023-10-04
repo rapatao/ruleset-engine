@@ -12,6 +12,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.isFalse
 import com.rapatao.projects.ruleset.engine.types.builder.isTrue
 import com.rapatao.projects.ruleset.engine.types.builder.lessOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.lessThan
+import com.rapatao.projects.ruleset.engine.types.builder.notEqualsTo
 import org.junit.jupiter.params.provider.Arguments
 
 object ExpressionCases {
@@ -19,6 +20,7 @@ object ExpressionCases {
     @Suppress("LongMethod")
     fun cases(): List<Arguments> = asExpressionCases() +
         equalsCases() +
+        notEqualsCases() +
         booleanCases() +
         ifFailCases() +
         betweenCases() +
@@ -149,6 +151,17 @@ object ExpressionCases {
         ),
         Arguments.of(
             "item.price" equalsTo 0,
+            false
+        ),
+    )
+
+    private fun notEqualsCases() = listOf(
+        Arguments.of(
+            "item.price" notEqualsTo 0,
+            true
+        ),
+        Arguments.of(
+            "item.price" notEqualsTo 10,
             false
         ),
     )

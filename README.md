@@ -39,25 +39,29 @@ To create custom operations, just extends the interface `com.rapatao.projects.ru
 ### Examples
 
 ````kotlin
-"field".isTrue()
+"field".isTrue(),
 
-"field".isFalse()
+"field".isFalse(),
 
-"field" equalsTo 10
+"field" equalsTo 10,
 
-"field" equalsTo "\"value\""
+"field" equalsTo "\"value\"",
 
-"field" equalsTo "value"
+"field" equalsTo "value",
 
-"field" between 10 and 20
+"field" notEqualsTo 10,
 
-"field" greaterThan 10
+"field" notEqualsTo "\"value\"",
 
-"field" greaterOrEqualThan 10
+"field" notEqualsTo "value",
 
-"field" lessThan 10
+"field" greaterThan 10,
 
-"field" lessOrEqualThan 10
+"field" greaterOrEqualThan 10,
+
+"field" lessThan 10,
+
+"field" lessOrEqualThan 10,
 ````
 
 ## Supported group operations
@@ -75,6 +79,7 @@ allMatch(
     "field".isTrue(),
     "price" lessThan 10.0,
 ),
+
 anyMatch(
     "field".isTrue(),
     "price" lessThan 10.0,
@@ -120,173 +125,9 @@ val json = "{ definition as json }"
 val asMatcher: Expression = mapper.readValue(json)
 ```
 
-### Examples
+Serialized examples can be checked [here](JSON.md)
 
-```json
-{
-    "left": "field",
-    "operator": "EQUALS",
-    "right": true
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "EQUALS",
-    "right": false
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "EQUALS",
-    "right": 10
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "EQUALS",
-    "right": "\"value\""
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "EQUALS",
-    "right": "value"
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "GREATER_THAN",
-    "right": 10
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "GREATER_OR_EQUAL_THAN",
-    "right": 10
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "LESS_THAN",
-    "right": 10
-}
-```
-
-```json
-{
-    "left": "field",
-    "operator": "LESS_OR_EQUAL_THAN",
-    "right": 10
-}
-```
-
-```json
-{
-    "allMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ]
-}
-```
-
-```json
-{
-    "anyMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ]
-}
-```
-
-```json
-{
-    "noneMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ]
-}
-```
-
-```json
-{
-    "allMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ],
-    "anyMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ],
-    "noneMatch": [
-        {
-            "left": "field",
-            "operator": "EQUALS",
-            "right": true
-        },
-        {
-            "left": "price",
-            "operator": "LESS_THAN",
-            "right": 10.0
-        }
-    ]
-}
-```
-
-### Example of usage
+## Usage example
 
 ```kotlin
 import com.rapatao.projects.ruleset.engine.Evaluator
