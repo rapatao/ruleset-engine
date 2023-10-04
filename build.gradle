@@ -7,6 +7,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
+    id "io.github.gradle-nexus.publish-plugin" version "${publishPluginVersion}"
 }
 
 group "com.rapatao.ruleset"
@@ -73,8 +74,18 @@ koverReport {
 
 signing {
     useGpgCmd()
-    sign configurations.archives
     sign publishing.publications
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            snapshotRepositoryUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+            username = System.getenv('OSSRH_USERNAME')
+            password = System.getenv('OSSRH_PASSWORD')
+        }
+    }
 }
 
 publishing {
@@ -105,21 +116,6 @@ publishing {
                     developerConnection = "scm:git:ssh://github.com/rapatao/ruleset-engine.git"
                     url = "https://github.com/rapatao/ruleset-engine"
                 }
-            }
-        }
-    }
-    repositories {
-        maven {
-            url = uri("${buildDir}/publishing-repository")
-        }
-        maven {
-            def releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            def snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-            credentials {
-                username = System.getenv('OSSRH_USERNAME')
-                password = System.getenv('OSSRH_PASSWORD')
             }
         }
     }
