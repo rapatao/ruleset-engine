@@ -39,4 +39,22 @@ jobs:
             -Psigning.gnupg.useLegacyGpg=true \
             -Psigning.gnupg.keyName=${{ secrets.GPG_SIGN_KEY }} \
             -Pversion=${GITHUB_REF_NAME} \
-            publish
+            publishToSonatype
+
+      - name: close staging
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon \
+            -Pversion=${GITHUB_REF_NAME} \
+            findSonatypeStagingRepository closeSonatypeStagingRepository
+
+      - name: release version
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon \
+            -Pversion=${GITHUB_REF_NAME} \
+            findSonatypeStagingRepository releaseSonatypeStagingRepository
