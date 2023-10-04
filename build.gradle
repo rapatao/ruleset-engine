@@ -78,7 +78,6 @@ signing {
     sign publishing.publications
 }
 
-
 publishing {
     publications {
         maven(MavenPublication) {
@@ -120,8 +119,8 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
             credentials {
-                username = rootProject.properties.ossrhUsername
-                password = rootProject.properties.ossrhPassword
+                username = System.getenv('OSSRH_USERNAME')
+                password = System.getenv('OSSRH_PASSWORD')
             }
         }
     }
