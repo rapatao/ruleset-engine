@@ -35,6 +35,5 @@ jobs:
             -Psigning.gnupg.executable=gpg \
             -Psigning.gnupg.useLegacyGpg=true \
             -Psigning.gnupg.keyName=${{ secrets.GPG_SIGN_KEY }} \
-            -Pversion=${GITHUB_REF_NAME}
-
-
+            -Pversion=${GITHUB_REF_NAME} \
+            publish
