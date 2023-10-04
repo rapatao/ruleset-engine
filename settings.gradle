@@ -1,2 +1,24 @@
+plugins {
+    id 'nu.studer.credentials' version "${credentialsVersion}"
+}
+
 rootProject.name = 'ruleset-engine'
 
+String ossrhUsername = System.getenv('OSSRH_USERNAME')
+if (ossrhUsername == null) {
+    logger.info("loading oss username from gradle")
+    ossrhUsername = credentials.forKey('ossrhUsername')
+} else {
+    println("using username from environment" + ossrhUsername)
+}
+
+String ossrhPassword = System.getenv('OSSRH_PASSWORD')
+if (ossrhPassword == null) {
+    logger.info("loading oss password from gradle")
+    ossrhPassword = credentials.forKey('ossrhPassword')
+}
+
+rootProject.properties.ossrhUsername = ossrhUsername
+rootProject.properties.ossrhPassword = ossrhPassword
+
+rootProject.properties.signArtifacts = true
