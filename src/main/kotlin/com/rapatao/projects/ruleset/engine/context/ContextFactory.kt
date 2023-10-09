@@ -9,6 +9,7 @@ import org.mozilla.javascript.ScriptableObject
 open class ContextFactory(
     val optimizationLevel: Int = -1,
     val wrapJavaPrimitives: Boolean = false,
+    val languageVersion: Int = Context.VERSION_DEFAULT
 ) : ContextFactory() {
     override fun hasFeature(cx: Context, featureIndex: Int): Boolean {
         if (Context.FEATURE_ENABLE_JAVA_MAP_ACCESS == featureIndex) {
@@ -18,14 +19,21 @@ open class ContextFactory(
         return super.hasFeature(cx, featureIndex)
     }
 
+    override fun makeContext(): Context {
+        val context = super.makeContext()
+
+        context.optimizationLevel = optimizationLevel
+        context.wrapFactory.isJavaPrimitiveWrap = wrapJavaPrimitives
+        context.languageVersion = languageVersion
+
+        return context
+    }
+
     fun call(
         inputData: Any,
         block: (context: Context, scope: ScriptableObject) -> Boolean
     ): Boolean {
         return this.call { context ->
-            context.optimizationLevel = optimizationLevel
-            context.wrapFactory.isJavaPrimitiveWrap = wrapJavaPrimitives
-
             val scope = context.initSafeStandardObjects()
 
             parseParameters(scope, context, inputData)
