@@ -1,6 +1,7 @@
 package com.rapatao.projects.ruleset.jackson
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.Operator
@@ -23,4 +24,7 @@ interface ExpressionMixin {
         ],
     )
     fun operator(): Operator
+
+    @JsonIgnore
+    fun isValid(): Boolean
 }
