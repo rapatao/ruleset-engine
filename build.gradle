@@ -8,6 +8,7 @@ plugins {
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
     id "io.github.gradle-nexus.publish-plugin" version "${publishPluginVersion}"
+    id "com.github.ben-manes.versions" version "${BenManerVersionsVersion}"
 }
 
 group "com.rapatao.ruleset"
@@ -22,9 +23,12 @@ dependencies {
 
     implementation("org.mozilla:rhino:${rhinoVersion}")
 
-    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
     testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
 }
