@@ -6,6 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.Operator
 
+/**
+ * This interface represents a mixin for JSON serialization and deserialization of expressions.
+ * It provides methods for handling onFailure, operator, and validity of an expression.
+ *
+ * @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+ */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 interface ExpressionMixin {
 
