@@ -7,10 +7,23 @@ import org.mozilla.javascript.Context
 import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
 
+/**
+ * The Evaluator class is used to evaluate a given rule expression against input data.
+ *
+ * @property contextFactory The factory used to create a context for evaluating the expressions.
+ * Defaults to ContextFactory().
+ */
 class Evaluator(
     val contextFactory: ContextFactory = ContextFactory(),
 ) {
 
+    /**
+     * Evaluates the given rule expression against the provided input data.
+     *
+     * @param rule The expression to be evaluated.
+     * @param inputData The input data to be used in the evaluation.
+     * @return `true` if the rule expression evaluates to `true`, `false` otherwise.
+     */
     fun evaluate(rule: Expression, inputData: Any): Boolean {
         return contextFactory.call(inputData) { context, scope ->
             val processIsTrue = rule.takeIf { v -> v.parseable() }?.processExpression(context, scope) ?: true
