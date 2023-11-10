@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset.engine
+package com.rapatao.projects.ruleset.engine.rhino
 
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Operator

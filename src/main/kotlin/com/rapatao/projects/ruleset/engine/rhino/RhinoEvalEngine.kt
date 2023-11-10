@@ -1,7 +1,9 @@
-package com.rapatao.projects.ruleset.engine.context
+package com.rapatao.projects.ruleset.engine.rhino
 
-import com.rapatao.projects.ruleset.engine.parameters.MapInjector
-import com.rapatao.projects.ruleset.engine.parameters.TypedInjector
+import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.context.EvalEngine
+import com.rapatao.projects.ruleset.engine.rhino.parameters.MapInjector
+import com.rapatao.projects.ruleset.engine.rhino.parameters.TypedInjector
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ContextFactory
 import org.mozilla.javascript.ScriptableObject
@@ -15,11 +17,11 @@ import org.mozilla.javascript.ScriptableObject
  * @property languageVersion The language version of the JavaScript code to be executed in the context.
  * Defaults to Context.VERSION_DEFAULT.
  */
-open class ContextFactory(
-    val optimizationLevel: Int = -1,
-    val wrapJavaPrimitives: Boolean = false,
-    val languageVersion: Int = Context.VERSION_DEFAULT
-) : ContextFactory() {
+open class RhinoEvalEngine(
+    private val optimizationLevel: Int = -1,
+    private val wrapJavaPrimitives: Boolean = false,
+    private val languageVersion: Int = Context.VERSION_DEFAULT
+) : EvalEngine, ContextFactory() {
     /**
      * Check if the given feature is enabled in the context.
      *
@@ -60,16 +62,16 @@ open class ContextFactory(
      *              the scope of the execution.
      * @return The result of the execution.
      */
-    open fun <T> call(
+    override fun <T> call(
         inputData: Any,
-        block: (context: Context, scope: ScriptableObject) -> T
+        block: (context: EvalContext) -> T
     ): T {
         return this.call { context ->
             val scope = context.initSafeStandardObjects()
 
             parseParameters(scope, context, inputData)
 
-            block(context, scope)
+            block(RhinoContext(context, scope))
         }
     }
 
