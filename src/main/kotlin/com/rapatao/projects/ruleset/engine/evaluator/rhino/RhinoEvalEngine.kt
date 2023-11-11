@@ -1,9 +1,9 @@
-package com.rapatao.projects.ruleset.engine.rhino
+package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.context.EvalEngine
-import com.rapatao.projects.ruleset.engine.rhino.parameters.MapInjector
-import com.rapatao.projects.ruleset.engine.rhino.parameters.TypedInjector
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.MapInjector
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.TypedInjector
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ContextFactory
 import org.mozilla.javascript.ScriptableObject

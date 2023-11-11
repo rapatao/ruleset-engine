@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset.engine.rhino
+package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.Expression

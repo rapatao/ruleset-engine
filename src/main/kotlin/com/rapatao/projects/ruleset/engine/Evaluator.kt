@@ -2,7 +2,7 @@ package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.context.EvalEngine
-import com.rapatao.projects.ruleset.engine.rhino.RhinoEvalEngine
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvalEngine
 import com.rapatao.projects.ruleset.engine.types.Expression
 
 /**
