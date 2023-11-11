@@ -1,5 +1,7 @@
 package com.rapatao.projects.ruleset.engine.cases
 
+import com.rapatao.projects.ruleset.engine.context.EvalEngine
+import com.rapatao.projects.ruleset.engine.rhino.RhinoEvalEngine
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
@@ -19,5 +21,11 @@ object TestData {
         item = Item(price = BigDecimal.TEN)
     )
 
-    fun allCases(): List<Arguments> = ExpressionCases.cases() + MatcherCases.cases()
+    fun engines(): List<Arguments> = listOf(Arguments.of(RhinoEvalEngine()))
+
+    fun allCases(): List<Arguments> = (ExpressionCases.cases() + MatcherCases.cases()).flatMap {
+        engines().map { engine ->
+            Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
+        }
+    }
 }

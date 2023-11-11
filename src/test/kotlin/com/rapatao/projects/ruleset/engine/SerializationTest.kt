@@ -2,6 +2,7 @@ package com.rapatao.projects.ruleset.engine
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
+import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.helper.Helper.compareMatcher
 import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.helper.Helper.mapper
@@ -23,14 +24,14 @@ class SerializationTest {
 
     @ParameterizedTest
     @MethodSource("tests")
-    fun doSerializationTest(matcher: Expression, expected: Boolean) {
+    fun doSerializationTest(engine: EvalEngine, matcher: Expression, expected: Boolean) {
         val json = mapper.writeValueAsString(matcher)
 
         val matcherFromJson = mapper.readValue<Expression>(json)
 
         compareMatcher(matcher, matcherFromJson)
 
-        doEvaluationTest(matcherFromJson, expected)
+        doEvaluationTest(engine, matcherFromJson, expected)
     }
 
     @Test
