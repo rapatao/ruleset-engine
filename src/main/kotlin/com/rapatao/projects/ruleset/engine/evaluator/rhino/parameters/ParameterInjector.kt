@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset.engine.parameters
+package com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters
 
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ScriptableObject
