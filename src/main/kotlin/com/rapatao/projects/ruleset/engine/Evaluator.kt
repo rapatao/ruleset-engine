@@ -4,6 +4,7 @@ import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvalEngine
 import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.OnFailure
 
 /**
  * The Evaluator class is used to evaluate a given rule expression against input data.
@@ -17,18 +18,20 @@ class Evaluator(
     /**
      * Evaluates the given rule expression against the provided input data.
      *
-     * @param rule The expression to be evaluated.
+     * @param expression The expression to be evaluated.
      * @param inputData The input data to be used in the evaluation.
      * @return `true` if the rule expression evaluates to `true`, `false` otherwise.
      */
-    fun evaluate(rule: Expression, inputData: Any): Boolean {
-        return engine.call(inputData) { context ->
-            val processIsTrue = rule.takeIf { v -> v.parseable() }?.processExpression(context) ?: true
-            val processNoneMatch = rule.noneMatch?.processNoneMatch(context) ?: true
-            val processAnyMatch = rule.anyMatch?.processAnyMatch(context) ?: true
-            val processAllMatch = rule.allMatch?.processAllMatch(context) ?: true
+    fun evaluate(expression: Expression, inputData: Any): Boolean {
+        return usingFailureWrapper(expression.onFailure) {
+            engine.call(inputData) { context ->
+                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(context) ?: true
+                val processNoneMatch = expression.noneMatch?.processNoneMatch(context) ?: true
+                val processAnyMatch = expression.anyMatch?.processAnyMatch(context) ?: true
+                val processAllMatch = expression.allMatch?.processAllMatch(context) ?: true
 
-            processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
+                processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
+            }
         }
     }
 
@@ -77,5 +80,21 @@ class Evaluator(
         return allMatch
     }
 
-    private fun Expression.processExpression(context: EvalContext): Boolean = context.process(this)
+    private fun Expression.processExpression(context: EvalContext): Boolean {
+        return usingFailureWrapper(this.onFailure) {
+            context.process(this)
+        }
+    }
+
+    private fun usingFailureWrapper(onFailure: OnFailure, block: () -> Boolean): Boolean {
+        return try {
+            block()
+        } catch (@SuppressWarnings("TooGenericExceptionCaught") e: Exception) {
+            when (onFailure) {
+                OnFailure.TRUE -> true
+                OnFailure.FALSE -> false
+                OnFailure.THROW -> throw e
+            }
+        }
+    }
 }

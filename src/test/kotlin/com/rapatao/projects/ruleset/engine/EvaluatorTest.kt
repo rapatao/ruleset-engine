@@ -26,6 +26,9 @@ internal class EvaluatorTest {
 
         @JvmStatic
         fun tests() = TestData.allCases()
+
+        @JvmStatic
+        fun onFailure() = TestData.onFailureCases()
     }
 
     @ParameterizedTest
@@ -34,6 +37,20 @@ internal class EvaluatorTest {
         println(ruleSet)
 
         doEvaluationTest(engine, ruleSet, expected)
+    }
+
+    @ParameterizedTest
+    @MethodSource("onFailure")
+    fun `assert onFailure`(engine: EvalEngine, ruleSet: Expression, expected: Boolean, isError: Boolean) {
+        println(ruleSet)
+
+        if (isError) {
+            assertThrows<Exception> {
+                doEvaluationTest(engine, ruleSet, expected)
+            }
+        } else {
+            doEvaluationTest(engine, ruleSet, expected)
+        }
     }
 
     @Test

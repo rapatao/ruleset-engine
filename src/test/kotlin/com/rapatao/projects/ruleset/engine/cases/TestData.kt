@@ -28,4 +28,10 @@ object TestData {
             Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
         }
     }
+
+    fun onFailureCases(): List<Arguments> = (OnFailureCases.cases()).flatMap {
+        engines().map { engine ->
+            Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
+        }
+    }
 }

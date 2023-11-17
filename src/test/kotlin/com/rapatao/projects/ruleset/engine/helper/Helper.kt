@@ -22,7 +22,7 @@ object Helper {
         val evaluator = Evaluator(engine = engine)
 
         assertThat(
-            evaluator.evaluate(rule = ruleSet, inputData = TestData.inputData),
+            evaluator.evaluate(expression = ruleSet, inputData = TestData.inputData),
             equalTo(expected)
         )
     }
