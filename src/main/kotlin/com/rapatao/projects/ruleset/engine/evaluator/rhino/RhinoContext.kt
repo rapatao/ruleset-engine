@@ -2,7 +2,6 @@ package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.Expression
-import com.rapatao.projects.ruleset.engine.types.OnFailure
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
@@ -27,16 +26,8 @@ class RhinoContext(
      * @throws Exception if the expression processing fails and onFailure is set to THROW
      */
     override fun process(expression: Expression): Boolean {
-        return try {
-            true == expression.asScript(context)
-                .exec(context, scope)
-        } catch (@SuppressWarnings("TooGenericExceptionCaught") e: Exception) {
-            when (expression.onFailure) {
-                OnFailure.TRUE -> true
-                OnFailure.FALSE -> false
-                OnFailure.THROW -> throw e
-            }
-        }
+        return true == expression.asScript(context)
+            .exec(context, scope)
     }
 
     /**
