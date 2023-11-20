@@ -11,8 +11,8 @@ import org.mozilla.javascript.ScriptableObject
  * RhinoContext is a class that implements the EvalContext interface.
  * It provides the ability to process expressions using the Rhino JavaScript engine.
  *
- * @param context The Rhino Context object.
- * @param scope The ScriptableObject representing the scope in which the expressions will be executed.
+ * @property context The Rhino Context object.
+ * @property scope The ScriptableObject representing the scope in which the expressions will be executed.
  */
 class RhinoContext(
     private val context: Context,
@@ -38,6 +38,20 @@ class RhinoContext(
             }
         }
     }
+
+    /**
+     * Returns the Rhino context.
+     *
+     * @return The Rhino context.
+     */
+    fun context() = context
+
+    /**
+     * Returns the Rhino scope.
+     *
+     * @return The Rhino scope.
+     */
+    fun scope() = scope
 
     private fun Expression.asScript(context: Context): Script {
         val script = Parser.parse(this)
