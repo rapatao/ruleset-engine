@@ -8,14 +8,16 @@ import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.anyMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.noneMatch
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
-import com.rapatao.projects.ruleset.engine.types.builder.greaterOrEqualThan
-import com.rapatao.projects.ruleset.engine.types.builder.greaterThan
-import com.rapatao.projects.ruleset.engine.types.builder.isFalse
-import com.rapatao.projects.ruleset.engine.types.builder.isTrue
-import com.rapatao.projects.ruleset.engine.types.builder.lessOrEqualThan
-import com.rapatao.projects.ruleset.engine.types.builder.lessThan
-import com.rapatao.projects.ruleset.engine.types.builder.notEqualsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.endsWith
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.isFalse
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.isTrue
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.notEqualsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.startsWith
 import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
@@ -57,6 +59,12 @@ internal class SerializationExamplesBuilder {
 
         "* lessOrEqualThan: ",
         "field" lessOrEqualThan 10,
+
+        "* startsWith:",
+        "field" startsWith "fi",
+
+        "* endsWith:",
+        "field" endsWith "ld",
 
         "* allMatch: ",
         allMatch(

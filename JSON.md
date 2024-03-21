@@ -114,6 +114,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 }
 ```
 
+* startsWith:
+
+```json
+{
+  "left" : "field",
+  "operator" : "STARTS_WITH",
+  "right" : "fi"
+}
+```
+
+* endsWith:
+
+```json
+{
+  "left" : "field",
+  "operator" : "ENDS_WITH",
+  "right" : "ld"
+}
+```
+
 * allMatch: 
 
 ```json

@@ -6,8 +6,8 @@ import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
-import com.rapatao.projects.ruleset.engine.types.builder.ifFail
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Disabled

@@ -2,7 +2,7 @@ package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import org.junit.jupiter.params.provider.Arguments
 
 object OnFailureCases {
