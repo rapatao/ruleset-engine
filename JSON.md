@@ -120,7 +120,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "left" : "field",
   "operator" : "STARTS_WITH",
-  "right" : "fi"
+  "right" : "\"fi\""
 }
 ```
 
@@ -130,7 +130,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "left" : "field",
   "operator" : "ENDS_WITH",
-  "right" : "ld"
+  "right" : "\"ld\""
 }
 ```
 

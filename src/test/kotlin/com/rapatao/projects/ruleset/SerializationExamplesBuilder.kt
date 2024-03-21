@@ -61,10 +61,10 @@ internal class SerializationExamplesBuilder {
         "field" lessOrEqualThan 10,
 
         "* startsWith:",
-        "field" startsWith "fi",
+        "field" startsWith "\"fi\"",
 
         "* endsWith:",
-        "field" endsWith "ld",
+        "field" endsWith "\"ld\"",
 
         "* allMatch: ",
         allMatch(
