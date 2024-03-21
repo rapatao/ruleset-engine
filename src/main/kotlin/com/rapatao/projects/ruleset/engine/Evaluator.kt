@@ -24,60 +24,48 @@ class Evaluator(
      */
     fun evaluate(expression: Expression, inputData: Any): Boolean {
         return usingFailureWrapper(expression.onFailure) {
-            engine.call(inputData) { context ->
-                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(context) ?: true
-                val processNoneMatch = expression.noneMatch?.processNoneMatch(context) ?: true
-                val processAnyMatch = expression.anyMatch?.processAnyMatch(context) ?: true
-                val processAllMatch = expression.allMatch?.processAllMatch(context) ?: true
+            engine.call(inputData) {
+                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(this) ?: true
+                val processNoneMatch = expression.noneMatch?.processNoneMatch(this) ?: true
+                val processAnyMatch = expression.anyMatch?.processAnyMatch(this) ?: true
+                val processAllMatch = expression.allMatch?.processAllMatch(this) ?: true
 
                 processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
             }
         }
     }
 
-    private fun List<Expression>.processNoneMatch(
-        context: EvalContext,
-    ): Boolean {
-        val noneMatch = this.firstOrNull {
+    private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
+        return this.none {
             val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == true
             val noneMatch = it.noneMatch?.processNoneMatch(context) == false
             val anyMatch = it.anyMatch?.processAnyMatch(context) == true
             val allMatch = it.allMatch?.processAllMatch(context) == true
 
             isTrue || noneMatch || anyMatch || allMatch
-        } == null
-
-        return noneMatch
+        }
     }
 
-    private fun List<Expression>.processAnyMatch(
-        context: EvalContext,
-    ): Boolean {
-        val anyMatch = this.firstOrNull {
+    private fun List<Expression>.processAnyMatch(context: EvalContext): Boolean {
+        return this.any {
             val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == true
             val anyMatch = it.anyMatch?.processAnyMatch(context) ?: false
             val noneMatch = it.noneMatch?.processNoneMatch(context) == true
             val allMatch = it.allMatch?.processAllMatch(context) == true
 
             isTrue || anyMatch || noneMatch || allMatch
-        } != null
-
-        return anyMatch
+        }
     }
 
-    private fun List<Expression>.processAllMatch(
-        context: EvalContext,
-    ): Boolean {
-        val allMatch = this.firstOrNull {
+    private fun List<Expression>.processAllMatch(context: EvalContext): Boolean {
+        return this.none {
             val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == false
             val anyMatch = it.anyMatch?.processAnyMatch(context) == false
             val noneMatch = it.noneMatch?.processNoneMatch(context) == false
             val allMatch = it.allMatch?.processAllMatch(context) == false
 
             isTrue || anyMatch || noneMatch || allMatch
-        } == null
-
-        return allMatch
+        }
     }
 
     private fun Expression.processExpression(context: EvalContext): Boolean {
