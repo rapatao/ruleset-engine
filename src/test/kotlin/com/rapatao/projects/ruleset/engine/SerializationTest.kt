@@ -9,8 +9,8 @@ import com.rapatao.projects.ruleset.engine.helper.Helper.mapper
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure.THROW
 import com.rapatao.projects.ruleset.engine.types.OnFailure.TRUE
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
-import com.rapatao.projects.ruleset.engine.types.builder.ifFail
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource

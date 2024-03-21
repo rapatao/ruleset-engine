@@ -36,32 +36,47 @@ builder: `com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder`
 
 To create custom operations, just extends the interface `com.rapatao.projects.ruleset.engine.types.Expression`
 
+| operator              | description                                             |
+|-----------------------|---------------------------------------------------------|
+| EQUALS                | Represents the equals operator (`==`)                   |
+| NOT_EQUALS            | Represents the not equals operator (`!=`)               |
+| GREATER_THAN          | Represents the greater than operator (`>`)              |
+| GREATER_OR_EQUAL_THAN | Represents the greater than or equal to operator (`>=`) |
+| LESS_THAN             | Represents the less than operator (`<`)                 |
+| LESS_OR_EQUAL_THAN    | Represents the less than or equal to operator (`<=`)    |
+| STARTS_WITH           | Represents the `startsWith` operation                   |
+| ENDS_WITH             | Represents the `endsWith` operation                     |
+
 ### Examples
 
 ````kotlin
-"field".isTrue(),
+"field".isTrue()
 
-"field".isFalse(),
+"field".isFalse()
 
-"field" equalsTo 10,
+"field" equalsTo 10
 
-"field" equalsTo "\"value\"",
+"field" equalsTo "\"value\""
 
-"field" equalsTo "value",
+"field" equalsTo "value"
 
-"field" notEqualsTo 10,
+"field" notEqualsTo 10
 
-"field" notEqualsTo "\"value\"",
+"field" notEqualsTo "\"value\""
 
-"field" notEqualsTo "value",
+"field" notEqualsTo "value"
 
-"field" greaterThan 10,
+"field" greaterThan 10
 
-"field" greaterOrEqualThan 10,
+"field" greaterOrEqualThan 10
 
-"field" lessThan 10,
+"field" lessThan 10
 
-"field" lessOrEqualThan 10,
+"field" lessOrEqualThan 10
+
+"field" startsWith "\"fie\""
+
+"field" endsWith "\"eld\""
 ````
 
 ## Supported group operations

@@ -2,12 +2,14 @@ package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Operator
+import com.rapatao.projects.ruleset.engine.types.Operator.ENDS_WITH
 import com.rapatao.projects.ruleset.engine.types.Operator.EQUALS
 import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_OR_EQUAL_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.LESS_OR_EQUAL_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.LESS_THAN
 import com.rapatao.projects.ruleset.engine.types.Operator.NOT_EQUALS
+import com.rapatao.projects.ruleset.engine.types.Operator.STARTS_WITH
 
 /**
  * A utility class for building expressions using different operators.
@@ -19,7 +21,7 @@ object ExpressionBuilder {
      *
      * @param left the value to set as the left property of the [Builder] instance.
      */
-    fun left(left: Any) = Builder(left)
+    fun left(left: Any?) = Builder(left)
 
     /**
      * Checks if the given expression evaluates to true.
@@ -27,7 +29,7 @@ object ExpressionBuilder {
      * @param expression The expression to be evaluated.
      * @return true if the expression evaluates to true, false otherwise.
      */
-    fun isTrue(expression: Any) = left(expression).isTrue()
+    fun isTrue(expression: Any?) = left(expression).isTrue()
 
     /**
      * Checks if the given expression evaluates to false.
@@ -35,7 +37,7 @@ object ExpressionBuilder {
      * @param expression the expression to be evaluated
      * @return true if the expression evaluates to false, false otherwise
      */
-    fun isFalse(expression: Any) = left(expression).isFalse()
+    fun isFalse(expression: Any?) = left(expression).isFalse()
 
     /**
      * Creates an expression using the given left operand, operator, and right operand.
@@ -45,7 +47,7 @@ object ExpressionBuilder {
      * @param right The right operand of the expression.
      * @return The created expression.
      */
-    fun expression(left: Any, operator: Operator, right: Any) = Expression(
+    fun expression(left: Any?, operator: Operator, right: Any?) = Expression(
         left = left, operator = operator, right = right
     )
 
@@ -54,7 +56,7 @@ object ExpressionBuilder {
      *
      * @param left The left-hand side of the expression.
      */
-    class Builder(private val left: Any) {
+    class Builder(private val left: Any?) {
         /**
          * Creates an expression that represents the "equals to" comparison between the left operand and the right
          * operand.
@@ -62,7 +64,7 @@ object ExpressionBuilder {
          * @param right The right operand to compare.
          * @return The expression representing the "equals to" comparison.
          */
-        infix fun equalsTo(right: Any) = Expression(left = left, operator = EQUALS, right = right)
+        infix fun equalsTo(right: Any?) = Expression(left = left, operator = EQUALS, right = right)
 
         /**
          * Creates an expression representing the inequality comparison between the left-hand side and the right-hand
@@ -71,7 +73,7 @@ object ExpressionBuilder {
          * @param right The right-hand side of the comparison.
          * @return A new expression representing the inequality comparison.
          */
-        infix fun notEqualsTo(right: Any) = Expression(left = left, operator = NOT_EQUALS, right = right)
+        infix fun notEqualsTo(right: Any?) = Expression(left = left, operator = NOT_EQUALS, right = right)
 
         /**
          * Creates an Expression object representing the greater-than comparison between the left operand and the right
@@ -123,5 +125,25 @@ object ExpressionBuilder {
          * @return The boolean expression representing if the condition is false.
          */
         fun isFalse() = Expression(left = left, operator = EQUALS, right = false)
+
+        /**
+         * Creates an expression that checks if the left operand starts with the specified right operand.
+         *
+         * @param right The value to check if the left operand starts with.
+         * @return An Expression object representing the "starts with" condition.
+         */
+        fun startsWith(right: Any?) = Expression(
+            left = left, operator = STARTS_WITH, right = right
+        )
+
+        /**
+         * Creates an expression that checks if the left operand ends with the specified right operand.
+         *
+         * @param right The value to check if the left operand ends with.
+         * @return An Expression object representing the "ends with" condition.
+         */
+        fun endsWith(right: Any?) = Expression(
+            left = left, operator = ENDS_WITH, right = right
+        )
     }
 }

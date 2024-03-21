@@ -1,18 +1,18 @@
 package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.builder.asExpression
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
-import com.rapatao.projects.ruleset.engine.types.builder.from
-import com.rapatao.projects.ruleset.engine.types.builder.fromInclusive
-import com.rapatao.projects.ruleset.engine.types.builder.greaterOrEqualThan
-import com.rapatao.projects.ruleset.engine.types.builder.greaterThan
-import com.rapatao.projects.ruleset.engine.types.builder.ifFail
-import com.rapatao.projects.ruleset.engine.types.builder.isFalse
-import com.rapatao.projects.ruleset.engine.types.builder.isTrue
-import com.rapatao.projects.ruleset.engine.types.builder.lessOrEqualThan
-import com.rapatao.projects.ruleset.engine.types.builder.lessThan
-import com.rapatao.projects.ruleset.engine.types.builder.notEqualsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.asExpression
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.from
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.fromInclusive
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.isFalse
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.isTrue
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessThan
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.notEqualsTo
 import org.junit.jupiter.params.provider.Arguments
 
 object ExpressionCases {

@@ -5,15 +5,20 @@ import com.rapatao.projects.ruleset.engine.types.Operator
 
 internal object Parser {
     fun parse(expression: Expression): String {
-        val operator = when (expression.operator) {
-            Operator.GREATER_THAN -> ">"
-            Operator.GREATER_OR_EQUAL_THAN -> ">="
-            Operator.LESS_THAN -> "<"
-            Operator.LESS_OR_EQUAL_THAN -> "<="
-            Operator.NOT_EQUALS -> "!="
-            else -> "=="
+        return when (expression.operator) {
+            Operator.GREATER_THAN -> ">".formatComparison(expression)
+            Operator.GREATER_OR_EQUAL_THAN -> ">=".formatComparison(expression)
+            Operator.LESS_THAN -> "<".formatComparison(expression)
+            Operator.LESS_OR_EQUAL_THAN -> "<=".formatComparison(expression)
+            Operator.NOT_EQUALS -> "!=".formatComparison(expression)
+            Operator.STARTS_WITH -> "startsWith".formatWithOperation(expression)
+            Operator.ENDS_WITH -> "endsWith".formatWithOperation(expression)
+            else -> "==".formatComparison(expression)
         }
-
-        return "(${expression.left}) $operator (${expression.right})"
     }
+
+    private fun String.formatComparison(expression: Expression) = "(${expression.left}) $this (${expression.right})"
+
+    private fun String.formatWithOperation(expression: Expression) =
+        "${expression.left}.${this}(${expression.right})"
 }

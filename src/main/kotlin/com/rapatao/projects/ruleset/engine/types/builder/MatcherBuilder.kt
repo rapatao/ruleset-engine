@@ -1,6 +1,7 @@
 package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.asExpression
 
 /**
  * The `MatcherBuilder` class provides static methods for building expressions using matchers.
