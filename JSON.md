@@ -223,22 +223,6 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 
 ```json
 {
-  "left" : "item.price <= 1000",
-  "operator" : "EQUALS",
-  "right" : true
-}
-```
-
-```json
-{
-  "left" : "item.price >= 1000",
-  "operator" : "EQUALS",
-  "right" : true
-}
-```
-
-```json
-{
   "left" : "item.price",
   "operator" : "EQUALS",
   "right" : 10
@@ -818,9 +802,9 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -828,9 +812,9 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -838,13 +822,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "10000"
   } ]
 }
 ```
@@ -852,13 +836,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -866,13 +850,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -880,13 +864,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -894,30 +878,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -926,14 +894,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -942,14 +910,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -958,14 +926,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -974,14 +942,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -990,26 +958,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1018,26 +974,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1046,26 +1002,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1074,26 +1030,54 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "noneMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "noneMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1102,9 +1086,9 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1112,9 +1096,9 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1122,13 +1106,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1136,13 +1120,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1150,13 +1134,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1164,13 +1148,13 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   } ]
 }
 ```
@@ -1178,30 +1162,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1210,14 +1178,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1226,14 +1194,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1242,14 +1210,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
-    "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1258,14 +1226,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1274,26 +1242,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1302,26 +1258,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1330,26 +1286,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1358,26 +1314,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "allMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1385,267 +1341,27 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 
 ```json
 {
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+  "allMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price <= 1000",
-    "operator" : "EQUALS",
-    "right" : true
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1654,26 +1370,62 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1682,26 +1434,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1710,26 +1450,14 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
@@ -1738,26 +1466,282 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "anyMatch" : [ {
-    "left" : "item.price >= 1000",
-    "operator" : "EQUALS",
-    "right" : true
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
   }, {
     "anyMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "LESS_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
-      "left" : "item.price >= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
-      "left" : "item.price <= 1000",
-      "operator" : "EQUALS",
-      "right" : true
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "GREATER_OR_EQUAL_THAN",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "GREATER_OR_EQUAL_THAN",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "LESS_OR_EQUAL_THAN",
+      "right" : "1000"
     } ]
   } ]
 }
