@@ -13,6 +13,8 @@ class KotlinEvalEngine : EvalEngine {
         return block(KotlinContext(params))
     }
 
+    override fun name(): String = "KotlinEval"
+
     private fun parseKeys(node: String, params: MutableMap<String, Any?>, input: Any?) {
         when {
             input.isValue() -> {
