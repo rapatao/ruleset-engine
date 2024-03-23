@@ -91,7 +91,7 @@ class KotlinContext(
                     throw NoSuchElementException("$key not found")
                 }
             }
-        ).firstNotNullOf { it() }
+        ).firstNotNullOfOrNull { it() }
     }
 
     private fun String.unwrap() = this.trim()
