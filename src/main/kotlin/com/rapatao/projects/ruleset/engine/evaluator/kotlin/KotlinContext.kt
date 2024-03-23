@@ -64,39 +64,9 @@ class KotlinContext(
 
     private fun Any?.asValue(): Any? {
         val result = when {
-            this is String && !this.trim().matches(Regex("\".*\"")) -> {
-                val key = this.trim()
-                    .replace(Regex("^\""), "")
-                    .replace(Regex("\"$"), "")
-
-                key.toBigDecimalOrNull()?.let {
-                    return it
-                }
-
-                key.toBooleanStrictOrNull()?.let {
-                    return it
-                }
-
-                if (!inputData.containsKey(key)) {
-                    throw NoSuchElementException("$key not found")
-                }
-
-                inputData[
-                    this.trim()
-                        .replace(Regex("^\""), "")
-                        .replace(Regex("\"$"), "")
-                ]
-            }
-
-            this is String && this.trim().matches(Regex("\".*\"")) -> {
-                this.trim()
-                    .replace(Regex("^\""), "")
-                    .replace(Regex("\"$"), "")
-            }
-
-            else -> {
-                this
-            }
+            this is String && !this.trim().matches(Regex("^\".*\"$")) -> rawValue()
+            this is String && this.trim().matches(Regex("\".*\"")) -> this.unwrap()
+            else -> this
         }
 
         if (result is Number && (result is Double || result is Float)) {
@@ -108,4 +78,26 @@ class KotlinContext(
 
         return result
     }
+
+    private fun String.rawValue(): Any? {
+        val key = this.unwrap()
+
+        return listOf(
+            {
+                key.toBigDecimalOrNull()
+            },
+            {
+                key.toBooleanStrictOrNull()
+            },
+            {
+                inputData.getOrElse(key) {
+                    throw NoSuchElementException("$key not found")
+                }
+            }
+        ).firstNotNullOf { it() }
+    }
+
+    private fun String.unwrap() = this.trim()
+        .replace(Regex("^\""), "")
+        .replace(Regex("\"$"), "")
 }
