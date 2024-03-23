@@ -54,10 +54,10 @@ internal class EvaluatorTest {
     }
 
     @Test
-    @Disabled
+    // @Disabled
     fun `runs the last test scenario`() {
         // val caseNumber = tests().size
-        val caseNumber = 70
+        val caseNumber = 242
 
         val cases: List<Arguments> = tests()
         val test = cases[caseNumber - 1].get()
