@@ -2,6 +2,7 @@ package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Operator
+import com.rapatao.projects.ruleset.engine.types.Operator.CONTAINS
 import com.rapatao.projects.ruleset.engine.types.Operator.ENDS_WITH
 import com.rapatao.projects.ruleset.engine.types.Operator.EQUALS
 import com.rapatao.projects.ruleset.engine.types.Operator.GREATER_OR_EQUAL_THAN
@@ -56,6 +57,7 @@ object ExpressionBuilder {
      *
      * @param left The left-hand side of the expression.
      */
+    @Suppress("TooManyFunctions")
     class Builder(private val left: Any?) {
         /**
          * Creates an expression that represents the "equals to" comparison between the left operand and the right
@@ -144,6 +146,18 @@ object ExpressionBuilder {
          */
         fun endsWith(right: Any?) = Expression(
             left = left, operator = ENDS_WITH, right = right
+        )
+
+        /**
+         * Creates an expression to check if the left operand contains the right operand.
+         * If the left operand is a string, it checks if the string contains the value of the right operand.
+         * If the left operand is a list, it checks if the list contains the right operand.
+         *
+         * @param right The value to be checked for containment within the left operand. Can be of any type.
+         * @return An [Expression] object representing the containment check, with the operator set to CONTAINS.
+         */
+        fun contains(right: Any?) = Expression(
+            left = left, operator = CONTAINS, right = right
         )
     }
 }

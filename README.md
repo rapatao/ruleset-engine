@@ -36,16 +36,17 @@ builder: `com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder`
 
 To create custom operations, just extends the interface `com.rapatao.projects.ruleset.engine.types.Expression`
 
-| operator              | description                                             |
-|-----------------------|---------------------------------------------------------|
-| EQUALS                | Represents the equals operator (`==`)                   |
-| NOT_EQUALS            | Represents the not equals operator (`!=`)               |
-| GREATER_THAN          | Represents the greater than operator (`>`)              |
-| GREATER_OR_EQUAL_THAN | Represents the greater than or equal to operator (`>=`) |
-| LESS_THAN             | Represents the less than operator (`<`)                 |
-| LESS_OR_EQUAL_THAN    | Represents the less than or equal to operator (`<=`)    |
-| STARTS_WITH           | Represents the `startsWith` operation                   |
-| ENDS_WITH             | Represents the `endsWith` operation                     |
+| operator              | description                                                                                                                             |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| EQUALS                | Represents the equality operator (==), used to check if two values are equal.                                                           |
+| NOT_EQUALS            | Represents the inequality operator (!=), used to check if two values are not equal.                                                     |
+| GREATER_THAN          | Represents the greater than operator (>), used to compare if one value is greater than another.                                         |
+| GREATER_OR_EQUAL_THAN | Represents the greater than or equal to operator (>=), used to compare if one value is greater than or equal to another.                |
+| LESS_THAN             | Represents the less than operator (<), used to compare if one value is less than another.                                               |
+| LESS_OR_EQUAL_THAN    | Represents the less than or equal to operator (<=), used to compare if one value is less than or equal to another.                      |
+| STARTS_WITH           | Represents the operation to check if a string starts with a specified sequence of characters.                                           |
+| ENDS_WITH             | Represents the operation to check if a string ends with a specified sequence of characters.                                             |
+| CONTAINS              | Represents the operation to check if a string contains a specified sequence of characters or if an array contains a particular element. |
 
 ### Examples
 
@@ -74,9 +75,11 @@ To create custom operations, just extends the interface `com.rapatao.projects.ru
 
 "field" lessOrEqualThan 10
 
-"field" startsWith "\"fie\""
+"field" startsWith "\"value\""
 
-"field" endsWith "\"eld\""
+"field" endsWith "\"value\""
+
+"field" expContains "\"value\""
 ````
 
 ## Supported group operations

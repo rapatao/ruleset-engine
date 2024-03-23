@@ -2,14 +2,14 @@ package com.rapatao.projects.ruleset
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.rapatao.projects.ruleset.engine.cases.ExpressionCases
-import com.rapatao.projects.ruleset.engine.cases.MatcherCases
+import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.anyMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.noneMatch
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.endsWith
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.expContains
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.isFalse
@@ -61,10 +61,13 @@ internal class SerializationExamplesBuilder {
         "field" lessOrEqualThan 10,
 
         "* startsWith:",
-        "field" startsWith "\"fi\"",
+        "field" startsWith "\"value\"",
 
         "* endsWith:",
-        "field" endsWith "\"ld\"",
+        "field" endsWith "\"value\"",
+
+        "* contains:",
+        "field" expContains "\"value\"",
 
         "* allMatch: ",
         allMatch(
@@ -101,9 +104,9 @@ internal class SerializationExamplesBuilder {
         ),
     )
 
-    private val casesFromTests =
-        ExpressionCases.cases().flatMap { it.get().toList() }.filterIsInstance<Expression>() +
-            MatcherCases.cases().flatMap { it.get().toList() }.filterIsInstance<Expression>()
+    private val casesFromTests = TestData.allCases()
+        .flatMap { it.get().toList() }
+        .filterIsInstance<Expression>()
 
     @Test
     fun print() {
