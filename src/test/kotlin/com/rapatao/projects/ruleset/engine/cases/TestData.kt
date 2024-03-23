@@ -35,7 +35,7 @@ object TestData {
         Arguments.of(KotlinEvalEngine()),
     )
 
-    fun allCases(): List<Arguments> = getCases().flatMap {
+    fun allCases(): List<Arguments> = cases().flatMap {
         engines().map { engine ->
             Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
         }
@@ -47,7 +47,7 @@ object TestData {
         }
     }
 
-    private fun getCases() =
+    fun cases() =
         ExpressionCases.cases() +
             MatcherCases.cases() +
             OperatorWithCases.cases() +
