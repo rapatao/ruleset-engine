@@ -69,14 +69,11 @@ class KotlinContext(
             else -> this
         }
 
-        if (result is Number && (result is Double || result is Float)) {
-            return BigDecimal(result.toDouble())
+        return when {
+            result is Number && (result is Double || result is Float) -> BigDecimal(result.toDouble())
+            result is Number && result !is Byte -> BigDecimal.valueOf(result.toLong())
+            else -> result
         }
-        if (result is Number && result !is Byte) {
-            return BigDecimal.valueOf(result.toLong())
-        }
-
-        return result
     }
 
     private fun String.rawValue(): Any? {
