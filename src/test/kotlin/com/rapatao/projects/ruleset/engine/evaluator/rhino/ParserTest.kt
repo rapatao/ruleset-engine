@@ -4,6 +4,7 @@ import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.Operator
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.endsWith
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.expContains
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualThan
@@ -47,6 +48,9 @@ class ParserTest {
             ),
             Arguments.of(
                 ("field" endsWith 10),
+            ),
+            Arguments.of(
+                ("field" expContains "iel"),
             ),
         )
     }

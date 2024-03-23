@@ -13,12 +13,25 @@ internal object Parser {
             Operator.NOT_EQUALS -> "!=".formatComparison(expression)
             Operator.STARTS_WITH -> "startsWith".formatWithOperation(expression)
             Operator.ENDS_WITH -> "endsWith".formatWithOperation(expression)
+            Operator.CONTAINS -> formatContainsOperation(expression)
             else -> "==".formatComparison(expression)
         }
     }
 
-    private fun String.formatComparison(expression: Expression) = "(${expression.left}) $this (${expression.right})"
+    private fun String.formatComparison(expression: Expression) =
+        "(${expression.left}) $this (${expression.right})"
 
     private fun String.formatWithOperation(expression: Expression) =
         "${expression.left}.${this}(${expression.right})"
+
+    private fun formatContainsOperation(expression: Expression) =
+        """
+        (function() {
+            if (Array.isArray(${expression.left})) {
+                return ${expression.left}.includes(${expression.right})
+            } else {
+                return ${expression.left}.indexOf(${expression.right}) !== -1
+            }
+        })()
+        """.trimIndent()
 }

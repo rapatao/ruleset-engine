@@ -120,7 +120,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "left" : "field",
   "operator" : "STARTS_WITH",
-  "right" : "\"fi\""
+  "right" : "\"value\""
 }
 ```
 
@@ -130,7 +130,17 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "left" : "field",
   "operator" : "ENDS_WITH",
-  "right" : "\"ld\""
+  "right" : "\"value\""
+}
+```
+
+* contains:
+
+```json
+{
+  "left" : "field",
+  "operator" : "CONTAINS",
+  "right" : "\"value\""
 }
 ```
 
@@ -1744,6 +1754,70 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
       "right" : "1000"
     } ]
   } ]
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "STARTS_WITH",
+  "right" : "\"product\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "STARTS_WITH",
+  "right" : "\"name\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "ENDS_WITH",
+  "right" : "\"name\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "ENDS_WITH",
+  "right" : "\"product\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "CONTAINS",
+  "right" : "\"duct\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "CONTAINS",
+  "right" : "\"different value\""
+}
+```
+
+```json
+{
+  "left" : "item.tags",
+  "operator" : "CONTAINS",
+  "right" : "\"test\""
+}
+```
+
+```json
+{
+  "left" : "item.tags",
+  "operator" : "CONTAINS",
+  "right" : "\"different value\""
 }
 ```
 
