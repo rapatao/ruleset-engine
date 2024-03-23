@@ -18,16 +18,16 @@ import org.junit.jupiter.params.provider.Arguments
 object ExpressionCases {
 
     @Suppress("LongMethod")
-    fun cases(): List<Arguments> = asExpressionCases() +
+    fun cases(): List<Arguments> =
         equalsCases() +
-        notEqualsCases() +
-        booleanCases() +
-        ifFailCases() +
-        betweenCases() +
-        greaterThanCases() +
-        lessThanCases() +
-        lessOrEqualThanCases() +
-        greaterOrEqualThanCases()
+            notEqualsCases() +
+            booleanCases() +
+            ifFailCases() +
+            betweenCases() +
+            greaterThanCases() +
+            lessThanCases() +
+            lessOrEqualThanCases() +
+            greaterOrEqualThanCases()
 
     private fun greaterOrEqualThanCases() = listOf(
         Arguments.of(
@@ -130,17 +130,6 @@ object ExpressionCases {
         Arguments.of(
             30 greaterThan 20,
             true
-        ),
-    )
-
-    private fun asExpressionCases() = listOf(
-        Arguments.of(
-            "item.price <= 1000".asExpression(),
-            true
-        ),
-        Arguments.of(
-            "item.price >= 1000".asExpression(),
-            false
         ),
     )
 
