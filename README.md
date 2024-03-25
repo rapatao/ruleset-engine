@@ -3,8 +3,29 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.rapatao.ruleset/ruleset-engine.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:com.rapatao.ruleset%20AND%20a:ruleset-engine)
 [![Sonatype OSS](https://img.shields.io/nexus/r/com.rapatao.ruleset/ruleset-engine?label=Sonatype%20OSS&server=https%3A%2F%2Foss.sonatype.org)](https://ossindex.sonatype.org/component/pkg:maven/com.rapatao.ruleset/ruleset-engine)
 
-A simple rule engine that uses [Rhino](https://github.com/mozilla/rhino) implementation of JavaScript to evaluate
-expressions.
+Simple yet powerful rules engine that offers the flexibility of using the built-in engine and creating a custom one.
+
+## Available Engines
+
+Below are the available engines that can be used to evaluate expressions:
+
+### Mozilla Rhino (JavaScript) engine implementation
+
+[Rhino](https://github.com/mozilla/rhino) is an open-source, embeddable JavaScript interpreter from Mozilla.
+This engine implementation supports using JavaScript expressions inside the rule operands.
+
+### Kotlin (internal) engine implementation
+
+This engine only uses Kotlin code to support all Operator functions., supporting all Operator functions.
+Although it provides an expressive performance, it doesn't support Kotlin expression into the expression operands.
+
+Supported types:
+
+1. primitive Java types, boolean, string, number (extends)
+2. custom objects (reflection)
+3. maps
+4. lists
+5. arrays
 
 ## Get started
 
@@ -25,6 +46,30 @@ implementation "com.rapatao.ruleset:ruleset-engine:$rulesetVersion"
     <artifactId>ruleset-engine</artifactId>
     <version>$rulesetVersion</version>
 </dependency>
+```
+
+### Usage
+
+```kotlin
+
+import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
+
+val rule = "item.price" equalsTo 0
+
+// val engine = RhinoEvalEngine() // default engine
+// val engine = KotlinEvalEngine()
+val evaluator = Evaluator(/* engine = engine */)
+
+val result = evaluator.evaluate(rule, mapOf("item" to mapOf("price" to 0)))
+println(result) // true
+
+
+data class Item(val price: Double)
+data class Input(val item: Item)
+
+val result2 = evaluator.evaluate(rule, Input(item = Item(price = 0.0)))
+println(result) // true
 ```
 
 ## Supported operations (expressions)
@@ -144,24 +189,3 @@ val asMatcher: Expression = mapper.readValue(json)
 ```
 
 Serialized examples can be checked [here](JSON.md)
-
-## Usage example
-
-```kotlin
-import com.rapatao.projects.ruleset.engine.Evaluator
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
-
-val rule = "item.price" equalsTo 0
-
-val evaluator = Evaluator()
-
-val result = evaluator.evaluate(rule, mapOf("item" to mapOf("price" to 0)))
-println(result) // true
-
-
-data class Item(val price: Double)
-data class Input(val item: Item)
-
-val result2 = evaluator.evaluate(rule, Input(item = Item(price = 0.0)))
-println(result) // true
-```
