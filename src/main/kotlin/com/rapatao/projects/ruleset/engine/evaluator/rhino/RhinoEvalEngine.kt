@@ -9,7 +9,7 @@ import org.mozilla.javascript.ContextFactory
 import org.mozilla.javascript.ScriptableObject
 
 /**
- * A factory for creating JavaScript contexts with customizable options.
+ * An evaluator engine implementation that uses Mozilla Rhino to evaluate JavaScript contexts with customizable options.
  *
  * @property optimizationLevel The optimization level for the context. Defaults to -1.
  * @property wrapJavaPrimitives Determines if Java primitive values should be wrapped in their corresponding JavaScript
