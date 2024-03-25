@@ -35,6 +35,9 @@ class KotlinContext(
 
         return listOf(
             {
+                key.toBigIntegerOrNull()
+            },
+            {
                 key.toBigDecimalOrNull()
             },
             {
