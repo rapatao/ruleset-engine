@@ -16,10 +16,11 @@ class KotlinContext(
 ) : EvalContext {
 
     override fun process(expression: Expression): Boolean {
-        val left = expression.left.asValue()
-        val right = expression.right.asValue()
-
-        return parse(expression, left, right)
+        return parse(
+            expression,
+            expression.left.asValue(),
+            expression.right.asValue()
+        )
     }
 
     private fun Any?.asValue(): Any? {
