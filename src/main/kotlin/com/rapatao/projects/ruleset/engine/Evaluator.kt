@@ -35,6 +35,13 @@ class Evaluator(
         }
     }
 
+    /**
+     * Returns the evaluation engine being used by the Evaluator.
+     *
+     * @return The instance of EvalEngine that is used to create a context for evaluating expressions.
+     */
+    fun engine() = engine
+
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {
             val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == true

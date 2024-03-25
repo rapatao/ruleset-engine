@@ -1,7 +1,6 @@
 package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.builder.extensions.asExpression
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.from
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.fromInclusive
@@ -186,6 +185,22 @@ object ExpressionCases {
         ),
         Arguments.of(
             "item.falseValue".isFalse(),
+            true
+        ),
+        Arguments.of(
+            "item.trueValue" equalsTo "true",
+            true
+        ),
+        Arguments.of(
+            "item.trueValue" equalsTo true,
+            true
+        ),
+        Arguments.of(
+            "item.trueValue" notEqualsTo "false",
+            true
+        ),
+        Arguments.of(
+            "item.trueValue" notEqualsTo false,
             true
         ),
     )

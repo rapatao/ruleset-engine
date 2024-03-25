@@ -10,7 +10,6 @@ import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -54,10 +53,8 @@ internal class EvaluatorTest {
     }
 
     @Test
-    @Disabled
-    fun `runs the last test scenario`() {
-        // val caseNumber = tests().size
-        val caseNumber = 70
+    fun `run single test case`() {
+        val caseNumber = 242
 
         val cases: List<Arguments> = tests()
         val test = cases[caseNumber - 1].get()

@@ -1,6 +1,7 @@
 package com.rapatao.projects.ruleset.engine.cases
 
 import com.rapatao.projects.ruleset.engine.context.EvalEngine
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalEngine
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvalEngine
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
@@ -29,9 +30,12 @@ object TestData {
         )
     )
 
-    fun engines(): List<Arguments> = listOf(Arguments.of(RhinoEvalEngine()))
+    fun engines(): List<Arguments> = listOf(
+        Arguments.of(RhinoEvalEngine()),
+        Arguments.of(KotlinEvalEngine()),
+    )
 
-    fun allCases(): List<Arguments> = getCases().flatMap {
+    fun allCases(): List<Arguments> = cases().flatMap {
         engines().map { engine ->
             Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
         }
@@ -43,7 +47,7 @@ object TestData {
         }
     }
 
-    private fun getCases() =
+    fun cases() =
         ExpressionCases.cases() +
             MatcherCases.cases() +
             OperatorWithCases.cases() +

@@ -12,7 +12,6 @@ import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.expContains
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterThan
-import com.rapatao.projects.ruleset.engine.types.builder.extensions.isFalse
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.isTrue
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessThan
@@ -34,16 +33,16 @@ internal class SerializationExamplesBuilder {
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
 
     private val cases = listOf(
-        "* boolean: ",
-        "field".isTrue(),
-        "field".isFalse(),
-
         "* equalsTo: ",
+        "field" equalsTo true,
+        "field" equalsTo "true",
         "field" equalsTo 10,
         "field" equalsTo "\"value\"",
         "field" equalsTo "value",
 
         "* notEqualsTo: ",
+        "field" notEqualsTo true,
+        "field" notEqualsTo "true",
         "field" notEqualsTo 10,
         "field" notEqualsTo "\"value\"",
         "field" notEqualsTo "value",
@@ -107,6 +106,7 @@ internal class SerializationExamplesBuilder {
     private val casesFromTests = TestData.allCases()
         .flatMap { it.get().toList() }
         .filterIsInstance<Expression>()
+        .toSet()
 
     @Test
     fun print() {

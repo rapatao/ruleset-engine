@@ -9,7 +9,7 @@ import org.mozilla.javascript.ContextFactory
 import org.mozilla.javascript.ScriptableObject
 
 /**
- * A factory for creating JavaScript contexts with customizable options.
+ * An evaluator engine implementation that uses Mozilla Rhino to evaluate JavaScript contexts with customizable options.
  *
  * @property optimizationLevel The optimization level for the context. Defaults to -1.
  * @property wrapJavaPrimitives Determines if Java primitive values should be wrapped in their corresponding JavaScript
@@ -52,16 +52,6 @@ open class RhinoEvalEngine(
         return context
     }
 
-    /**
-     * Executes the provided block of code with the given input data and returns a boolean value indicating
-     * the success or failure of the execution.
-     *
-     * @param inputData The input data to be used in the execution.
-     * @param block A lambda function that takes in a context and a scope as parameters and returns a boolean value.
-     *              The context represents the context in which the execution takes place, and the scope represents
-     *              the scope of the execution.
-     * @return The result of the execution.
-     */
     override fun <T> call(
         inputData: Any,
         block: (context: EvalContext) -> T
@@ -74,6 +64,8 @@ open class RhinoEvalEngine(
             block(RhinoContext(context, scope))
         }
     }
+
+    override fun name(): String = "RhinoEval"
 
     /**
      * Parses parameters and injects them into the given scope based on the input data.
