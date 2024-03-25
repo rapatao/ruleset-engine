@@ -4,7 +4,12 @@ import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import kotlin.reflect.full.memberProperties
 
-class KotlinEvalEngine : EvalEngine {
+/**
+ * An evaluator engine implementation that uses Kotlin to process expressions.
+ *
+ * Supported types: Java primitive types, boolean, string, number types, maps, lists and arrays.
+ */
+open class KotlinEvalEngine : EvalEngine {
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
         val params: MutableMap<String, Any?> = mutableMapOf()
 
