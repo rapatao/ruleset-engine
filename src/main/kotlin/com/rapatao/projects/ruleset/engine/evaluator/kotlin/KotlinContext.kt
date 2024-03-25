@@ -5,6 +5,12 @@ import com.rapatao.projects.ruleset.engine.evaluator.kotlin.Parser.parse
 import com.rapatao.projects.ruleset.engine.types.Expression
 import java.math.BigDecimal
 
+/**
+ * KotlinContext is a class that implements the EvalContext interface.
+ * It provides the ability to process expressions using Kotlin operations.
+ *
+ * @param inputData the map containing the input data to be used during expression evaluation
+ */
 class KotlinContext(
     private val inputData: Map<String, Any?>
 ) : EvalContext {
