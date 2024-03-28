@@ -1,9 +1,7 @@
-import kotlinx.kover.gradle.plugin.dsl.MetricType
-
 plugins {
     id "java-library"
     id "signing"
-    id 'maven-publish'
+    id "maven-publish"
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
@@ -11,74 +9,81 @@ plugins {
     id "com.github.ben-manes.versions" version "${BenManerVersionsVersion}"
 }
 
-group "com.rapatao.ruleset"
+allprojects {
+    apply plugin: "java-library"
+    apply plugin: "signing"
+    apply plugin: "maven-publish"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    apply plugin: "org.jetbrains.kotlinx.kover"
+//    apply plugin: "io.github.gradle-nexus.publish-plugin"
+    apply plugin: "com.github.ben-manes.versions"
 
-repositories {
-    mavenCentral()
-}
+    group "com.rapatao.ruleset"
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-
-    implementation("org.mozilla:rhino:${rhinoVersion}")
-
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
-
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
-    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
-}
-
-test {
-    useJUnitPlatform()
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
+    repositories {
+        mavenCentral()
     }
-}
 
-detekt {
-    buildUponDefaultConfig = true
-    allRules = false
-}
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+        implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    }
 
-koverReport {
-    verify {
-        rule {
-            enabled = true
-            bound {
-                metric = MetricType.BRANCH
-                minValue = 80
-            }
-            bound {
-                metric = MetricType.LINE
-                minValue = 90
-            }
-            bound {
-                metric = MetricType.INSTRUCTION
-                minValue = 90
-            }
+    test {
+        useJUnitPlatform()
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
         }
     }
 
-    defaults {
-        html {
-            onCheck = true
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = false
+    }
+
+    signing {
+        useGpgCmd()
+        sign publishing.publications
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+
+                pom {
+                    name = "RuleSet Engine"
+                    description = "Simple yet powerful rules engine that offers the flexibility of using the built-in engine and creating a custom one."
+                    url = "https://github.com/rapatao/ruleset-engine"
+                    packaging = "jar"
+                    licenses {
+                        license {
+                            name = "The Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "rapatao"
+                            name = "Luiz Henrique Rapatao"
+                            email = "rapatao@rapatao.com"
+                        }
+                    }
+                    scm {
+                        connection = "scm:git:git://github.com/rapatao/ruleset-engine.git"
+                        developerConnection = "scm:git:ssh://github.com/rapatao/ruleset-engine.git"
+                        url = "https://github.com/rapatao/ruleset-engine"
+                    }
+                }
+            }
         }
     }
-}
-
-signing {
-    useGpgCmd()
-    sign publishing.publications
 }
 
 nexusPublishing {
@@ -86,39 +91,6 @@ nexusPublishing {
         sonatype {
             username = System.getenv('OSSRH_USERNAME')
             password = System.getenv('OSSRH_PASSWORD')
-        }
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-
-            pom {
-                name = "RuleSet Engine"
-                description = "A simple but fully customizable rule engine"
-                url = "https://github.com/rapatao/ruleset-engine"
-                packaging = "jar"
-                licenses {
-                    license {
-                        name = "The Apache License, Version 2.0"
-                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                    }
-                }
-                developers {
-                    developer {
-                        id = "rapatao"
-                        name = "Luiz Henrique Rapatao"
-                        email = "rapatao@rapatao.com"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/rapatao/ruleset-engine.git"
-                    developerConnection = "scm:git:ssh://github.com/rapatao/ruleset-engine.git"
-                    url = "https://github.com/rapatao/ruleset-engine"
-                }
-            }
         }
     }
 }
