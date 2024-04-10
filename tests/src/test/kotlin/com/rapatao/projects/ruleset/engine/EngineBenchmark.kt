@@ -45,6 +45,7 @@ fun main(args: Array<String>) {
 
             times[evaluator.engine().name()]?.add(time.duration)
         }
+        println()
     }
 
     println()
