@@ -1,4 +1,4 @@
-package com.rapatao.projects.ruleset
+package com.rapatao.projects.ruleset.jackson
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -17,7 +17,6 @@ import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualT
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.notEqualsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.startsWith
-import com.rapatao.projects.ruleset.jackson.ExpressionMixin
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 import java.nio.file.Paths

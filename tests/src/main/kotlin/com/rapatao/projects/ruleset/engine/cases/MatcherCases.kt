@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset.engine.cases
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.anyMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.noneMatch
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.expContains
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.greaterOrEqualThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessOrEqualThan
 import org.junit.jupiter.params.provider.Arguments
@@ -399,6 +400,14 @@ object MatcherCases {
                 allMatch("item.price" greaterOrEqualThan "1000"),
                 noneMatch("item.price" lessOrEqualThan "1000"),
             ),
+            false
+        ),
+        Arguments.of(
+            "item.arrTags" expContains "\"in_array\"",
+            true
+        ),
+        Arguments.of(
+            "item.arrTags" expContains "\"not_in_array\"",
             false
         ),
     )

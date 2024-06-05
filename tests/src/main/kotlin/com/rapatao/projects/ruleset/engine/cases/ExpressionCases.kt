@@ -28,6 +28,7 @@ object ExpressionCases {
             lessOrEqualThanCases() +
             greaterOrEqualThanCases()
 
+    @Suppress("MagicNumber")
     private fun greaterOrEqualThanCases() = listOf(
         Arguments.of(
             "item.price" greaterOrEqualThan 1,
@@ -55,6 +56,7 @@ object ExpressionCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun lessOrEqualThanCases() = listOf(
         Arguments.of(
             "item.price" lessOrEqualThan 100,
@@ -82,6 +84,7 @@ object ExpressionCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun lessThanCases() = listOf(
         Arguments.of(
             "item.price" lessThan 100,
@@ -109,6 +112,7 @@ object ExpressionCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun greaterThanCases() = listOf(
         Arguments.of(
             "item.price" greaterThan 0,
@@ -132,6 +136,7 @@ object ExpressionCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun equalsCases() = listOf(
         Arguments.of(
             "item.price" equalsTo 10,
@@ -142,7 +147,7 @@ object ExpressionCases {
             false
         ),
     )
-
+    @Suppress("MagicNumber")
     private fun notEqualsCases() = listOf(
         Arguments.of(
             "item.price" notEqualsTo 0,
@@ -216,7 +221,7 @@ object ExpressionCases {
         ),
     )
 
-    @SuppressWarnings("LongMethod")
+    @Suppress("MagicNumber", "LongMethod")
     private fun betweenCases() = listOf(
         Arguments.of(
             "item.price" from 5 to 15,

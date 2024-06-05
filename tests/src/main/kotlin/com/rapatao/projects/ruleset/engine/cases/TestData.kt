@@ -1,8 +1,5 @@
 package com.rapatao.projects.ruleset.engine.cases
 
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
-import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalEngine
-import com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvalEngine
 import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
@@ -18,6 +15,7 @@ object TestData {
         val falseValue: Boolean = false,
         val name: String,
         val tags: List<String>,
+        val arrTags: Array<String>,
     )
 
     val inputData = RequestData(
@@ -26,26 +24,14 @@ object TestData {
             price = BigDecimal.TEN,
             tags = listOf(
                 "test", "brand-new"
-            )
+            ),
+            arrTags = arrayOf("in_array")
         )
     )
 
-    fun engines(): List<Arguments> = listOf(
-        Arguments.of(RhinoEvalEngine()),
-        Arguments.of(KotlinEvalEngine()),
-    )
+    fun allCases(): List<Arguments> = cases()
 
-    fun allCases(): List<Arguments> = cases().flatMap {
-        engines().map { engine ->
-            Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
-        }
-    }
-
-    fun onFailureCases(): List<Arguments> = (OnFailureCases.cases()).flatMap {
-        engines().map { engine ->
-            Arguments.of(engine.get().first { it is EvalEngine }, *it.get())
-        }
-    }
+    fun onFailureCases(): List<Arguments> = (OnFailureCases.cases())
 
     fun cases() =
         ExpressionCases.cases() +

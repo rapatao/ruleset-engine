@@ -1,41 +1,7 @@
-import kotlinx.kover.gradle.plugin.dsl.MetricType
-
 dependencies {
-    testImplementation project(":core")
-    testImplementation project(":rhino-evaluator")
-    testImplementation project(":kotlin-evaluator")
-    testImplementation project(":jackson")
+    implementation project(":core")
 
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
-
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
-    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
-}
-
-koverReport {
-    verify {
-        rule {
-            enabled = true
-            bound {
-                metric = MetricType.BRANCH
-                minValue = 80
-            }
-            bound {
-                metric = MetricType.LINE
-                minValue = 90
-            }
-            bound {
-                metric = MetricType.INSTRUCTION
-                minValue = 90
-            }
-        }
-    }
-
-    defaults {
-        html {
-            onCheck = true
-        }
-    }
+    runtimeOnly("org.junit.platform:junit-platform-launcher")
+    api("org.junit.jupiter:junit-jupiter:${junitVersion}")
+    api("org.hamcrest:hamcrest:${hamcrestVersion}")
 }

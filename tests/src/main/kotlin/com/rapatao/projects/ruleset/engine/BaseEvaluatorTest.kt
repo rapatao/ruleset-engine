@@ -9,19 +9,21 @@ import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.emptyString
 import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.not
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class EvaluatorTest {
+abstract class BaseEvaluatorTest(
+    private val evalEngine: EvalEngine
+) {
 
     companion object {
-
-        @JvmStatic
-        fun engines() = TestData.engines()
 
         @JvmStatic
         fun tests() = TestData.allCases()
@@ -32,42 +34,42 @@ internal class EvaluatorTest {
 
     @ParameterizedTest
     @MethodSource("tests")
-    fun runEvaluationTest(engine: EvalEngine, ruleSet: Expression, expected: Boolean) {
+    fun runEvaluationTest(ruleSet: Expression, expected: Boolean) {
         println(ruleSet)
 
-        doEvaluationTest(engine, ruleSet, expected)
+        doEvaluationTest(evalEngine, ruleSet, expected)
     }
 
     @ParameterizedTest
     @MethodSource("onFailure")
-    fun `assert onFailure`(engine: EvalEngine, ruleSet: Expression, expected: Boolean, isError: Boolean) {
+    fun asserOnFailure(ruleSet: Expression, expected: Boolean, isError: Boolean) {
         println(ruleSet)
 
         if (isError) {
             assertThrows<Exception> {
-                doEvaluationTest(engine, ruleSet, expected)
+                doEvaluationTest(evalEngine, ruleSet, expected)
             }
         } else {
-            doEvaluationTest(engine, ruleSet, expected)
+            doEvaluationTest(evalEngine, ruleSet, expected)
         }
     }
 
     @Test
-    fun `run single test case`() {
-        val caseNumber = 242
+    @Suppress("MagicNumber")
+    fun assertSingleCaseForDebugging() {
+        val caseNumber = 122
 
         val cases: List<Arguments> = tests()
         val test = cases[caseNumber - 1].get()
         runEvaluationTest(
-            test[0] as EvalEngine,
-            test[1] as Expression,
-            test[2] as Boolean
+            test[0] as Expression,
+            test[1] as Boolean
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("engines")
-    fun `should support map as input data`(engine: EvalEngine) {
+    @Test
+    @DisplayName("should support map as input data")
+    fun assertMapAsInputDataSupport() {
         val input = mapOf(
             "item" to mapOf(
                 "price" to 0,
@@ -86,36 +88,44 @@ internal class EvaluatorTest {
             "attributes.info.description" equalsTo "\"super description\"",
         )
 
-        val result = Evaluator(engine = engine).evaluate(rule, input)
+        val result = Evaluator(engine = evalEngine).evaluate(rule, input)
 
         assertThat(result, equalTo(true))
     }
 
-    @ParameterizedTest
-    @MethodSource("engines")
-    fun `should throw exception when failure was not defined`(engine: EvalEngine) {
+    @Test
+    @DisplayName("should throw exception when failure was not defined")
+    @Suppress("MagicNumber")
+    fun assertThrowExceptionWhenFailureIsNotDefined() {
         val invalidRule = "[]unkown$" equalsTo 10
         val input = mapOf<String, Any>()
 
         assertThrows<Exception> {
-            Evaluator(engine = engine).evaluate(invalidRule, input)
+            Evaluator(engine = evalEngine).evaluate(invalidRule, input)
         }
     }
 
-    @ParameterizedTest
-    @MethodSource("engines")
-    fun `should override value when failure was defined`(engine: EvalEngine) {
+    @Test
+    @DisplayName("should override value when failure was defined")
+    @Suppress("MagicNumber")
+    fun assertOverrideValueWhenFailureIsDefined() {
         val invalidRule = "[]unkown$" equalsTo 10
         val input = mapOf<String, Any>()
 
         assertThat(
-            Evaluator(engine = engine).evaluate(invalidRule ifFail OnFailure.TRUE, input),
+            Evaluator(engine = evalEngine).evaluate(invalidRule ifFail OnFailure.TRUE, input),
             equalTo(true)
         )
 
         assertThat(
-            Evaluator(engine = engine).evaluate(invalidRule ifFail OnFailure.FALSE, input),
+            Evaluator(engine = evalEngine).evaluate(invalidRule ifFail OnFailure.FALSE, input),
             equalTo(false)
         )
+    }
+
+    @Test
+    @DisplayName("evaluator must have a non empty name")
+    fun assertEvaluatorMustHaveName() {
+        assertThat(evalEngine.name(), not(emptyString()))
     }
 }

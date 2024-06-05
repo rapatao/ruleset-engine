@@ -1,11 +1,12 @@
-package com.rapatao.projects.ruleset.engine
+package com.rapatao.projects.ruleset.jackson
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalEngine
 import com.rapatao.projects.ruleset.engine.helper.Helper.compareMatcher
 import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
-import com.rapatao.projects.ruleset.engine.helper.Helper.mapper
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure.THROW
 import com.rapatao.projects.ruleset.engine.types.OnFailure.TRUE
@@ -17,6 +18,10 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class SerializationTest {
 
+    private val mapper = jacksonObjectMapper()
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+
     companion object {
         @JvmStatic
         fun tests() = TestData.allCases()
@@ -24,14 +29,14 @@ class SerializationTest {
 
     @ParameterizedTest
     @MethodSource("tests")
-    fun doSerializationTest(engine: EvalEngine, matcher: Expression, expected: Boolean) {
+    fun doSerializationTest(matcher: Expression, expected: Boolean) {
         val json = mapper.writeValueAsString(matcher)
 
         val matcherFromJson = mapper.readValue<Expression>(json)
 
         compareMatcher(matcher, matcherFromJson)
 
-        doEvaluationTest(engine, matcherFromJson, expected)
+        doEvaluationTest(KotlinEvalEngine(), matcherFromJson, expected)
     }
 
     @Test

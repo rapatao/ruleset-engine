@@ -9,6 +9,7 @@ object OnFailureCases {
 
     fun cases(): List<Arguments> = anyMatchCases() + allMatchCases() + noneMatchCases()
 
+    @Suppress("MagicNumber")
     private fun anyMatchCases(): List<Arguments> = listOf(
         Arguments.of(
             Expression(
@@ -51,6 +52,7 @@ object OnFailureCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun allMatchCases(): List<Arguments> = listOf(
         Arguments.of(
             Expression(
@@ -93,6 +95,7 @@ object OnFailureCases {
         ),
     )
 
+    @Suppress("MagicNumber")
     private fun noneMatchCases(): List<Arguments> = listOf(
         Arguments.of(
             Expression(

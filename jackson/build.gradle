@@ -3,4 +3,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
+
+    testImplementation project(":tests")
+    testImplementation project(":kotlin-evaluator")
 }

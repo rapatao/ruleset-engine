@@ -35,7 +35,11 @@ open class KotlinEvalEngine : EvalEngine {
             }
 
             input is Array<*> -> {
-                parseKeys(node, params, input)
+                params[node] = input
+
+                input.forEachIndexed { index, value ->
+                    parseKeys("${node}[${index}]", params, value)
+                }
             }
 
             input is Map<*, *> -> {

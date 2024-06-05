@@ -7,34 +7,28 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.measureTimedValue
 
-fun main(args: Array<String>) {
+class BaseEngineBenchmark(private val evalEngine: EvalEngine) {
+    @Suppress("MagicNumber")
+    fun main(args: Array<String>) {
 
-    val evaluators = TestData.engines()
-        .map { it.get().first { arg -> arg is EvalEngine } }
-        .map { it as EvalEngine }
-        .map { Evaluator(engine = it) }
+        val cases = TestData.cases()
+            .map { it.get().first { arg -> arg is Expression } }
+            .map { it as Expression }
 
-    val cases = TestData.cases()
-        .map { it.get().first { arg -> arg is Expression } }
-        .map { it as Expression }
+        val evaluator = Evaluator(engine = evalEngine)
 
-    // ini: warmup
-    evaluators.forEach { evaluator ->
+        // ini: warmup
         println("warmup ${evaluator.engine().name()}: start")
         repeat(100) { cases.forEach { expression -> evaluator.evaluate(expression, TestData.inputData) } }
         println("warmup ${evaluator.engine().name()}: done")
-    }
-    // end: warmup
+        // end: warmup
 
-    val times = evaluators.associate {
-        it.engine().name() to mutableListOf<Duration>()
-    }.toMutableMap()
+        val times = mutableListOf<Duration>()
 
-    val iterations = args.firstOrNull()?.let { Integer.parseInt(it) } ?: 1000
+        val iterations = args.firstOrNull()?.let { Integer.parseInt(it) } ?: 1000
 
-    println()
+        println()
 
-    evaluators.forEach { evaluator ->
         repeat(iterations) {
             val time =
                 measureTimedValue {
@@ -43,25 +37,23 @@ fun main(args: Array<String>) {
 
             print("\r${evaluator.engine().name()}: ${it + 1}")
 
-            times[evaluator.engine().name()]?.add(time.duration)
+            times.add(time.duration)
         }
         println()
-    }
 
-    println()
+        println()
 
-    times.forEach { (engine, results) ->
-        val total = results.reduce { acc, duration -> acc + duration }
+        val total = times.reduce { acc, duration -> acc + duration }
 
-        println("$engine> iterations: $iterations")
+        println("$evalEngine> iterations: $iterations")
         println("    ops: " + (iterations * cases.size))
         println("  ops/s: " + ((iterations * cases.size) / total.toDouble(DurationUnit.SECONDS)))
         println("  total: $total")
-        println("    max: " + results.max())
-        println("    min: " + results.min())
-        println("    avg: " + (total / results.size))
+        println("    max: " + times.max())
+        println("    min: " + times.min())
+        println("    avg: " + (total / times.size))
 
-        val sortedResults = results.sorted()
+        val sortedResults = times.sorted()
         listOf(0.50, 0.75, 0.90, 0.95, 0.99).forEach { p ->
             println(
                 "    p${(p * 100).toInt()}: " + sortedResults[(sortedResults.size * p).toInt()
