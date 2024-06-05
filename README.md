@@ -11,13 +11,15 @@ Below are the available engines that can be used to evaluate expressions:
 
 ### Mozilla Rhino (JavaScript) engine implementation
 
-[Rhino](https://github.com/mozilla/rhino) is an open-source, embeddable JavaScript interpreter from Mozilla.
-This engine implementation supports using JavaScript expressions inside the rule operands.
+[Mozilla Rhino](https://github.com/mozilla/rhino) is an open-source, embeddable JavaScript interpreter from Mozilla.
+This engine implementation supports using JavaScript expressions inside the rule operands and is particularly useful
+when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
 
 ### Kotlin (internal) engine implementation
 
-This engine only uses Kotlin code to support all Operator functions., supporting all Operator functions.
-Although it provides an expressive performance, it doesn't support Kotlin expression into the expression operands.
+This engine uses only Kotlin code to support all Operator functions, offering expressive performance. Although it
+doesn't support Kotlin expressions inside the expression operands, it can be a suitable choice for simpler rule sets or
+projects where you prefer using a statically-typed language like Kotlin.
 
 Supported types:
 

@@ -1,1 +1,7 @@
 rootProject.name = 'ruleset-engine'
+
+include('core')
+include('rhino-evaluator')
+include('kotlin-evaluator')
+include('jackson')
+include('tests')

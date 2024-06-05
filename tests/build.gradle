@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(":core")
+
+    runtimeOnly("org.junit.platform:junit-platform-launcher")
+    api("org.junit.jupiter:junit-jupiter:${junitVersion}")
+    api("org.hamcrest:hamcrest:${hamcrestVersion}")
+}
