@@ -3,7 +3,7 @@ import kotlinx.kover.gradle.plugin.dsl.MetricType
 dependencies {
     api project(":core")
     api("org.graalvm.polyglot:polyglot:24.0.1")
-    api("org.graalvm.polyglot:js:24.0.1")
+    api("org.graalvm.polyglot:js-community:24.0.1")
 
     testImplementation project(":tests")
 }
