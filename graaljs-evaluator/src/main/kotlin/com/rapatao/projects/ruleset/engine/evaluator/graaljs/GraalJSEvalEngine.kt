@@ -5,18 +5,32 @@ import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.TypedInjector
 import org.graalvm.polyglot.Context
+import org.graalvm.polyglot.Engine
+import org.graalvm.polyglot.HostAccess
 import org.graalvm.polyglot.Value
 
-open class GraalJSEvalEngine : EvalEngine {
+open class GraalJSEvalEngine(
+    private val engine: Engine = Engine.newBuilder()
+        .option("engine.WarnInterpreterOnly", "false")
+        .build(),
+    private val contextBuilder: Context.Builder = Context.newBuilder()
+        .engine(engine)
+        .option("js.ecmascript-version", "2023")
+        .allowHostAccess(HostAccess.ALL).allowHostClassLookup { true }
+        .option("js.nashorn-compat", "true").allowExperimentalOptions(true)
+) : EvalEngine {
 
-    override fun <T> call(inputData: Any, block: EvalContext.() -> T): T {
-        return Context.create("js").let {
+    override fun <T> call(inputData: Any, block: EvalContext.() -> T): T =
+        createContext().let {
             parseParameters(
                 it.getBindings("js"),
                 inputData,
             )
             block(GraalJSContext(it))
         }
+
+    private fun createContext(): Context {
+        return contextBuilder.build()
     }
 
     override fun name(): String = "GraalJS"

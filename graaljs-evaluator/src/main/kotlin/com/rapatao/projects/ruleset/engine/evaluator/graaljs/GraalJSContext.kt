@@ -40,6 +40,6 @@ class GraalJSContext(
             "js",
             "true == ($script)",
             script
-        ).build()
+        ).buildLiteral()
     }
 }
