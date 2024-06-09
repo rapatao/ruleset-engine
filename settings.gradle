@@ -3,5 +3,6 @@ rootProject.name = 'ruleset-engine'
 include('core')
 include('rhino-evaluator')
 include('kotlin-evaluator')
+include('graaljs-evaluator')
 include('jackson')
 include('tests')

@@ -9,13 +9,7 @@ Simple yet powerful rules engine that offers the flexibility of using the built-
 
 Below are the available engines that can be used to evaluate expressions:
 
-### Mozilla Rhino (JavaScript) engine implementation
-
-[Mozilla Rhino](https://github.com/mozilla/rhino) is an open-source, embeddable JavaScript interpreter from Mozilla.
-This engine implementation supports using JavaScript expressions inside the rule operands and is particularly useful
-when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
-
-### Kotlin (internal) engine implementation
+### Kotlin engine implementation
 
 This engine uses only Kotlin code to support all Operator functions, offering expressive performance. Although it
 doesn't support Kotlin expressions inside the expression operands, it can be a suitable choice for simpler rule sets or
@@ -29,41 +23,104 @@ Supported types:
 4. lists
 5. arrays
 
-## Get started
-
-To get started, add the following dependency:
-
-### Gradle
-
-```groovy
-implementation "com.rapatao.ruleset:ruleset-engine:$rulesetVersion"
+```kotlin
+val engine = KotlinEvalEngine()
 ```
 
-### Maven
+#### Gradle
+
+```groovy
+implementation "com.rapatao.ruleset:kotlin-evaluator:$rulesetVersion"
+```
+
+#### Maven
 
 ```xml
 
 <dependency>
     <groupId>com.rapatao.ruleset</groupId>
-    <artifactId>ruleset-engine</artifactId>
+    <artifactId>kotlin-evaluator</artifactId>
     <version>$rulesetVersion</version>
 </dependency>
 ```
 
-### Usage
+### Mozilla Rhino (JavaScript) engine implementation
+
+[Mozilla Rhino](https://github.com/mozilla/rhino) is an open-source, embeddable JavaScript interpreter from Mozilla.
+This engine implementation supports using JavaScript expressions inside the rule operands and is particularly useful
+when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
+
+```kotlin
+val engine = RhinoEvalEngine()
+```
+
+#### Gradle
+
+```groovy
+implementation "com.rapatao.ruleset:rhino-evaluator:$rulesetVersion"
+```
+
+#### Maven
+
+```xml
+
+<dependency>
+    <groupId>com.rapatao.ruleset</groupId>
+    <artifactId>rhino-evaluator</artifactId>
+    <version>$rulesetVersion</version>
+</dependency>
+```
+
+### GraalVM (JavaScript) engine implementation
+
+[GraalJS](https://www.graalvm.org/latest/reference-manual/js/) is a high-performance JavaScript engine.
+This engine implementation supports using JavaScript expressions inside the rule operands and is particularly useful
+when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
+
+```kotlin
+val engine = GraalJSEvalEngine()
+```
+
+#### Gradle
+
+```groovy
+implementation "com.rapatao.ruleset:graaljs-evaluator:$rulesetVersion"
+```
+
+#### Maven
+
+```xml
+
+<dependency>
+    <groupId>com.rapatao.ruleset</groupId>
+    <artifactId>graaljs-evaluator</artifactId>
+    <version>$rulesetVersion</version>
+</dependency>
+```
+
+## Get started
+
+After adding the desired engine as the application dependency, copy and past the following code, replacing
+the `val engine: EvalEngine = ...` by the desired engine initialization instruction.
+
+The following example initializes an `Evaluator`, and check if the given `rule` is valid to the given `input` data,
+printing the `result` in the default output.
+
+### Code example
 
 ```kotlin
 
 import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 
 val rule = "item.price" equalsTo 0
+val input = mapOf("item" to mapOf("price" to 0))
 
-// val engine = RhinoEvalEngine() // default engine
-// val engine = KotlinEvalEngine()
-val evaluator = Evaluator(/* engine = engine */)
+val engine: EvalEngine = ...
+val evaluator = Evaluator(engine = engine)
 
-val result = evaluator.evaluate(rule, mapOf("item" to mapOf("price" to 0)))
+val result = evaluator.evaluate(rule, input)
 println(result) // true
 
 
@@ -171,7 +228,9 @@ Expression(
 )
 ````
 
-## JSON Serialization
+## Expression serialization
+
+### Jackson
 
 All provided operations supports serialization using [Jackson](https://github.com/FasterXML/jackson) with the definition
 of a Mixin.
@@ -191,3 +250,6 @@ val asMatcher: Expression = mapper.readValue(json)
 ```
 
 Serialized examples can be checked [here](JSON.md)
+
+> Although the example only uses `JSON` as reference, by using the given `Mix-in` class, it should support any
+> serialization format provided by the Jackson library, like `YAML` and `XML`.

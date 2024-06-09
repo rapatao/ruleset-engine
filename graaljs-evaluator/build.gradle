@@ -1,0 +1,38 @@
+import kotlinx.kover.gradle.plugin.dsl.MetricType
+
+dependencies {
+    api project(":core")
+    api("org.graalvm.polyglot:polyglot:24.0.1")
+    api("org.graalvm.polyglot:js-community:24.0.1")
+
+    testImplementation project(":tests")
+}
+
+koverReport {
+    verify {
+        rule {
+            enabled = true
+            bound {
+                enabled = true
+                metric = MetricType.BRANCH
+                minValue = 80
+            }
+            bound {
+                enabled = true
+                metric = MetricType.LINE
+                minValue = 90
+            }
+            bound {
+                enabled = true
+                metric = MetricType.INSTRUCTION
+                minValue = 90
+            }
+        }
+    }
+
+    defaults {
+        html {
+            onCheck = true
+        }
+    }
+}
