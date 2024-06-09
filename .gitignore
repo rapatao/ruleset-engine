@@ -31,6 +31,4 @@ nbdist/
 classes
 out/
 .scannerwork/
-
-create-order-db.sql
-create-sku-db.sql
+bench_*.txt
