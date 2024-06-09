@@ -16,6 +16,8 @@ import org.mozilla.javascript.ScriptableObject
  * wrapper objects. Defaults to false.
  * @property languageVersion The language version of the JavaScript code to be executed in the context.
  * Defaults to Context.VERSION_DEFAULT.
+ *
+ * @see org.mozilla.javascript.Context
  */
 open class RhinoEvalEngine(
     private val optimizationLevel: Int = -1,

@@ -9,6 +9,15 @@ import org.graalvm.polyglot.Engine
 import org.graalvm.polyglot.HostAccess
 import org.graalvm.polyglot.Value
 
+/**
+ * An evaluator engine implementation that uses GraalJS Engine for evaluating JavaScript code with customizable options.
+ *
+ * @property engine The GraalVM Polyglot Engine instance used by this evaluator engine.
+ * @property contextBuilder A builder instance used to create a JavaScript Context with custom options and settings.
+ *
+ * @see org.graalvm.polyglot.Context.Builder
+ * @see org.graalvm.polyglot.Engine
+ */
 open class GraalJSEvalEngine(
     private val engine: Engine = Engine.newBuilder()
         .option("engine.WarnInterpreterOnly", "false")
@@ -33,6 +42,11 @@ open class GraalJSEvalEngine(
         return contextBuilder.build()
     }
 
+    /**
+     * Returns the name of this engine.
+     *
+     * @return the name of this engine
+     */
     override fun name(): String = "GraalJS"
 
     /**
