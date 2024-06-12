@@ -2,16 +2,13 @@ package com.rapatao.projects.ruleset.engine.helper
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.types.Expression
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 
 object Helper {
 
-    fun doEvaluationTest(engine: EvalEngine, ruleSet: Expression, expected: Boolean) {
-        val evaluator = Evaluator(engine = engine)
-
+    fun doEvaluationTest(evaluator: Evaluator, ruleSet: Expression, expected: Boolean) {
         assertThat(
             evaluator.evaluate(expression = ruleSet, inputData = TestData.inputData),
             equalTo(expected)

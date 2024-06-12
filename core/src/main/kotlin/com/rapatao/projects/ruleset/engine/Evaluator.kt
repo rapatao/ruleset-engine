@@ -1,18 +1,13 @@
 package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 
 /**
- * The Evaluator class is used to evaluate a given rule expression against input data.
- *
- * @property engine The factory used to create a context for evaluating the expressions.
+ * The Evaluator is a base class used to evaluate a given rule expression against input data.
  */
-class Evaluator(
-    private val engine: EvalEngine,
-) {
+abstract class Evaluator {
 
     /**
      * Evaluates the given rule expression against the provided input data.
@@ -23,11 +18,11 @@ class Evaluator(
      */
     fun evaluate(expression: Expression, inputData: Any): Boolean {
         return usingFailureWrapper(expression.onFailure) {
-            engine.call(inputData) {
-                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(this) ?: true
-                val processNoneMatch = expression.noneMatch?.processNoneMatch(this) ?: true
-                val processAnyMatch = expression.anyMatch?.processAnyMatch(this) ?: true
-                val processAllMatch = expression.allMatch?.processAllMatch(this) ?: true
+            call(inputData) {
+                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(it) ?: true
+                val processNoneMatch = expression.noneMatch?.processNoneMatch(it) ?: true
+                val processAnyMatch = expression.anyMatch?.processAnyMatch(it) ?: true
+                val processAllMatch = expression.allMatch?.processAllMatch(it) ?: true
 
                 processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
             }
@@ -35,11 +30,23 @@ class Evaluator(
     }
 
     /**
-     * Returns the evaluation engine being used by the Evaluator.
+     * Executes the provided block of code with the given input data and returns a boolean value indicating
+     * the success or failure of the execution.
      *
-     * @return The instance of EvalEngine that is used to create a context for evaluating expressions.
+     * @param inputData The input data to be used in the execution.
+     * @param block A lambda function that takes in a context and a scope as parameters and returns a boolean value.
+     *              The context represents the context in which the execution takes place, and the scope represents
+     *              the scope of the execution.
+     * @return The result of the execution.
      */
-    fun engine() = engine
+    abstract fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T
+
+    /**
+     * Returns the name of the evaluation engine. This can be used to identify the engine in logging or debugging.
+     *
+     * @return The name of the evaluation engine.
+     */
+    abstract fun name(): String
 
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {

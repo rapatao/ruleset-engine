@@ -24,7 +24,7 @@ Supported types:
 5. arrays
 
 ```kotlin
-val engine = KotlinEvalEngine()
+val evaluator = com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator()
 ```
 
 #### Gradle
@@ -51,7 +51,7 @@ This engine implementation supports using JavaScript expressions inside the rule
 when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
 
 ```kotlin
-val engine = RhinoEvalEngine()
+val evaluator = com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvaluator()
 ```
 
 #### Gradle
@@ -78,7 +78,7 @@ This engine implementation supports using JavaScript expressions inside the rule
 when rules contain complex logic or when you want to leverage JavaScript's extensive library of functions.
 
 ```kotlin
-val engine = GraalJSEvalEngine()
+val evaluator = com.rapatao.projects.ruleset.engine.evaluator.graaljs.GraalJSEvaluator()
 ```
 
 #### Gradle
@@ -117,8 +117,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 val rule = "item.price" equalsTo 0
 val input = mapOf("item" to mapOf("price" to 0))
 
-val engine: EvalEngine = ...
-val evaluator = Evaluator(engine = engine)
+val evaluator = ...  
 
 val result = evaluator.evaluate(rule, input)
 println(result) // true
@@ -244,7 +243,7 @@ val mapper = jacksonObjectMapper()
     .setSerializationInclusion(JsonInclude.Include.NON_NULL)
     .addMixIn(Expression::class.java, ExpressionMixin::class.java)
 
-val json = "{ definition as json }"
+val json = "{ serialized definition }"
 
 val asMatcher: Expression = mapper.readValue(json)
 ```

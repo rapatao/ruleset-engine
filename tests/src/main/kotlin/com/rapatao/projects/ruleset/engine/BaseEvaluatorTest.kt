@@ -1,7 +1,6 @@
 package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
@@ -20,7 +19,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 abstract class BaseEvaluatorTest(
-    private val evalEngine: EvalEngine
+    private val evaluator: Evaluator
 ) {
 
     companion object {
@@ -37,7 +36,7 @@ abstract class BaseEvaluatorTest(
     fun runEvaluationTest(ruleSet: Expression, expected: Boolean) {
         println(ruleSet)
 
-        doEvaluationTest(evalEngine, ruleSet, expected)
+        doEvaluationTest(evaluator, ruleSet, expected)
     }
 
     @ParameterizedTest
@@ -47,10 +46,10 @@ abstract class BaseEvaluatorTest(
 
         if (isError) {
             assertThrows<Exception> {
-                doEvaluationTest(evalEngine, ruleSet, expected)
+                doEvaluationTest(evaluator, ruleSet, expected)
             }
         } else {
-            doEvaluationTest(evalEngine, ruleSet, expected)
+            doEvaluationTest(evaluator, ruleSet, expected)
         }
     }
 
@@ -88,7 +87,7 @@ abstract class BaseEvaluatorTest(
             "attributes.info.description" equalsTo "\"super description\"",
         )
 
-        val result = Evaluator(engine = evalEngine).evaluate(rule, input)
+        val result = evaluator.evaluate(rule, input)
 
         assertThat(result, equalTo(true))
     }
@@ -101,7 +100,7 @@ abstract class BaseEvaluatorTest(
         val input = mapOf<String, Any>()
 
         assertThrows<Exception> {
-            Evaluator(engine = evalEngine).evaluate(invalidRule, input)
+            evaluator.evaluate(invalidRule, input)
         }
     }
 
@@ -113,12 +112,12 @@ abstract class BaseEvaluatorTest(
         val input = mapOf<String, Any>()
 
         assertThat(
-            Evaluator(engine = evalEngine).evaluate(invalidRule ifFail OnFailure.TRUE, input),
+            evaluator.evaluate(invalidRule ifFail OnFailure.TRUE, input),
             equalTo(true)
         )
 
         assertThat(
-            Evaluator(engine = evalEngine).evaluate(invalidRule ifFail OnFailure.FALSE, input),
+            evaluator.evaluate(invalidRule ifFail OnFailure.FALSE, input),
             equalTo(false)
         )
     }
@@ -126,6 +125,6 @@ abstract class BaseEvaluatorTest(
     @Test
     @DisplayName("evaluator must have a non empty name")
     fun assertEvaluatorMustHaveName() {
-        assertThat(evalEngine.name(), not(emptyString()))
+        assertThat(evaluator.name(), not(emptyString()))
     }
 }

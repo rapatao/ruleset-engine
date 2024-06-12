@@ -1,7 +1,7 @@
 package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
+import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import kotlin.reflect.full.memberProperties
 
 /**
@@ -9,7 +9,7 @@ import kotlin.reflect.full.memberProperties
  *
  * Supported types: Java primitive types, boolean, string, number types, maps, lists and arrays.
  */
-open class KotlinEvalEngine : EvalEngine {
+open class KotlinEvaluator : Evaluator() {
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
         val params: MutableMap<String, Any?> = mutableMapOf()
 
