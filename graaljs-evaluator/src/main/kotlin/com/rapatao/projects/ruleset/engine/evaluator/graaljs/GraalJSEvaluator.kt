@@ -1,7 +1,7 @@
 package com.rapatao.projects.ruleset.engine.evaluator.graaljs
 
+import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.TypedInjector
 import org.graalvm.polyglot.Context
@@ -18,7 +18,7 @@ import org.graalvm.polyglot.Value
  * @see org.graalvm.polyglot.Context.Builder
  * @see org.graalvm.polyglot.Engine
  */
-open class GraalJSEvalEngine(
+open class GraalJSEvaluator(
     private val engine: Engine = Engine.newBuilder()
         .option("engine.WarnInterpreterOnly", "false")
         .build(),
@@ -27,7 +27,7 @@ open class GraalJSEvalEngine(
         .option("js.ecmascript-version", "2023")
         .allowHostAccess(HostAccess.ALL).allowHostClassLookup { true }
         .option("js.nashorn-compat", "true").allowExperimentalOptions(true)
-) : EvalEngine {
+) : Evaluator() {
 
     override fun <T> call(inputData: Any, block: EvalContext.() -> T): T =
         createContext().let {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalEngine
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator
 import com.rapatao.projects.ruleset.engine.helper.Helper.compareMatcher
 import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.types.Expression
@@ -36,7 +36,7 @@ class SerializationTest {
 
         compareMatcher(matcher, matcherFromJson)
 
-        doEvaluationTest(KotlinEvalEngine(), matcherFromJson, expected)
+        doEvaluationTest(KotlinEvaluator(), matcherFromJson, expected)
     }
 
     @Test

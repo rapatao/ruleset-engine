@@ -1,7 +1,6 @@
 package com.rapatao.projects.ruleset.engine
 
 import com.rapatao.projects.ruleset.engine.cases.TestData
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import com.rapatao.projects.ruleset.engine.types.Expression
 import java.nio.file.Paths
 import kotlin.io.path.appendText
@@ -12,9 +11,9 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.measureTimedValue
 
-class BaseEngineBenchmark(private val evalEngine: EvalEngine) {
+class BaseEngineBenchmark(private val evaluator: Evaluator) {
 
-    private val benchOut = Paths.get("bench_${evalEngine.name()}.txt")
+    private val benchOut = Paths.get("bench_${evaluator.name()}.txt")
 
     @Suppress("MagicNumber")
     fun main(args: Array<String>) {
@@ -25,12 +24,10 @@ class BaseEngineBenchmark(private val evalEngine: EvalEngine) {
             .map { it.get().first { arg -> arg is Expression } }
             .map { it as Expression }
 
-        val evaluator = Evaluator(engine = evalEngine)
-
         // ini: warmup
-        appendLine("warmup ${evaluator.engine().name()}: start")
+        appendLine("warmup ${evaluator.name()}: start")
         repeat(100) { cases.forEach { expression -> evaluator.evaluate(expression, TestData.inputData) } }
-        appendLine("warmup ${evaluator.engine().name()}: done")
+        appendLine("warmup ${evaluator.name()}: done")
         // end: warmup
 
         val times = mutableListOf<Duration>()
@@ -45,7 +42,7 @@ class BaseEngineBenchmark(private val evalEngine: EvalEngine) {
                     cases.forEach { expression -> evaluator.evaluate(expression, TestData.inputData) }
                 }
 
-            print("\r${evaluator.engine().name()}: ${it + 1}")
+            print("\r${evaluator.name()}: ${it + 1}")
 
             times.add(time.duration)
         }
@@ -55,7 +52,7 @@ class BaseEngineBenchmark(private val evalEngine: EvalEngine) {
 
         val total = times.reduce { acc, duration -> acc + duration }
 
-        appendLine("$evalEngine> iterations: $iterations")
+        appendLine("${evaluator.name()}> iterations: $iterations")
         appendLine("    ops: " + (iterations * cases.size))
         appendLine("  ops/s: " + ((iterations * cases.size) / total.toDouble(DurationUnit.SECONDS)))
         appendLine("  total: $total")

@@ -1,7 +1,7 @@
 package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
+import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
 import kotlin.reflect.full.memberProperties
 
 /**
@@ -9,63 +9,59 @@ import kotlin.reflect.full.memberProperties
  *
  * Supported types: Java primitive types, boolean, string, number types, maps, lists and arrays.
  */
-open class KotlinEvalEngine : EvalEngine {
+open class KotlinEvaluator : Evaluator() {
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
-        val params: MutableMap<String, Any?> = mutableMapOf()
-
-        parseKeys("", params, inputData)
-
-        return block(KotlinContext(params))
+        return block(KotlinContext(
+            mutableMapOf<String, Any?>().apply {
+                parseKeys("", inputData)
+            }
+        ))
     }
 
     override fun name(): String = "KotlinEval"
 
-    private fun parseKeys(node: String, params: MutableMap<String, Any?>, input: Any?) {
+    private fun MutableMap<String, Any?>.parseKeys(node: String, input: Any?) {
         when {
             input.isValue() -> {
-                params[node] = input
+                this[node] = input
             }
 
             input is Collection<*> -> {
-                params[node] = input
+                this[node] = input
 
                 input.forEachIndexed { index, value ->
-                    parseKeys("${node}[${index}]", params, value)
+                    parseKeys("${node}[$index]", value)
                 }
             }
 
             input is Array<*> -> {
-                params[node] = input
+                @Suppress("DuplicatedCode")
+                this[node] = input
 
                 input.forEachIndexed { index, value ->
-                    parseKeys("${node}[${index}]", params, value)
+                    parseKeys("${node}[$index]", value)
                 }
             }
 
             input is Map<*, *> -> {
-                val currNode = if (node.isNotBlank()) {
-                    "${node}."
-                } else {
-                    node
-                }
+                val currNode = node.childNode()
+
                 input.forEach { key, value ->
-                    parseKeys("${currNode}${key}", params, value)
+                    parseKeys("${currNode}${key}", value)
                 }
             }
 
             else -> {
-                val currNode = if (node.isNotBlank()) {
-                    "${node}."
-                } else {
-                    node
-                }
+                val currNode = node.childNode()
 
-                input?.javaClass?.kotlin?.memberProperties?.map {
-                    parseKeys("${currNode}${it.name}", params, it.get(input))
+                input?.javaClass?.kotlin?.memberProperties?.forEach {
+                    parseKeys("${currNode}${it.name}", it.get(input))
                 }
             }
         }
     }
+
+    private fun String.childNode() = if (this.isNotBlank()) "${this}." else this
 
     private fun Any?.isValue(): Boolean =
         this == null ||

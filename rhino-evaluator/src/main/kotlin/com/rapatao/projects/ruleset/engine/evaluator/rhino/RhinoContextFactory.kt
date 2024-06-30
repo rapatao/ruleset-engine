@@ -1,16 +1,9 @@
 package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
-import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
-import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.MapInjector
-import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.TypedInjector
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ContextFactory
-import org.mozilla.javascript.ScriptableObject
 
 /**
- * An evaluator engine implementation that uses Mozilla Rhino to evaluate JavaScript contexts with customizable options.
- *
  * @property optimizationLevel The optimization level for the context. Defaults to -1.
  * @property wrapJavaPrimitives Determines if Java primitive values should be wrapped in their corresponding JavaScript
  * wrapper objects. Defaults to false.
@@ -19,11 +12,12 @@ import org.mozilla.javascript.ScriptableObject
  *
  * @see org.mozilla.javascript.Context
  */
-open class RhinoEvalEngine(
+open class RhinoContextFactory(
     private val optimizationLevel: Int = -1,
     private val wrapJavaPrimitives: Boolean = false,
-    private val languageVersion: Int = Context.VERSION_DEFAULT
-) : EvalEngine, ContextFactory() {
+    private val languageVersion: Int = Context.VERSION_DEFAULT,
+) : ContextFactory() {
+
     /**
      * Check if the given feature is enabled in the context.
      *
@@ -52,38 +46,5 @@ open class RhinoEvalEngine(
         context.languageVersion = languageVersion
 
         return context
-    }
-
-    override fun <T> call(
-        inputData: Any,
-        block: (context: EvalContext) -> T
-    ): T {
-        return this.call { context ->
-            val scope = context.initSafeStandardObjects()
-
-            parseParameters(scope, context, inputData)
-
-            block(RhinoContext(context, scope))
-        }
-    }
-
-    override fun name(): String = "RhinoEval"
-
-    /**
-     * Parses parameters and injects them into the given scope based on the input data.
-     *
-     * @param scope the scriptable object scope where the parameters will be injected
-     * @param context the context in which the parameters will be injected
-     * @param inputData the input data containing the parameters
-     */
-    open fun parseParameters(
-        scope: ScriptableObject,
-        context: Context,
-        inputData: Any,
-    ) {
-        when (inputData) {
-            is Map<*, *> -> MapInjector.inject(scope, context, inputData)
-            else -> TypedInjector.inject(scope, context, inputData)
-        }
     }
 }
