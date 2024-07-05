@@ -102,9 +102,17 @@ internal class SerializationExamplesBuilder {
         ),
     )
 
-    private val casesFromTests = TestData.allCases()
+    private val casesFromTests = TestData.cases()
         .flatMap { it.get().toList() }
         .filterIsInstance<Expression>()
+        .filter {
+            // remove from serialization example rules that one of the operands is null
+            it.isValid() &&
+                (
+                    (it.left != null && it.right != null) ||
+                        !it.noneMatch.isNullOrEmpty() || !it.allMatch.isNullOrEmpty() || !it.anyMatch.isNullOrEmpty()
+                    )
+        }
         .toSet()
 
     @Test

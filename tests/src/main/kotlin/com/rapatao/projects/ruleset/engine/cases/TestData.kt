@@ -16,6 +16,7 @@ object TestData {
         val name: String,
         val tags: List<String>,
         val arrTags: Array<String>,
+        val nullableStr: String? = null,
     )
 
     val inputData = RequestData(
@@ -28,8 +29,6 @@ object TestData {
             arrTags = arrayOf("in_array")
         )
     )
-
-    fun allCases(): List<Arguments> = cases()
 
     fun onFailureCases(): List<Arguments> = (OnFailureCases.cases())
 
