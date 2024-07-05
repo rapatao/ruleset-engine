@@ -25,7 +25,7 @@ abstract class BaseEvaluatorTest(
     companion object {
 
         @JvmStatic
-        fun tests() = TestData.allCases()
+        fun tests() = TestData.cases()
 
         @JvmStatic
         fun onFailure() = TestData.onFailureCases()

@@ -146,7 +146,12 @@ object ExpressionCases {
             "item.price" equalsTo 0,
             false
         ),
+        Arguments.of(
+            "item.nullableStr" equalsTo null,
+            true
+        )
     )
+
     @Suppress("MagicNumber")
     private fun notEqualsCases() = listOf(
         Arguments.of(

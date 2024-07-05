@@ -23,7 +23,7 @@ fun Any.isFalse(): Expression = ExpressionBuilder.isFalse(this)
  * @param right The object to compare with.
  * @return An expression representing the equality comparison between the current object and the given object.
  */
-infix fun Any.equalsTo(right: Any): Expression = ExpressionBuilder.left(this).equalsTo(right)
+infix fun Any.equalsTo(right: Any?): Expression = ExpressionBuilder.left(this).equalsTo(right)
 
 /**
  * Compares this object with the specified [right] object for inequality.
@@ -31,5 +31,5 @@ infix fun Any.equalsTo(right: Any): Expression = ExpressionBuilder.left(this).eq
  * @param right The object to compare with this object.
  * @return An [Expression] representing the inequality comparison result.
  */
-infix fun Any.notEqualsTo(right: Any): Expression = ExpressionBuilder.left(this).notEqualsTo(right)
+infix fun Any.notEqualsTo(right: Any?): Expression = ExpressionBuilder.left(this).notEqualsTo(right)
 
