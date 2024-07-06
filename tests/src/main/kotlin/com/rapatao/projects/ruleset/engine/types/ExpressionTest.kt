@@ -1,5 +1,9 @@
 package com.rapatao.projects.ruleset.engine.types
 
+import com.rapatao.projects.ruleset.engine.Evaluator
+import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.types.errors.UnknownOperator
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.DisplayName
@@ -7,11 +11,32 @@ import org.junit.jupiter.api.Test
 
 class ExpressionTest {
 
+    private val dummyEval: Evaluator = object : Evaluator() {
+        override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
+            TODO("Not yet implemented")
+        }
+
+        override fun name(): String = "test"
+
+        override fun operator(name: String): Operator {
+            if (name != "equals") {
+                throw UnknownOperator(name)
+            }
+
+            val dummyOperator = object : Operator {
+                override fun process(context: EvalContext, left: Any?, right: Any?): Boolean = true
+                override fun name(): String = "equals"
+            }
+
+            return dummyOperator
+        }
+    }
+
     @Test
     @DisplayName("empty expression must be invalid")
     fun assertEmptyExpression() {
         val exp = Expression()
-        assertThat(exp.isValid(), equalTo(false))
+        assertThat(exp.isValid(dummyEval), equalTo(false))
     }
 
     @Test
@@ -21,7 +46,7 @@ class ExpressionTest {
             operator = "equals",
         )
 
-        assertThat(exp.isValid(), equalTo(true))
+        assertThat(exp.isValid(dummyEval), equalTo(true))
     }
 
     @Test
@@ -31,7 +56,7 @@ class ExpressionTest {
             noneMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(true))
+        assertThat(exp.isValid(dummyEval), equalTo(true))
     }
 
     @Test
@@ -41,7 +66,7 @@ class ExpressionTest {
             anyMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(true))
+        assertThat(exp.isValid(dummyEval), equalTo(true))
     }
 
     @Test
@@ -51,7 +76,7 @@ class ExpressionTest {
             allMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(true))
+        assertThat(exp.isValid(dummyEval), equalTo(true))
     }
 
     @Test
@@ -63,7 +88,7 @@ class ExpressionTest {
             anyMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(true))
+        assertThat(exp.isValid(dummyEval), equalTo(true))
     }
 
     @Test
@@ -75,7 +100,7 @@ class ExpressionTest {
             anyMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(false))
+        assertThat(exp.isValid(dummyEval), equalTo(false))
     }
 
     @Test
@@ -87,7 +112,7 @@ class ExpressionTest {
             anyMatch = listOf(Expression(operator = "equals")),
         )
 
-        assertThat(exp.isValid(), equalTo(false))
+        assertThat(exp.isValid(dummyEval), equalTo(false))
     }
 
     @Test
@@ -99,6 +124,6 @@ class ExpressionTest {
             anyMatch = listOf(Expression()),
         )
 
-        assertThat(exp.isValid(), equalTo(false))
+        assertThat(exp.isValid(dummyEval), equalTo(false))
     }
 }
