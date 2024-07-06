@@ -1,21 +1,20 @@
 package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.types.Expression
-import com.rapatao.projects.ruleset.engine.types.Operator
 
 internal object Parser {
     fun parse(expression: Expression): String {
         return when (expression.operator) {
-            Operator.EQUALS -> "==".formatComparison(expression)
-            Operator.NOT_EQUALS -> "!=".formatComparison(expression)
-            Operator.GREATER_THAN -> ">".formatComparison(expression)
-            Operator.GREATER_OR_EQUAL_THAN -> ">=".formatComparison(expression)
-            Operator.LESS_THAN -> "<".formatComparison(expression)
-            Operator.LESS_OR_EQUAL_THAN -> "<=".formatComparison(expression)
-            Operator.STARTS_WITH -> "startsWith".formatWithOperation(expression)
-            Operator.ENDS_WITH -> "endsWith".formatWithOperation(expression)
-            Operator.CONTAINS -> formatContainsOperation(expression)
-            null -> error("when evaluation an expression, the operator cannot be null")
+            "equals" -> "==".formatComparison(expression)
+            "not_equals" -> "!=".formatComparison(expression)
+            "greater_than" -> ">".formatComparison(expression)
+            "greater_or_equal_than" -> ">=".formatComparison(expression)
+            "less_than" -> "<".formatComparison(expression)
+            "less_or_equal_than" -> "<=".formatComparison(expression)
+            "starts_with" -> "startsWith".formatWithOperation(expression)
+            "ends_with" -> "endsWith".formatWithOperation(expression)
+            "contains" -> formatContainsOperation(expression)
+            else -> error("when evaluation an expression, the operator cannot be null")
         }
     }
 
