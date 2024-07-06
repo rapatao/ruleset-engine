@@ -4,6 +4,7 @@ import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.TypedInjector
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ScriptableObject
 
@@ -12,7 +13,21 @@ import org.mozilla.javascript.ScriptableObject
  */
 open class RhinoEvaluator(
     private val contextFactory: RhinoContextFactory = RhinoContextFactory(),
-) : Evaluator() {
+    operators: List<Operator> = listOf()
+) : Evaluator(
+    listOf(
+        Equals(),
+        NotEquals(),
+        GreaterThan(),
+        GreaterOrEqualThan(),
+        LessThan(),
+        LessOrEqualThan(),
+        StartsWith(),
+        EndsWith(),
+        Contains(),
+        *operators.toTypedArray()
+    )
+) {
 
     override fun <T> call(
         inputData: Any,
