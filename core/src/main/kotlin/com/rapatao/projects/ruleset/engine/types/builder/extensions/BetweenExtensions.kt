@@ -1,6 +1,5 @@
 package com.rapatao.projects.ruleset.engine.types.builder.extensions
 
-import com.rapatao.projects.ruleset.engine.types.Operator
 import com.rapatao.projects.ruleset.engine.types.builder.BetweenBuilder
 
 /**
@@ -10,7 +9,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.BetweenBuilder
  * @return A [BetweenBuilder] object to build the between condition.
  */
 infix fun Any.from(from: Any): BetweenBuilder = BetweenBuilder(
-    left = this, from = from, operator = Operator.GREATER_THAN,
+    left = this, from = from, operator = "greater_than",
 )
 
 /**
@@ -20,5 +19,5 @@ infix fun Any.from(from: Any): BetweenBuilder = BetweenBuilder(
  * @return The [BetweenBuilder] instance for further chaining
  */
 infix fun Any.fromInclusive(from: Any): BetweenBuilder = BetweenBuilder(
-    left = this, from = from, operator = Operator.GREATER_OR_EQUAL_THAN,
+    left = this, from = from, operator = "greater_or_equal_than",
 )

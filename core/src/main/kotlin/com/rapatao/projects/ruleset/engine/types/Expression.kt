@@ -19,7 +19,7 @@ data class Expression(
     val anyMatch: List<Expression>? = null,
     val noneMatch: List<Expression>? = null,
     val left: Any? = null,
-    val operator: Operator? = null,
+    val operator: String? = null,
     val right: Any? = null,
     val onFailure: OnFailure = OnFailure.THROW,
 ) {
