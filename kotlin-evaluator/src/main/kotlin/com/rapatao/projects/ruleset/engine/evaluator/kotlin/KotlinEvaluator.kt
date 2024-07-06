@@ -11,7 +11,7 @@ import kotlin.reflect.full.memberProperties
  * Supported types: Java primitive types, boolean, string, number types, maps, lists and arrays.
  */
 open class KotlinEvaluator(
-    operators: List<Operator> = listOf()
+    operators: List<Operator> = listOf(),
 ) : Evaluator(
     listOf(
         Equals(),

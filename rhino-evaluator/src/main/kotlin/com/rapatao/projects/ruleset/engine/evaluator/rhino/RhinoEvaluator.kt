@@ -13,7 +13,7 @@ import org.mozilla.javascript.ScriptableObject
  */
 open class RhinoEvaluator(
     private val contextFactory: RhinoContextFactory = RhinoContextFactory(),
-    operators: List<Operator> = listOf()
+    operators: List<Operator> = listOf(),
 ) : Evaluator(
     listOf(
         Equals(),
