@@ -1,9 +1,8 @@
 package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import org.mozilla.javascript.Context
-import org.mozilla.javascript.Script
 import org.mozilla.javascript.ScriptableObject
 
 /**
@@ -18,17 +17,8 @@ class RhinoContext(
     private val scope: ScriptableObject,
 ) : EvalContext {
 
-    /**
-     * Processes an expression.
-     *
-     * @param expression the expression to process
-     * @return true if the expression is successfully processed, false otherwise
-     * @throws Exception if the expression processing fails and onFailure is set to THROW
-     */
-    override fun process(expression: Expression): Boolean {
-        return true == expression.asScript(context)
-            .exec(context, scope)
-    }
+    override fun process(left: Any?, operator: Operator, right: Any?): Boolean =
+        operator.process(this, left, right)
 
     /**
      * Returns the Rhino context.
@@ -43,15 +33,4 @@ class RhinoContext(
      * @return The Rhino scope.
      */
     fun scope() = scope
-
-    private fun Expression.asScript(context: Context): Script {
-        val script = Parser.parse(this)
-
-        return context.compileString(
-            "true == ($script)",
-            script,
-            0,
-            null,
-        )
-    }
 }

@@ -117,7 +117,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 val rule = "item.price" equalsTo 0
 val input = mapOf("item" to mapOf("price" to 0))
 
-val evaluator: Evaluator = ...  
+val evaluator: Evaluator = ...
 
 val result = evaluator.evaluate(rule, input)
 println(result) // true
@@ -130,24 +130,47 @@ val result2 = evaluator.evaluate(rule, Input(item = Item(price = 0.0)))
 println(result) // true
 ```
 
-## Supported operations (expressions)
+## Expressions (Rule)
 
-The engine only supports `boolean` evaluations, which means that all operations must results in a boolean value.
+In the context of the engine, an expression is a decision table, where many statements can be executed using defined
+operators, resulting in a `boolean`, where `true` means that the given input data matches, and `false` when it doesn't
+match.
 
 All provided operations can be created using the
 builder: `com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder`
 
+### Operators
+
+The engine provides many built-in operators, but it also allows adding new ones or event overwriting the existing one.
+
+#### Built-in operators
+
 | operator              | description                                                                                                                             |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| EQUALS                | Represents the equality operator (==), used to check if two values are equal.                                                           |
-| NOT_EQUALS            | Represents the inequality operator (!=), used to check if two values are not equal.                                                     |
-| GREATER_THAN          | Represents the greater than operator (>), used to compare if one value is greater than another.                                         |
-| GREATER_OR_EQUAL_THAN | Represents the greater than or equal to operator (>=), used to compare if one value is greater than or equal to another.                |
-| LESS_THAN             | Represents the less than operator (<), used to compare if one value is less than another.                                               |
-| LESS_OR_EQUAL_THAN    | Represents the less than or equal to operator (<=), used to compare if one value is less than or equal to another.                      |
-| STARTS_WITH           | Represents the operation to check if a string starts with a specified sequence of characters.                                           |
-| ENDS_WITH             | Represents the operation to check if a string ends with a specified sequence of characters.                                             |
-| CONTAINS              | Represents the operation to check if a string contains a specified sequence of characters or if an array contains a particular element. |
+| equals                | Represents the equality operator (==), used to check if two values are equal.                                                           |
+| not_equals            | Represents the inequality operator (!=), used to check if two values are not equal.                                                     |
+| greater_than          | Represents the greater than operator (>), used to compare if one value is greater than another.                                         |
+| greater_or_equal_than | Represents the greater than or equal to operator (>=), used to compare if one value is greater than or equal to another.                |
+| less_than             | Represents the less than operator (<), used to compare if one value is less than another.                                               |
+| less_or_equal_than    | Represents the less than or equal to operator (<=), used to compare if one value is less than or equal to another.                      |
+| starts_with           | Represents the operation to check if a string starts with a specified sequence of characters.                                           |
+| ends_with             | Represents the operation to check if a string ends with a specified sequence of characters.                                             |
+| contains              | Represents the operation to check if a string contains a specified sequence of characters or if an array contains a particular element. |
+
+#### Customizing the operators
+
+It is possible to create custom operators by creating an implementation of the
+interface `com.rapatao.projects.ruleset.engine.types.operators.Operators`.
+
+The function `name()` identifies the operator, which is used when evaluating the expressions. The engine supports a
+single Operator per name, which means that it is not possible to have more than one using the same name.
+
+> Each built-in operator has its own class and all of them are located at the
+> package `com.rapatao.projects.ruleset.engine.types.operators`. To override then it is not mandatory to use these base
+> classes, it only need to have the same name as the built-in operator.
+
+There is no validation related to duplicated operator names, since it is required to allow overriding the built-in
+operator by one implemented by the user of this library.
 
 ### Examples
 

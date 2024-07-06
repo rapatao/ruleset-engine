@@ -9,7 +9,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : true
 }
 ```
@@ -17,7 +17,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "true"
 }
 ```
@@ -25,7 +25,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : 10
 }
 ```
@@ -33,7 +33,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "\"value\""
 }
 ```
@@ -41,7 +41,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "value"
 }
 ```
@@ -51,7 +51,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : true
 }
 ```
@@ -59,7 +59,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : "true"
 }
 ```
@@ -67,7 +67,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : 10
 }
 ```
@@ -75,7 +75,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : "\"value\""
 }
 ```
@@ -83,7 +83,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : "value"
 }
 ```
@@ -93,7 +93,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 10
 }
 ```
@@ -103,7 +103,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 10
 }
 ```
@@ -113,7 +113,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 10
 }
 ```
@@ -123,7 +123,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 10
 }
 ```
@@ -133,7 +133,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "STARTS_WITH",
+  "operator" : "starts_with",
   "right" : "\"value\""
 }
 ```
@@ -143,7 +143,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "ENDS_WITH",
+  "operator" : "ends_with",
   "right" : "\"value\""
 }
 ```
@@ -153,7 +153,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "field",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"value\""
 }
 ```
@@ -164,11 +164,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ]
 }
@@ -180,11 +180,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "anyMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ]
 }
@@ -196,11 +196,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ]
 }
@@ -212,29 +212,29 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ],
   "anyMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ],
   "noneMatch" : [ {
     "left" : "field",
-    "operator" : "EQUALS",
+    "operator" : "equals",
     "right" : true
   }, {
     "left" : "price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10.0
   } ]
 }
@@ -248,7 +248,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : 10
 }
 ```
@@ -256,7 +256,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : 0
 }
 ```
@@ -264,7 +264,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : 0
 }
 ```
@@ -272,7 +272,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : 10
 }
 ```
@@ -280,7 +280,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : true,
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : false
 }
 ```
@@ -288,7 +288,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : false,
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : false
 }
 ```
@@ -296,7 +296,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : true,
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : true
 }
 ```
@@ -304,7 +304,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : false,
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : true
 }
 ```
@@ -312,7 +312,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.trueValue",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : true
 }
 ```
@@ -320,7 +320,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.trueValue",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : false
 }
 ```
@@ -328,7 +328,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.falseValue",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : true
 }
 ```
@@ -336,7 +336,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.falseValue",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : false
 }
 ```
@@ -344,7 +344,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.trueValue",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "true"
 }
 ```
@@ -352,7 +352,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.trueValue",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : "false"
 }
 ```
@@ -360,7 +360,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.trueValue",
-  "operator" : "NOT_EQUALS",
+  "operator" : "not_equals",
   "right" : false
 }
 ```
@@ -368,7 +368,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.field.that.dont.exist",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "10",
   "onFailure" : "TRUE"
 }
@@ -377,7 +377,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.field.that.dont.exist",
-  "operator" : "EQUALS",
+  "operator" : "equals",
   "right" : "10",
   "onFailure" : "FALSE"
 }
@@ -387,11 +387,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -401,11 +401,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -415,11 +415,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -429,11 +429,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -443,11 +443,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 9
   } ]
 }
@@ -457,11 +457,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 9
   } ]
 }
@@ -471,11 +471,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 9
   } ]
 }
@@ -485,11 +485,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 9
   } ]
 }
@@ -499,11 +499,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 11
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -513,11 +513,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 11
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -527,11 +527,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 11
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -541,11 +541,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 11
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -555,11 +555,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 10
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -569,11 +569,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 10
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -583,11 +583,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 10
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 15
   } ]
 }
@@ -597,11 +597,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 10
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 15
   } ]
 }
@@ -611,11 +611,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10
   } ]
 }
@@ -625,11 +625,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_THAN",
+    "operator" : "greater_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 10
   } ]
 }
@@ -639,11 +639,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_THAN",
+    "operator" : "less_than",
     "right" : 10
   } ]
 }
@@ -653,11 +653,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : 5
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : 10
   } ]
 }
@@ -666,7 +666,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 0
 }
 ```
@@ -674,7 +674,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 10
 }
 ```
@@ -682,7 +682,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 20
 }
 ```
@@ -690,7 +690,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 20
 }
 ```
@@ -698,7 +698,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 30,
-  "operator" : "GREATER_THAN",
+  "operator" : "greater_than",
   "right" : 20
 }
 ```
@@ -706,7 +706,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 100
 }
 ```
@@ -714,7 +714,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 1
 }
 ```
@@ -722,7 +722,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 10
 }
 ```
@@ -730,7 +730,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 2,
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 10
 }
 ```
@@ -738,7 +738,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 20,
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 10
 }
 ```
@@ -746,7 +746,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "LESS_THAN",
+  "operator" : "less_than",
   "right" : 10
 }
 ```
@@ -754,7 +754,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 100
 }
 ```
@@ -762,7 +762,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 10
 }
 ```
@@ -770,7 +770,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 1
 }
 ```
@@ -778,7 +778,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 100
 }
 ```
@@ -786,7 +786,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 10
 }
 ```
@@ -794,7 +794,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "LESS_OR_EQUAL_THAN",
+  "operator" : "less_or_equal_than",
   "right" : 1
 }
 ```
@@ -802,7 +802,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 1
 }
 ```
@@ -810,7 +810,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 10
 }
 ```
@@ -818,7 +818,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.price",
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 100
 }
 ```
@@ -826,7 +826,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 1
 }
 ```
@@ -834,7 +834,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 10
 }
 ```
@@ -842,7 +842,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : 10,
-  "operator" : "GREATER_OR_EQUAL_THAN",
+  "operator" : "greater_or_equal_than",
   "right" : 100
 }
 ```
@@ -851,7 +851,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -861,7 +861,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -871,11 +871,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "10000"
   } ]
 }
@@ -885,11 +885,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -899,11 +899,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -913,11 +913,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -927,28 +927,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "noneMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -959,12 +943,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
-    "noneMatch" : [ {
+    "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -975,12 +959,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -991,12 +975,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
-    "allMatch" : [ {
+    "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1007,12 +991,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1023,24 +1007,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1051,24 +1023,24 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1079,24 +1051,24 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1107,24 +1079,52 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "noneMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "noneMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1135,7 +1135,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1145,7 +1145,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1155,11 +1155,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1169,11 +1169,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1183,11 +1183,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1197,11 +1197,11 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   } ]
 }
@@ -1211,28 +1211,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "allMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1243,12 +1227,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
-    "noneMatch" : [ {
+    "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1259,12 +1243,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1275,12 +1259,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
-    "allMatch" : [ {
+    "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1291,12 +1275,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1307,24 +1291,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1335,24 +1307,24 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1363,24 +1335,24 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1391,24 +1363,24 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1417,266 +1389,26 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 
 ```json
 {
-  "anyMatch" : [ {
+  "allMatch" : [ {
     "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  } ]
-}
-```
-
-```json
-{
-  "anyMatch" : [ {
-    "left" : "item.price",
-    "operator" : "LESS_OR_EQUAL_THAN",
-    "right" : "1000"
-  }, {
-    "anyMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1687,24 +1419,60 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "anyMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1715,24 +1483,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "anyMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1743,24 +1499,12 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "anyMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "less_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "allMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
-      "right" : "1000"
-    } ]
-  }, {
-    "noneMatch" : [ {
-      "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1771,24 +1515,280 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "anyMatch" : [ {
     "left" : "item.price",
-    "operator" : "GREATER_OR_EQUAL_THAN",
+    "operator" : "greater_or_equal_than",
     "right" : "1000"
   }, {
     "anyMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "less_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "allMatch" : [ {
       "left" : "item.price",
-      "operator" : "GREATER_OR_EQUAL_THAN",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   }, {
     "noneMatch" : [ {
       "left" : "item.price",
-      "operator" : "LESS_OR_EQUAL_THAN",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  } ]
+}
+```
+
+```json
+{
+  "anyMatch" : [ {
+    "left" : "item.price",
+    "operator" : "greater_or_equal_than",
+    "right" : "1000"
+  }, {
+    "anyMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "allMatch" : [ {
+      "left" : "item.price",
+      "operator" : "greater_or_equal_than",
+      "right" : "1000"
+    } ]
+  }, {
+    "noneMatch" : [ {
+      "left" : "item.price",
+      "operator" : "less_or_equal_than",
       "right" : "1000"
     } ]
   } ]
@@ -1798,7 +1798,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.arrTags",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"in_array\""
 }
 ```
@@ -1806,7 +1806,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.arrTags",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"not_in_array\""
 }
 ```
@@ -1814,7 +1814,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "STARTS_WITH",
+  "operator" : "starts_with",
   "right" : "\"product\""
 }
 ```
@@ -1822,7 +1822,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "STARTS_WITH",
+  "operator" : "starts_with",
   "right" : "\"name\""
 }
 ```
@@ -1830,7 +1830,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "ENDS_WITH",
+  "operator" : "ends_with",
   "right" : "\"name\""
 }
 ```
@@ -1838,7 +1838,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "ENDS_WITH",
+  "operator" : "ends_with",
   "right" : "\"product\""
 }
 ```
@@ -1846,7 +1846,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"duct\""
 }
 ```
@@ -1854,7 +1854,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"different value\""
 }
 ```
@@ -1862,7 +1862,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.tags",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"test\""
 }
 ```
@@ -1870,7 +1870,7 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.tags",
-  "operator" : "CONTAINS",
+  "operator" : "contains",
   "right" : "\"different value\""
 }
 ```

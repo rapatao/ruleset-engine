@@ -44,7 +44,7 @@ class SerializationTest {
         val json = """
             {
                 "left": "field",
-                "operator": "EQUALS",
+                "operator": "equals",
                 "right": 10
             }
         """.trimIndent()

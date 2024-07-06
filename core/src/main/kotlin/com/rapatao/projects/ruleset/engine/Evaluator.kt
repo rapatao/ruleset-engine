@@ -3,11 +3,17 @@ package com.rapatao.projects.ruleset.engine
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
+import com.rapatao.projects.ruleset.engine.types.errors.UnknownOperator
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 
 /**
  * The Evaluator is a base class used to evaluate a given rule expression against input data.
  */
-abstract class Evaluator {
+abstract class Evaluator(
+    operators: List<Operator>,
+) {
+
+    private val declaredOperators = operators.associateBy { it.name().lowercase() }
 
     /**
      * Evaluates the given rule expression against the provided input data.
@@ -47,6 +53,13 @@ abstract class Evaluator {
      * @return The name of the evaluation engine.
      */
     abstract fun name(): String
+
+    /**
+     * Return the operator implementation for the given name.
+     *
+     * @return The operator.
+     */
+    fun operator(name: String): Operator? = declaredOperators[name]
 
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {
@@ -89,7 +102,11 @@ abstract class Evaluator {
 
     private fun Expression.processExpression(context: EvalContext): Boolean {
         return usingFailureWrapper(this.onFailure) {
-            context.process(this)
+            requireNotNull(this.operator) { "expression operator must not be null" }
+
+            val operator = operator(this.operator) ?: throw UnknownOperator(this.operator)
+
+            context.process(this.left, operator, this.right)
         }
     }
 

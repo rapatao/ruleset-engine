@@ -3,6 +3,7 @@ package com.rapatao.projects.ruleset.jackson
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.rapatao.projects.ruleset.engine.cases.TestData
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.anyMatch
@@ -30,6 +31,8 @@ internal class SerializationExamplesBuilder {
     private val mapper = jacksonObjectMapper()
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+
+    private val engine = KotlinEvaluator()
 
     private val cases = listOf(
         "* equalsTo: ",
@@ -107,7 +110,7 @@ internal class SerializationExamplesBuilder {
         .filterIsInstance<Expression>()
         .filter {
             // remove from serialization example rules that one of the operands is null
-            it.isValid() &&
+            it.isValid(engine) &&
                 (
                     (it.left != null && it.right != null) ||
                         !it.noneMatch.isNullOrEmpty() || !it.allMatch.isNullOrEmpty() || !it.anyMatch.isNullOrEmpty()
