@@ -101,7 +101,7 @@ implementation "com.rapatao.ruleset:graaljs-evaluator:$rulesetVersion"
 ## Get started
 
 After adding the desired engine as the application dependency, copy and past the following code, replacing
-the `val engine: EvalEngine = ...` by the desired engine initialization instruction.
+the `val evaluator: Evaluator = ...` by the desired engine initialization instruction.
 
 The following example initializes an `Evaluator`, and check if the given `rule` is valid to the given `input` data,
 printing the `result` in the default output.
@@ -117,7 +117,7 @@ import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
 val rule = "item.price" equalsTo 0
 val input = mapOf("item" to mapOf("price" to 0))
 
-val evaluator = ...  
+val evaluator: Evaluator = ...  
 
 val result = evaluator.evaluate(rule, input)
 println(result) // true
@@ -136,8 +136,6 @@ The engine only supports `boolean` evaluations, which means that all operations 
 
 All provided operations can be created using the
 builder: `com.rapatao.projects.ruleset.engine.types.builder.ExpressionBuilder`
-
-To create custom operations, just extends the interface `com.rapatao.projects.ruleset.engine.types.Expression`
 
 | operator              | description                                                                                                                             |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
