@@ -1,8 +1,7 @@
 package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.evaluator.kotlin.Parser.parse
-import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import java.math.BigDecimal
 
 /**
@@ -15,12 +14,8 @@ class KotlinContext(
     private val inputData: Map<String, Any?>
 ) : EvalContext {
 
-    override fun process(expression: Expression): Boolean {
-        return parse(
-            expression,
-            expression.left.asValue(),
-            expression.right.asValue()
-        )
+    override fun process(left: Any?, operator: Operator, right: Any?): Boolean {
+        return operator.process(this, left.asValue(), right.asValue())
     }
 
     private fun Any?.asValue(): Any? {

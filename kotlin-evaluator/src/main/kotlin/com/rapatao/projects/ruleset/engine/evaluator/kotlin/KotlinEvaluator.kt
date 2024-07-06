@@ -2,6 +2,7 @@ package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import kotlin.reflect.full.memberProperties
 
 /**
@@ -9,7 +10,24 @@ import kotlin.reflect.full.memberProperties
  *
  * Supported types: Java primitive types, boolean, string, number types, maps, lists and arrays.
  */
-open class KotlinEvaluator : Evaluator() {
+open class KotlinEvaluator(
+    operators: List<Operator> = listOf()
+) : Evaluator() {
+
+    private val declaredOperators: Map<String, Operator> =
+        listOf(
+            Equals(),
+            NotEquals(),
+            GreaterThan(),
+            GreaterOrEqualThan(),
+            LessThan(),
+            LessOrEqualThan(),
+            StartsWith(),
+            EndsWith(),
+            Contains(),
+            *operators.toTypedArray()
+        ).associateBy { it.name() }
+
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
         return block(KotlinContext(
             mutableMapOf<String, Any?>().apply {
@@ -19,6 +37,8 @@ open class KotlinEvaluator : Evaluator() {
     }
 
     override fun name(): String = "KotlinEval"
+
+    override fun operator(name: String): Operator? = declaredOperators[name]
 
     private fun MutableMap<String, Any?>.parseKeys(node: String, input: Any?) {
         when {
