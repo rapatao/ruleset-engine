@@ -46,10 +46,14 @@ class KotlinContext(
                 key.toBooleanStrictOrNull()
             },
             {
-                inputData.getOrElse(key) {
+                inputData[key]
+            },
+            {
+                if (!inputData.containsKey(key)) {
                     throw NoSuchElementException("$key not found")
                 }
-            },
+                null
+            }
         ).firstNotNullOfOrNull { it() }
     }
 

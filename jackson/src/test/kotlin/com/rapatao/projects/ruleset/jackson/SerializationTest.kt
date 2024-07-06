@@ -24,7 +24,7 @@ class SerializationTest {
 
     companion object {
         @JvmStatic
-        fun tests() = TestData.allCases()
+        fun tests() = TestData.cases()
     }
 
     @ParameterizedTest
