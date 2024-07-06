@@ -12,21 +12,20 @@ import kotlin.reflect.full.memberProperties
  */
 open class KotlinEvaluator(
     operators: List<Operator> = listOf()
-) : Evaluator() {
-
-    private val declaredOperators: Map<String, Operator> =
-        listOf(
-            Equals(),
-            NotEquals(),
-            GreaterThan(),
-            GreaterOrEqualThan(),
-            LessThan(),
-            LessOrEqualThan(),
-            StartsWith(),
-            EndsWith(),
-            Contains(),
-            *operators.toTypedArray()
-        ).associateBy { it.name() }
+) : Evaluator(
+    listOf(
+        Equals(),
+        NotEquals(),
+        GreaterThan(),
+        GreaterOrEqualThan(),
+        LessThan(),
+        LessOrEqualThan(),
+        StartsWith(),
+        EndsWith(),
+        Contains(),
+        *operators.toTypedArray()
+    )
+) {
 
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
         return block(KotlinContext(
@@ -37,8 +36,6 @@ open class KotlinEvaluator(
     }
 
     override fun name(): String = "KotlinEval"
-
-    override fun operator(name: String): Operator? = declaredOperators[name]
 
     private fun MutableMap<String, Any?>.parseKeys(node: String, input: Any?) {
         when {
