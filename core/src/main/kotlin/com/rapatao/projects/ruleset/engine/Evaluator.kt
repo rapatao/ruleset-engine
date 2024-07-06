@@ -9,7 +9,11 @@ import com.rapatao.projects.ruleset.engine.types.operators.Operator
 /**
  * The Evaluator is a base class used to evaluate a given rule expression against input data.
  */
-abstract class Evaluator {
+abstract class Evaluator(
+    operators: List<Operator>,
+) {
+
+    private val declaredOperators = operators.associateBy { it.name().lowercase() }
 
     /**
      * Evaluates the given rule expression against the provided input data.
@@ -55,7 +59,7 @@ abstract class Evaluator {
      *
      * @return The operator.
      */
-    abstract fun operator(name: String): Operator?
+    fun operator(name: String): Operator? = declaredOperators[name]
 
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {
