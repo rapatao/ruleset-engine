@@ -1,5 +1,7 @@
 package com.rapatao.projects.ruleset.engine.types
 
+import com.rapatao.projects.ruleset.engine.Evaluator
+
 /**
  * Represents an expression used in a logical query.
  *
@@ -32,15 +34,17 @@ data class Expression(
      *
      * @return Boolean value indicating whether the object is valid.
      */
-    fun isValid(): Boolean {
-        val any = anyMatch?.map { it.isValid() }?.firstOrNull { !it } ?: true
-        val none = noneMatch?.map { it.isValid() }?.firstOrNull { !it } ?: true
-        val all = allMatch?.map { it.isValid() }?.firstOrNull { !it } ?: true
+    fun isValid(engine: Evaluator): Boolean {
+        val any = anyMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
+        val none = noneMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
+        val all = allMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
 
         val has = anyMatch == null && noneMatch == null && allMatch == null && parseable()
         val group = anyMatch != null || noneMatch != null || allMatch != null
         val something = (any && none && all) || parseable()
 
-        return (has || group) && something
+        val validOperator = operator == null || engine.operator(operator) != null
+
+        return (has || group) && something && validOperator
     }
 }

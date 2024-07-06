@@ -1,6 +1,6 @@
 package com.rapatao.projects.ruleset.engine.context
 
-import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 
 /**
  * Represents an evaluation context for processing expressions.
@@ -8,11 +8,9 @@ import com.rapatao.projects.ruleset.engine.types.Expression
 fun interface EvalContext {
 
     /**
-     * Processes an expression.
+     * Process the expression using the given operator
      *
-     * @param expression the expression to process
      * @return true if the expression is successfully processed, false otherwise
-     * @throws Exception if the expression processing fails and onFailure is set to THROW
      */
-    fun process(expression: Expression): Boolean
+    fun process(left: Any?, operator: Operator, right: Any?): Boolean
 }
