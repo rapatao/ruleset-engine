@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.Operator
 
 /**
  * This interface represents a mixin for JSON serialization and deserialization of expressions.
@@ -22,14 +21,6 @@ interface ExpressionMixin {
         ],
     )
     fun onFailure(): OnFailure
-
-    @JsonFormat(
-        with = [
-            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_VALUES,
-            JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES
-        ],
-    )
-    fun operator(): Operator
 
     @JsonIgnore
     fun isValid(): Boolean
