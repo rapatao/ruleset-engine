@@ -4,6 +4,7 @@ import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.TypedInjector
+import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.Engine
 import org.graalvm.polyglot.HostAccess
@@ -26,8 +27,22 @@ open class GraalJSEvaluator(
         .engine(engine)
         .option("js.ecmascript-version", "2023")
         .allowHostAccess(HostAccess.ALL).allowHostClassLookup { true }
-        .option("js.nashorn-compat", "true").allowExperimentalOptions(true)
-) : Evaluator() {
+        .option("js.nashorn-compat", "true").allowExperimentalOptions(true),
+    operators: List<Operator> = listOf(),
+) : Evaluator(
+    listOf(
+        Equals(),
+        NotEquals(),
+        GreaterThan(),
+        GreaterOrEqualThan(),
+        LessThan(),
+        LessOrEqualThan(),
+        StartsWith(),
+        EndsWith(),
+        Contains(),
+        *operators.toTypedArray()
+    )
+) {
 
     override fun <T> call(inputData: Any, block: EvalContext.() -> T): T =
         createContext().let {
