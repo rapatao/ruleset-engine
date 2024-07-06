@@ -7,9 +7,11 @@ import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.builder.MatcherBuilder.allMatch
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
+import com.rapatao.projects.ruleset.engine.types.operators.BuiltInOperators
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.emptyString
 import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.hasItem
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.reflect.full.memberProperties
 
 abstract class BaseEvaluatorTest(
     private val evaluator: Evaluator
@@ -126,5 +129,18 @@ abstract class BaseEvaluatorTest(
     @DisplayName("evaluator must have a non empty name")
     fun assertEvaluatorMustHaveName() {
         assertThat(evaluator.name(), not(emptyString()))
+    }
+
+    @Test
+    @DisplayName("all built-in operators should have at least one test case")
+    fun assertBuiltInImplementations() {
+        val operatorsTested: Set<String> = TestData.cases().flatMap { it.get().toList() }
+            .filterIsInstance<Expression>()
+            .mapNotNull { it.operator }
+            .toSet()
+
+        BuiltInOperators::class.memberProperties.forEach {
+            assertThat(operatorsTested, hasItem(it.call()))
+        }
     }
 }

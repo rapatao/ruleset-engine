@@ -5,5 +5,5 @@ package com.rapatao.projects.ruleset.engine.types.operators
  * another.
  */
 abstract class LessOrEqualThanOperator : Operator {
-    override fun name(): String = "less_or_equal_than"
+    override fun name(): String = BuiltInOperators.LESS_OR_EQUAL_THAN
 }

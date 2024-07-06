@@ -5,5 +5,5 @@ package com.rapatao.projects.ruleset.engine.types.operators
  * a particular element.
  */
 abstract class ContainsOperator : Operator {
-    override fun name(): String = "contains"
+    override fun name(): String = BuiltInOperators.CONTAINS
 }
