@@ -2,7 +2,6 @@ package com.rapatao.projects.ruleset.engine.types
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
-import com.rapatao.projects.ruleset.engine.types.errors.UnknownOperator
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -11,25 +10,19 @@ import org.junit.jupiter.api.Test
 
 class ExpressionTest {
 
-    private val dummyEval: Evaluator = object : Evaluator() {
+    private val dummyEval: Evaluator = object : Evaluator(
+        listOf(
+            object : Operator {
+                override fun process(context: EvalContext, left: Any?, right: Any?): Boolean = true
+                override fun name(): String = "equals"
+            }
+        )
+    ) {
         override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
             TODO("Not yet implemented")
         }
 
         override fun name(): String = "test"
-
-        override fun operator(name: String): Operator {
-            if (name != "equals") {
-                throw UnknownOperator(name)
-            }
-
-            val dummyOperator = object : Operator {
-                override fun process(context: EvalContext, left: Any?, right: Any?): Boolean = true
-                override fun name(): String = "equals"
-            }
-
-            return dummyOperator
-        }
     }
 
     @Test
