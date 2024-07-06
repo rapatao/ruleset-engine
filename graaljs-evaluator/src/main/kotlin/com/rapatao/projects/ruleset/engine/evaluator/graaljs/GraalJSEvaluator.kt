@@ -30,7 +30,7 @@ open class GraalJSEvaluator(
         .option("js.nashorn-compat", "true").allowExperimentalOptions(true),
     operators: List<Operator> = listOf(),
 ) : Evaluator(
-    listOf(
+    operators = listOf(
         Equals(),
         NotEquals(),
         GreaterThan(),
@@ -40,8 +40,7 @@ open class GraalJSEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
-        *operators.toTypedArray()
-    )
+    ) + operators,
 ) {
 
     override fun <T> call(inputData: Any, block: EvalContext.() -> T): T =

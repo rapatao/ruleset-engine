@@ -15,7 +15,7 @@ open class RhinoEvaluator(
     private val contextFactory: RhinoContextFactory = RhinoContextFactory(),
     operators: List<Operator> = listOf(),
 ) : Evaluator(
-    listOf(
+    operators = listOf(
         Equals(),
         NotEquals(),
         GreaterThan(),
@@ -25,8 +25,7 @@ open class RhinoEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
-        *operators.toTypedArray()
-    )
+    ) + operators,
 ) {
 
     override fun <T> call(

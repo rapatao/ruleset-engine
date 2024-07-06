@@ -39,12 +39,20 @@ data class Expression(
         val none = noneMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
         val all = allMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
 
-        val has = anyMatch == null && noneMatch == null && allMatch == null && parseable()
-        val group = anyMatch != null || noneMatch != null || allMatch != null
         val something = (any && none && all) || parseable()
 
-        val validOperator = operator == null || engine.operator(operator) != null
+        return isValidGroup() && something && isValidOperator(engine)
+    }
 
-        return (has || group) && something && validOperator
+    private fun isValidOperator(engine: Evaluator): Boolean {
+        val validOperator = operator == null || engine.operator(operator) != null
+        return validOperator
+    }
+
+    private fun isValidGroup(): Boolean {
+        val has = anyMatch == null && noneMatch == null && allMatch == null && parseable()
+        val group = anyMatch != null || noneMatch != null || allMatch != null
+
+        return (has || group)
     }
 }

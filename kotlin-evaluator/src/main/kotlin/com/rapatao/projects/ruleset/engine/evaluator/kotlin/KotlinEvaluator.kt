@@ -13,7 +13,7 @@ import kotlin.reflect.full.memberProperties
 open class KotlinEvaluator(
     operators: List<Operator> = listOf(),
 ) : Evaluator(
-    listOf(
+    operators = listOf(
         Equals(),
         NotEquals(),
         GreaterThan(),
@@ -23,8 +23,7 @@ open class KotlinEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
-        *operators.toTypedArray()
-    )
+    ) + operators,
 ) {
 
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
