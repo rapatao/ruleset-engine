@@ -49,7 +49,7 @@ open class GraalJSEvaluator(
                 it.getBindings("js"),
                 inputData,
             )
-            block(GraalJSContext(it))
+            block(GraalJSContext(this, it))
         }
 
     private fun createContext(): Context {

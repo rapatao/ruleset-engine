@@ -37,7 +37,7 @@ open class RhinoEvaluator(
 
             parseParameters(scope, context, inputData)
 
-            block(RhinoContext(context, scope))
+            block(RhinoContext(this, context, scope))
         }
     }
 
