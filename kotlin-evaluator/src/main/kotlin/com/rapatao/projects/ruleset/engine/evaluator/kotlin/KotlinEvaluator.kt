@@ -28,6 +28,7 @@ open class KotlinEvaluator(
 
     override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
         return block(KotlinContext(
+            this,
             mutableMapOf<String, Any?>().apply {
                 parseKeys("", inputData)
             }
@@ -63,6 +64,8 @@ open class KotlinEvaluator(
                 val currNode = node.childNode()
 
                 input.forEach { key, value ->
+                    this["${currNode}${key}"] = value
+                    
                     parseKeys("${currNode}${key}", value)
                 }
             }
@@ -71,6 +74,8 @@ open class KotlinEvaluator(
                 val currNode = node.childNode()
 
                 input?.javaClass?.kotlin?.memberProperties?.forEach {
+                    this["${currNode}${it.name}"] = it.get(input)
+
                     parseKeys("${currNode}${it.name}", it.get(input))
                 }
             }

@@ -1,5 +1,6 @@
 package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
+import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import java.math.BigDecimal
@@ -8,15 +9,19 @@ import java.math.BigDecimal
  * KotlinContext is a class that implements the EvalContext interface.
  * It provides the ability to process expressions using Kotlin operations.
  *
+ * @param evaluator the evaluator implementation instance
  * @param inputData the map containing the input data to be used during expression evaluation
  */
 class KotlinContext(
+    private val evaluator: Evaluator,
     private val inputData: Map<String, Any?>
 ) : EvalContext {
 
     override fun process(left: Any?, operator: Operator, right: Any?): Boolean {
         return operator.process(this, left.asValue(), right.asValue())
     }
+
+    override fun engine(): Evaluator = evaluator
 
     private fun Any?.asValue(): Any? {
         val result = when {
