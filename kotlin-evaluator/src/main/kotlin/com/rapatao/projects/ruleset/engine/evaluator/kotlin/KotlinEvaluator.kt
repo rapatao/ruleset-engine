@@ -2,6 +2,15 @@ package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.Contains
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.EndsWith
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.Equals
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.GreaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.GreaterThan
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessThan
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import kotlin.reflect.full.memberProperties
 
