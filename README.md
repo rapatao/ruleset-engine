@@ -167,7 +167,7 @@ single Operator per name, which means that it is not possible to have more than 
 
 > Each built-in operator has its own class and all of them are located at the
 > package `com.rapatao.projects.ruleset.engine.types.operators`. To override then it is not mandatory to use these base
-> classes, it only need to have the same name as the built-in operator.
+> classes, it only needs to have the same name as the built-in operator.
 
 There is no validation related to duplicated operator names, since it is required to allow overriding the built-in
 operator by one implemented by the user of this library.
