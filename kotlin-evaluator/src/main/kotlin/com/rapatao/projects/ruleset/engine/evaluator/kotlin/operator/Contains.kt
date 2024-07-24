@@ -7,7 +7,6 @@ internal class Contains : ContainsOperator() {
     override fun process(context: EvalContext, left: Any?, right: Any?): Boolean =
         left.checkContains(right)
 
-
     private fun Any?.checkContains(value: Any?): Boolean {
         return when {
             this is String && value is String -> this.contains(value)

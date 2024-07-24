@@ -1875,3 +1875,35 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 }
 ```
 
+```json
+{
+  "left" : "item.name",
+  "operator" : "not_contains",
+  "right" : "\"duct\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "not_contains",
+  "right" : "\"different value\""
+}
+```
+
+```json
+{
+  "left" : "item.tags",
+  "operator" : "not_contains",
+  "right" : "\"test\""
+}
+```
+
+```json
+{
+  "left" : "item.tags",
+  "operator" : "not_contains",
+  "right" : "\"different value\""
+}
+```
+

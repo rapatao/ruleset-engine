@@ -10,4 +10,5 @@ object BuiltInOperators {
     const val STARTS_WITH = "starts_with"
     const val ENDS_WITH = "ends_with"
     const val CONTAINS = "contains"
+    const val NOT_CONTAINS = "not_contains"
 }

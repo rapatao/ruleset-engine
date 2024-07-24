@@ -9,6 +9,7 @@ import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.GreaterOrEq
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.GreaterThan
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessOrEqualThan
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessThan
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotContains
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotEquals
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
@@ -32,6 +33,7 @@ open class KotlinEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
+        NotContains(),
     ) + operators,
 ) {
 
@@ -74,7 +76,7 @@ open class KotlinEvaluator(
 
                 input.forEach { key, value ->
                     this["${currNode}${key}"] = value
-                    
+
                     parseKeys("${currNode}${key}", value)
                 }
             }
