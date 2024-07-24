@@ -2,6 +2,16 @@ package com.rapatao.projects.ruleset.engine.evaluator.rhino
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.Contains
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.EndsWith
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.Equals
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.GreaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.GreaterThan
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.LessOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.LessThan
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotContains
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.TypedInjector
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
@@ -25,6 +35,7 @@ open class RhinoEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
+        NotContains(),
     ) + operators,
 ) {
 

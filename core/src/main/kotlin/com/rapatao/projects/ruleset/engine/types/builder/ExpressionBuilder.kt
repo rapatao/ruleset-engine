@@ -1,6 +1,7 @@
 package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.operators.BuiltInOperators
 
 /**
  * A utility class for building expressions using different operators.
@@ -56,7 +57,7 @@ object ExpressionBuilder {
          * @param right The right operand to compare.
          * @return The expression representing the "equals to" comparison.
          */
-        infix fun equalsTo(right: Any?) = Expression(left = left, operator = "equals", right = right)
+        infix fun equalsTo(right: Any?) = Expression(left = left, operator = BuiltInOperators.EQUALS, right = right)
 
         /**
          * Creates an expression representing the inequality comparison between the left-hand side and the right-hand
@@ -65,7 +66,8 @@ object ExpressionBuilder {
          * @param right The right-hand side of the comparison.
          * @return A new expression representing the inequality comparison.
          */
-        infix fun notEqualsTo(right: Any?) = Expression(left = left, operator = "not_equals", right = right)
+        infix fun notEqualsTo(right: Any?) =
+            Expression(left = left, operator = BuiltInOperators.NOT_EQUALS, right = right)
 
         /**
          * Creates an Expression object representing the greater-than comparison between the left operand and the right
@@ -76,7 +78,7 @@ object ExpressionBuilder {
          * @return the Expression object representing the greater-than comparison
          */
         infix fun greaterThan(right: Any) =
-            Expression(left = left, operator = "greater_than", right = right)
+            Expression(left = left, operator = BuiltInOperators.GREATER_THAN, right = right)
 
         /**
          * Creates an expression that represents the "greater than or equal to" operation
@@ -85,7 +87,7 @@ object ExpressionBuilder {
          * @return an expression representing the "greater than or equal to" operation
          */
         infix fun greaterOrEqualThan(right: Any) =
-            Expression(left = left, operator = "greater_or_equal_than", right = right)
+            Expression(left = left, operator = BuiltInOperators.GREATER_OR_EQUAL_THAN, right = right)
 
         /**
          * Creates an 'less than' expression with the specified 'right' value.
@@ -93,7 +95,7 @@ object ExpressionBuilder {
          * @param right The right value of the expression.
          * @return The created expression.
          */
-        infix fun lessThan(right: Any) = Expression(left = left, operator = "less_than", right = right)
+        infix fun lessThan(right: Any) = Expression(left = left, operator = BuiltInOperators.LESS_THAN, right = right)
 
         /**
          * Creates an expression that represents the less than or equal to operation.
@@ -102,21 +104,21 @@ object ExpressionBuilder {
          * @return An Expression object representing the less than or equal to operation.
          */
         infix fun lessOrEqualThan(right: Any) =
-            Expression(left = left, operator = "less_or_equal_than", right = right)
+            Expression(left = left, operator = BuiltInOperators.LESS_OR_EQUAL_THAN, right = right)
 
         /**
          * Checks if the left operand represents a boolean with value true.
          *
          * @return The boolean expression representing if the condition is true.
          */
-        fun isTrue() = Expression(left = left, operator = "equals", right = true)
+        fun isTrue() = Expression(left = left, operator = BuiltInOperators.EQUALS, right = true)
 
         /**
          * Checks if the left operand represents a boolean with value false.
          *
          * @return The boolean expression representing if the condition is false.
          */
-        fun isFalse() = Expression(left = left, operator = "equals", right = false)
+        fun isFalse() = Expression(left = left, operator = BuiltInOperators.EQUALS, right = false)
 
         /**
          * Creates an expression that checks if the left operand starts with the specified right operand.
@@ -125,7 +127,7 @@ object ExpressionBuilder {
          * @return An Expression object representing the "starts with" condition.
          */
         fun startsWith(right: Any?) = Expression(
-            left = left, operator = "starts_with", right = right
+            left = left, operator = BuiltInOperators.STARTS_WITH, right = right
         )
 
         /**
@@ -135,7 +137,7 @@ object ExpressionBuilder {
          * @return An Expression object representing the "ends with" condition.
          */
         fun endsWith(right: Any?) = Expression(
-            left = left, operator = "ends_with", right = right
+            left = left, operator = BuiltInOperators.ENDS_WITH, right = right
         )
 
         /**
@@ -147,7 +149,19 @@ object ExpressionBuilder {
          * @return An [Expression] object representing the containment check, with the operator set to "contains".
          */
         fun contains(right: Any?) = Expression(
-            left = left, operator = "contains", right = right
+            left = left, operator = BuiltInOperators.CONTAINS, right = right
+        )
+
+        /**
+         * Creates an expression to check if the left operand not contains the right operand.
+         * If the left operand is a string, it checks if the string not contains the value of the right operand.
+         * If the left operand is a list, it checks if the list not contains the right operand.
+         *
+         * @param right The value to be checked for containment within the left operand. Can be of any type.
+         * @return An [Expression] object representing the containment check, with the operator set to "not_contains".
+         */
+        fun notContains(right: Any?) = Expression(
+            left = left, operator = BuiltInOperators.NOT_CONTAINS, right = right
         )
     }
 }

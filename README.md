@@ -145,17 +145,18 @@ The engine provides many built-in operators, but it also allows adding new ones 
 
 #### Built-in operators
 
-| operator              | description                                                                                                                             |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| equals                | Represents the equality operator (==), used to check if two values are equal.                                                           |
-| not_equals            | Represents the inequality operator (!=), used to check if two values are not equal.                                                     |
-| greater_than          | Represents the greater than operator (>), used to compare if one value is greater than another.                                         |
-| greater_or_equal_than | Represents the greater than or equal to operator (>=), used to compare if one value is greater than or equal to another.                |
-| less_than             | Represents the less than operator (<), used to compare if one value is less than another.                                               |
-| less_or_equal_than    | Represents the less than or equal to operator (<=), used to compare if one value is less than or equal to another.                      |
-| starts_with           | Represents the operation to check if a string starts with a specified sequence of characters.                                           |
-| ends_with             | Represents the operation to check if a string ends with a specified sequence of characters.                                             |
-| contains              | Represents the operation to check if a string contains a specified sequence of characters or if an array contains a particular element. |
+| operator              | description                                                                                                                                          |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| equals                | Represents the equality operator (==), used to check if two values are equal.                                                                        |
+| not_equals            | Represents the inequality operator (!=), used to check if two values are not equal.                                                                  |
+| greater_than          | Represents the greater than operator (>), used to compare if one value is greater than another.                                                      |
+| greater_or_equal_than | Represents the greater than or equal to operator (>=), used to compare if one value is greater than or equal to another.                             |
+| less_than             | Represents the less than operator (<), used to compare if one value is less than another.                                                            |
+| less_or_equal_than    | Represents the less than or equal to operator (<=), used to compare if one value is less than or equal to another.                                   |
+| starts_with           | Represents the operation to check if a string starts with a specified sequence of characters.                                                        |
+| ends_with             | Represents the operation to check if a string ends with a specified sequence of characters.                                                          |
+| contains              | Represents the operation to check if a string contains a specified sequence of characters or if an array/list contains a particular element.         |
+| not_contains          | Represents the operation to check if a string not contains a specified sequence of characters or if an array/list not contains a particular element. |
 
 #### Customizing the operators
 
@@ -204,6 +205,8 @@ operator by one implemented by the user of this library.
 "field" endsWith "\"value\""
 
 "field" expContains "\"value\""
+
+"field" expNotContains "\"value\""
 ````
 
 ## Supported group operations

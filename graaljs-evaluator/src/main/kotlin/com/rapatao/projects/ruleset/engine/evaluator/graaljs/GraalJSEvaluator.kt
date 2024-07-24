@@ -2,6 +2,16 @@ package com.rapatao.projects.ruleset.engine.evaluator.graaljs
 
 import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.Contains
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.EndsWith
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.Equals
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.GreaterOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.GreaterThan
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.LessOrEqualThan
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.LessThan
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotContains
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.TypedInjector
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
@@ -40,6 +50,7 @@ open class GraalJSEvaluator(
         StartsWith(),
         EndsWith(),
         Contains(),
+        NotContains(),
     ) + operators,
 ) {
 
