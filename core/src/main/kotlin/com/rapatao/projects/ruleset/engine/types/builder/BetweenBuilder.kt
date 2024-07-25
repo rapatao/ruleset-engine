@@ -1,6 +1,7 @@
 package com.rapatao.projects.ruleset.engine.types.builder
 
 import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.engine.types.operators.BuiltInOperators
 
 /**
  * A builder class for constructing expressions representing a between condition.
@@ -18,7 +19,7 @@ data class BetweenBuilder(val left: Any, val from: Any, val operator: String) {
      */
     infix fun to(to: Any): Expression = MatcherBuilder.allMatch(
         ExpressionBuilder.expression(left = left, operator = operator, right = from),
-        ExpressionBuilder.expression(left = left, operator = "less_than", right = to),
+        ExpressionBuilder.expression(left = left, operator = BuiltInOperators.LESS_THAN, right = to),
     )
 
     /**
@@ -29,7 +30,6 @@ data class BetweenBuilder(val left: Any, val from: Any, val operator: String) {
      */
     infix fun toInclusive(to: Any): Expression = MatcherBuilder.allMatch(
         ExpressionBuilder.expression(left = left, operator = operator, right = from),
-        ExpressionBuilder.expression(left = left, operator = "less_or_equal_than", right = to),
+        ExpressionBuilder.expression(left = left, operator = BuiltInOperators.LESS_OR_EQUAL_THAN, right = to),
     )
 }
-
