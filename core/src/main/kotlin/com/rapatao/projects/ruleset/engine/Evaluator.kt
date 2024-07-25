@@ -25,12 +25,10 @@ abstract class Evaluator(
     fun evaluate(expression: Expression, inputData: Any): Boolean {
         return usingFailureWrapper(expression.onFailure) {
             call(inputData) {
-                val processIsTrue = expression.takeIf { v -> v.parseable() }?.processExpression(it) ?: true
-                val processNoneMatch = expression.noneMatch?.processNoneMatch(it) ?: true
-                val processAnyMatch = expression.anyMatch?.processAnyMatch(it) ?: true
-                val processAllMatch = expression.allMatch?.processAllMatch(it) ?: true
-
-                processIsTrue && processNoneMatch && processAnyMatch && processAllMatch
+                expression.takeIf { v -> v.parseable() }?.processExpression(it) ?: true &&
+                    expression.noneMatch?.processNoneMatch(it) ?: true &&
+                    expression.anyMatch?.processAnyMatch(it) ?: true &&
+                    expression.allMatch?.processAllMatch(it) ?: true
             }
         }
     }
@@ -64,12 +62,10 @@ abstract class Evaluator(
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {
             usingFailureWrapper(it.onFailure) {
-                val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == true
-                val noneMatch = it.noneMatch?.processNoneMatch(context) == false
-                val anyMatch = it.anyMatch?.processAnyMatch(context) == true
-                val allMatch = it.allMatch?.processAllMatch(context) == true
-
-                isTrue || noneMatch || anyMatch || allMatch
+                it.takeIf { v -> v.parseable() }?.processExpression(context) == true ||
+                    it.noneMatch?.processNoneMatch(context) == false ||
+                    it.anyMatch?.processAnyMatch(context) == true ||
+                    it.allMatch?.processAllMatch(context) == true
             }
         }
     }
@@ -77,12 +73,10 @@ abstract class Evaluator(
     private fun List<Expression>.processAnyMatch(context: EvalContext): Boolean {
         return this.any {
             usingFailureWrapper(it.onFailure) {
-                val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == true
-                val anyMatch = it.anyMatch?.processAnyMatch(context) ?: false
-                val noneMatch = it.noneMatch?.processNoneMatch(context) == true
-                val allMatch = it.allMatch?.processAllMatch(context) == true
-
-                isTrue || anyMatch || noneMatch || allMatch
+                it.takeIf { v -> v.parseable() }?.processExpression(context) == true ||
+                    it.anyMatch?.processAnyMatch(context) ?: false ||
+                    it.noneMatch?.processNoneMatch(context) == true ||
+                    it.allMatch?.processAllMatch(context) == true
             }
         }
     }
@@ -90,12 +84,10 @@ abstract class Evaluator(
     private fun List<Expression>.processAllMatch(context: EvalContext): Boolean {
         return this.none {
             usingFailureWrapper(it.onFailure) {
-                val isTrue = it.takeIf { v -> v.parseable() }?.processExpression(context) == false
-                val anyMatch = it.anyMatch?.processAnyMatch(context) == false
-                val noneMatch = it.noneMatch?.processNoneMatch(context) == false
-                val allMatch = it.allMatch?.processAllMatch(context) == false
-
-                isTrue || anyMatch || noneMatch || allMatch
+                it.takeIf { v -> v.parseable() }?.processExpression(context) == false ||
+                    it.anyMatch?.processAnyMatch(context) == false ||
+                    it.noneMatch?.processNoneMatch(context) == false ||
+                    it.allMatch?.processAllMatch(context) == false
             }
         }
     }
