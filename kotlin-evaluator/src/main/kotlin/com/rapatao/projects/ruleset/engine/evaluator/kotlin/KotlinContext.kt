@@ -25,6 +25,7 @@ class KotlinContext(
 
     private fun Any?.asValue(): Any? {
         val result = when {
+            this is String && this == "null" -> null
             this is String && !this.trim().matches(Regex("^\".*\"$")) -> rawValue()
             this is String && this.trim().matches(Regex("\".*\"")) -> this.unwrap()
             else -> this

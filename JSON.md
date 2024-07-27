@@ -263,6 +263,38 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 
 ```json
 {
+  "left" : "\"null\"",
+  "operator" : "equals",
+  "right" : "\"null\""
+}
+```
+
+```json
+{
+  "left" : 10.2,
+  "operator" : "equals",
+  "right" : 10.2
+}
+```
+
+```json
+{
+  "left" : 10,
+  "operator" : "equals",
+  "right" : 10
+}
+```
+
+```json
+{
+  "left" : "item.price",
+  "operator" : "not_equals",
+  "right" : 10
+}
+```
+
+```json
+{
   "left" : "item.price",
   "operator" : "not_equals",
   "right" : 0
@@ -271,7 +303,23 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 
 ```json
 {
-  "left" : "item.price",
+  "left" : "\"null\"",
+  "operator" : "not_equals",
+  "right" : "\"null\""
+}
+```
+
+```json
+{
+  "left" : 10.2,
+  "operator" : "not_equals",
+  "right" : 10.2
+}
+```
+
+```json
+{
+  "left" : 10,
   "operator" : "not_equals",
   "right" : 10
 }
@@ -1904,6 +1952,33 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
   "left" : "item.tags",
   "operator" : "contains",
   "right" : "\"different value\""
+}
+```
+
+```json
+{
+  "left" : "10",
+  "operator" : "contains",
+  "right" : "\"different value\"",
+  "onFailure" : "FALSE"
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "contains",
+  "right" : "10",
+  "onFailure" : "FALSE"
+}
+```
+
+```json
+{
+  "left" : "null",
+  "operator" : "contains",
+  "right" : "10",
+  "onFailure" : "FALSE"
 }
 ```
 

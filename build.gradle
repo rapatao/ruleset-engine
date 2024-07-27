@@ -1,3 +1,5 @@
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+
 plugins {
     id "java-library"
     id "signing"
@@ -7,6 +9,40 @@ plugins {
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
     id "io.github.gradle-nexus.publish-plugin" version "${publishPluginVersion}"
     id "com.github.ben-manes.versions" version "${BenManerVersionsVersion}"
+}
+
+kover {
+    reports {
+        total {
+            verify {
+                rule {
+                    bound {
+                        coverageUnits = CoverageUnit.BRANCH
+                        it.minValue = 90
+                    }
+                    bound {
+                        coverageUnits = CoverageUnit.INSTRUCTION
+                        it.minValue = 90
+                    }
+                    bound {
+                        coverageUnits = CoverageUnit.BRANCH
+                        it.minValue = 90
+                    }
+                }
+            }
+            it.html {
+                onCheck = true
+            }
+        }
+    }
+}
+
+dependencies {
+    kover(project(":core"))
+    kover(project(":graaljs-evaluator"))
+    kover(project(":kotlin-evaluator"))
+    kover(project(":rhino-evaluator"))
+    kover(project(":jackson"))
 }
 
 allprojects {
