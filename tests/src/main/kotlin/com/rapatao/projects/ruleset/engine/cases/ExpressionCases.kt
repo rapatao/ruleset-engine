@@ -1,5 +1,6 @@
 package com.rapatao.projects.ruleset.engine.cases
 
+import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.from
@@ -149,20 +150,39 @@ object ExpressionCases {
         Arguments.of(
             "item.nullableStr" equalsTo null,
             true
-        )
-    )
-
-    @Suppress("MagicNumber")
-    private fun notEqualsCases() = listOf(
+        ),
         Arguments.of(
-            "item.price" notEqualsTo 0,
+            "null" equalsTo null,
             true
         ),
         Arguments.of(
-            "item.price" notEqualsTo 10,
+            "\"null\"" equalsTo null,
             false
         ),
+        Arguments.of(
+            "\"null\"" equalsTo "\"null\"",
+            true
+        ),
+        Arguments.of(
+            10.2 equalsTo 10.2,
+            true
+        ),
+        Arguments.of(
+            10 equalsTo 10,
+            true
+        ),
     )
+
+    private fun notEqualsCases() = equalsCases()
+        .map {
+            val expression = it.get()[0] as Expression
+            val expectation = it.get()[1] as Boolean
+
+            Arguments.of(
+                expression.left!! notEqualsTo expression.right ifFail expression.onFailure,
+                !expectation
+            )
+        }
 
     private fun booleanCases() = listOf(
         Arguments.of(

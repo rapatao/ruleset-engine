@@ -1,6 +1,9 @@
 package com.rapatao.projects.ruleset.engine
 
+import com.rapatao.projects.ruleset.engine.cases.InvalidOperatorCases
+import com.rapatao.projects.ruleset.engine.cases.OnFailureCases
 import com.rapatao.projects.ruleset.engine.cases.TestData
+import com.rapatao.projects.ruleset.engine.helper.ExposeEngineTestOperator.Companion.EXPOSED_OPERATOR_NAME
 import com.rapatao.projects.ruleset.engine.helper.Helper.doEvaluationTest
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
@@ -26,12 +29,14 @@ abstract class BaseEvaluatorTest(
 ) {
 
     companion object {
-
         @JvmStatic
         fun tests() = TestData.cases()
 
         @JvmStatic
-        fun onFailure() = TestData.onFailureCases()
+        fun onFailure() = OnFailureCases.cases()
+
+        @JvmStatic
+        fun invalidOperators() = InvalidOperatorCases.cases()
     }
 
     @ParameterizedTest
@@ -142,5 +147,35 @@ abstract class BaseEvaluatorTest(
         BuiltInOperators::class.memberProperties.forEach {
             assertThat(operatorsTested, hasItem(it.call()))
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidOperators")
+    fun assertInvalidOperatorTests(expression: Expression, expected: Boolean) {
+        val checker = when (expression.onFailure) {
+            OnFailure.THROW -> fun(b: () -> Unit) {
+                assertThrows<Exception> { b() }
+            }
+
+            else -> fun(b: () -> Unit) { b() }
+        }
+        checker {
+            assertThat(evaluator.evaluate(expression, TestData.inputData), equalTo(expected))
+        }
+    }
+
+    @Test
+    fun assertContextExposesEngine() {
+        assertThat(
+            evaluator.evaluate(
+                Expression(
+                    left = "\"${evaluator.name()}\"",
+                    operator = EXPOSED_OPERATOR_NAME,
+                    right = "\"${evaluator.name()}\"",
+                ),
+                TestData.inputData,
+            ),
+            equalTo(true),
+        )
     }
 }

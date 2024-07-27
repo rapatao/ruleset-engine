@@ -1,6 +1,5 @@
 package com.rapatao.projects.ruleset.engine.cases
 
-import org.junit.jupiter.params.provider.Arguments
 import java.math.BigDecimal
 
 object TestData {
@@ -29,8 +28,6 @@ object TestData {
             arrTags = arrayOf("in_array")
         )
     )
-
-    fun onFailureCases(): List<Arguments> = (OnFailureCases.cases())
 
     fun cases() =
         ExpressionCases.cases() +

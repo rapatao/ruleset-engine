@@ -3,7 +3,6 @@ package com.rapatao.projects.ruleset.engine
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.Expression
 import com.rapatao.projects.ruleset.engine.types.OnFailure
-import com.rapatao.projects.ruleset.engine.types.errors.UnknownOperator
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 
 /**
@@ -24,6 +23,8 @@ abstract class Evaluator(
      */
     fun evaluate(expression: Expression, inputData: Any): Boolean {
         return usingFailureWrapper(expression.onFailure) {
+            require(expression.isValid(this)) { "expression $expression is not valid" }
+
             call(inputData) {
                 expression.takeIf { v -> v.parseable() }?.processExpression(it) ?: true &&
                     expression.noneMatch?.processNoneMatch(it) ?: true &&
@@ -96,9 +97,10 @@ abstract class Evaluator(
         return usingFailureWrapper(this.onFailure) {
             requireNotNull(this.operator) { "expression operator must not be null" }
 
-            val operator = operator(this.operator) ?: throw UnknownOperator(this.operator)
+            val operator = operator(this.operator)
+            requireNotNull(operator) { "Unknown operator: $operator" }
 
-            context.process(this.left, operator, this.right)
+            context.process(left = this.left, operator = operator, right = this.right)
         }
     }
 

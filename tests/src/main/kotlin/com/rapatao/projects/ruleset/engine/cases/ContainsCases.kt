@@ -1,7 +1,9 @@
 package com.rapatao.projects.ruleset.engine.cases
 
+import com.rapatao.projects.ruleset.engine.types.OnFailure
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.expContains
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.expNotContains
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.junit.jupiter.params.provider.Arguments
 
 object ContainsCases {
@@ -21,6 +23,18 @@ object ContainsCases {
         ),
         Arguments.of(
             "item.tags" expContains "\"different value\"",
+            false,
+        ),
+        Arguments.of(
+            ("10" expContains "\"different value\"" ifFail OnFailure.FALSE),
+            false,
+        ),
+        Arguments.of(
+            ("item.name" expContains "10" ifFail OnFailure.FALSE),
+            false,
+        ),
+        Arguments.of(
+            ("null" expContains "10" ifFail OnFailure.FALSE),
             false,
         ),
         // not contains
