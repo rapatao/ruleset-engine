@@ -10,7 +10,9 @@ import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.GreaterTha
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.LessOrEqualThan
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.LessThan
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotContains
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotEndsWith
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.NotStartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.graaljs.parameters.TypedInjector
@@ -48,7 +50,9 @@ open class GraalJSEvaluator(
         LessThan(),
         LessOrEqualThan(),
         StartsWith(),
+        NotStartsWith(),
         EndsWith(),
+        NotEndsWith(),
         Contains(),
         NotContains(),
     ) + operators,
