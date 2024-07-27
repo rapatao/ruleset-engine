@@ -8,7 +8,9 @@ object BuiltInOperators {
     const val LESS_THAN = "less_than"
     const val LESS_OR_EQUAL_THAN = "less_or_equal_than"
     const val STARTS_WITH = "starts_with"
+    const val NOT_STARTS_WITH = "not_starts_with"
     const val ENDS_WITH = "ends_with"
+    const val NOT_ENDS_WITH = "not_ends_with"
     const val CONTAINS = "contains"
     const val NOT_CONTAINS = "not_contains"
 }

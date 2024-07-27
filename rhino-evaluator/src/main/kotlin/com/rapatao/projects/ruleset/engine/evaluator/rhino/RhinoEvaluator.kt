@@ -10,7 +10,9 @@ import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.GreaterThan
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.LessOrEqualThan
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.LessThan
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotContains
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotEndsWith
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.NotStartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.MapInjector
 import com.rapatao.projects.ruleset.engine.evaluator.rhino.parameters.TypedInjector
@@ -33,7 +35,9 @@ open class RhinoEvaluator(
         LessThan(),
         LessOrEqualThan(),
         StartsWith(),
+        NotStartsWith(),
         EndsWith(),
+        NotEndsWith(),
         Contains(),
         NotContains(),
     ) + operators,

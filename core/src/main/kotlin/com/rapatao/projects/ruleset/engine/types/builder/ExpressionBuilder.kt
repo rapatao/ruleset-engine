@@ -131,6 +131,16 @@ object ExpressionBuilder {
         )
 
         /**
+         * Creates an expression that checks if the left operand not starts with the specified right operand.
+         *
+         * @param right The value to check if the left operand not starts with.
+         * @return An Expression object representing the "not starts with" condition.
+         */
+        fun notStartsWith(right: Any?) = Expression(
+            left = left, operator = BuiltInOperators.NOT_STARTS_WITH, right = right
+        )
+
+        /**
          * Creates an expression that checks if the left operand ends with the specified right operand.
          *
          * @param right The value to check if the left operand ends with.
@@ -138,6 +148,16 @@ object ExpressionBuilder {
          */
         fun endsWith(right: Any?) = Expression(
             left = left, operator = BuiltInOperators.ENDS_WITH, right = right
+        )
+
+        /**
+         * Creates an expression that checks if the left operand not ends with the specified right operand.
+         *
+         * @param right The value to check if the left operand not ends with.
+         * @return An Expression object representing the "not ends with" condition.
+         */
+        fun notEndsWith(right: Any?) = Expression(
+            left = left, operator = BuiltInOperators.NOT_ENDS_WITH, right = right
         )
 
         /**

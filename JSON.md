@@ -1830,6 +1830,22 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 ```json
 {
   "left" : "item.name",
+  "operator" : "not_starts_with",
+  "right" : "\"product\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "not_starts_with",
+  "right" : "\"name\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
   "operator" : "ends_with",
   "right" : "\"name\""
 }
@@ -1839,6 +1855,22 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 {
   "left" : "item.name",
   "operator" : "ends_with",
+  "right" : "\"product\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "not_ends_with",
+  "right" : "\"name\""
+}
+```
+
+```json
+{
+  "left" : "item.name",
+  "operator" : "not_ends_with",
   "right" : "\"product\""
 }
 ```
