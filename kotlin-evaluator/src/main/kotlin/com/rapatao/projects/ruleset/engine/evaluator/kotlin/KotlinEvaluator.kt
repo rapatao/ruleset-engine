@@ -10,7 +10,9 @@ import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.GreaterThan
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessOrEqualThan
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.LessThan
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotContains
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotEndsWith
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotEquals
+import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotStartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import kotlin.reflect.full.memberProperties
@@ -31,7 +33,9 @@ open class KotlinEvaluator(
         LessThan(),
         LessOrEqualThan(),
         StartsWith(),
+        NotStartsWith(),
         EndsWith(),
+        NotEndsWith(),
         Contains(),
         NotContains(),
     ) + operators,
