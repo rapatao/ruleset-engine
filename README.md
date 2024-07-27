@@ -204,7 +204,11 @@ operator by one implemented by the user of this library.
 
 "field" startsWith "\"value\""
 
+"field" notStartsWith "\"value\""
+
 "field" endsWith "\"value\""
+
+"field" notEndsWith "\"value\""
 
 "field" expContains "\"value\""
 
