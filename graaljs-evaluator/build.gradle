@@ -1,6 +1,6 @@
 dependencies {
     api project(":core")
-    api("org.graalvm.polyglot:polyglot:24.0.2")
+    api("org.graalvm.polyglot:polyglot:24.1.0")
     api("org.graalvm.polyglot:js-community:24.1.0")
 
     testImplementation project(":tests")
