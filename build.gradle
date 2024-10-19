@@ -8,7 +8,7 @@ plugins {
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
     id "io.github.gradle-nexus.publish-plugin" version "${publishPluginVersion}"
-    id "com.github.ben-manes.versions" version "${BenManerVersionsVersion}"
+    id "com.github.ben-manes.versions" version "${benManerVersionsVersion}"
 }
 
 kover {
@@ -123,6 +123,12 @@ allprojects {
             }
         }
     }
+
+    tasks.named("dependencyUpdates").configure {
+        rejectVersionIf {
+            isNonStable(it.candidate.version)
+        }
+    }
 }
 
 nexusPublishing {
@@ -138,10 +144,4 @@ def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
     def regex = /^[0-9,.v-]+(-r)?$/
     return !stableKeyword && !(version ==~ regex)
-}
-
-tasks.named("dependencyUpdates").configure {
-    rejectVersionIf {
-        isNonStable(it.candidate.version)
-    }
 }
