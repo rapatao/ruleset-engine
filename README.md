@@ -1,7 +1,6 @@
 # ruleset-engine
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.rapatao.ruleset/ruleset-engine.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:com.rapatao.ruleset%20AND%20a:ruleset-engine)
-[![Sonatype OSS](https://img.shields.io/nexus/r/com.rapatao.ruleset/ruleset-engine?label=Sonatype%20OSS&server=https%3A%2F%2Foss.sonatype.org)](https://ossindex.sonatype.org/component/pkg:maven/com.rapatao.ruleset/ruleset-engine)
 
 Simple yet powerful rules engine that offers the flexibility of using the built-in engine and creating a custom one.
 
@@ -109,10 +108,8 @@ printing the `result` in the default output.
 ### Code example
 
 ```kotlin
-
 import com.rapatao.projects.ruleset.engine.Evaluator
-import com.rapatao.projects.ruleset.engine.context.EvalEngine
-import com.rapatao.projects.ruleset.engine.types.builder.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 
 val rule = "item.price" equalsTo 0
 val input = mapOf("item" to mapOf("price" to 0))
@@ -127,7 +124,7 @@ data class Item(val price: Double)
 data class Input(val item: Item)
 
 val result2 = evaluator.evaluate(rule, Input(item = Item(price = 0.0)))
-println(result) // true
+println(result2) // true
 ```
 
 ## Expressions (Rule)
@@ -217,11 +214,11 @@ operator by one implemented by the user of this library.
 
 ## Supported group operations
 
-A grouped operation is `true` when all inner operations result in:
+A grouped operation is evaluated as follows:
 
-* `anyMatch`: any operation must be evaluated as `true`
-* `allMatch`: all operations must be evaluated as `true`
-* `noneMatch`: all operations must be evaluated as `false`
+* `anyMatch`: at least one inner expression must evaluate to `true`
+* `allMatch`: all inner expressions must evaluate to `true`
+* `noneMatch`: all inner expressions must evaluate to `false`
 
 ### Examples
 
@@ -257,21 +254,68 @@ Expression(
 )
 ````
 
+## Range (between) expressions
+
+Range expressions can be composed using the `from`/`fromInclusive` extensions combined with `to`/`toInclusive`.
+
+```kotlin
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.from
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.fromInclusive
+
+// price > 10 AND price < 20
+"price" from 10 to 20
+
+// price >= 10 AND price <= 20
+"price" fromInclusive 10 toInclusive 20
+```
+
+## Failure handling
+
+Each `Expression` accepts an `onFailure` strategy that controls what happens when its evaluation throws (for example,
+when a referenced field is missing from the input data).
+
+| value   | behavior                                                                    |
+|---------|-----------------------------------------------------------------------------|
+| `THROW` | (default) re-throws the underlying exception                                |
+| `TRUE`  | swallows the exception and treats the expression as `true`                  |
+| `FALSE` | swallows the exception and treats the expression as `false`                 |
+
+The strategy can be set directly on the `Expression` constructor or applied to an existing expression via the
+`ifFail` extension:
+
+```kotlin
+import com.rapatao.projects.ruleset.engine.types.OnFailure
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
+import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
+
+"item.optional.field" equalsTo 10 ifFail OnFailure.FALSE
+```
+
 ## Expression serialization
 
 ### Jackson
 
-All provided operations supports serialization using [Jackson](https://github.com/FasterXML/jackson) with the definition
-of a Mixin.
+All provided operations support serialization using [Jackson](https://github.com/FasterXML/jackson) with the definition
+of a Mixin. The project currently targets Jackson 3.x (`tools.jackson` namespace).
 
 Mixin interface: `com.rapatao.projects.ruleset.jackson.ExpressionMixin`
 
 Example of usage:
 
 ```kotlin
-val mapper = jacksonObjectMapper()
-    .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.rapatao.projects.ruleset.engine.types.Expression
+import com.rapatao.projects.ruleset.jackson.ExpressionMixin
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonMapperBuilder
+import tools.jackson.module.kotlin.readValue
+
+val mapper: JsonMapper = jacksonMapperBuilder()
+    .changeDefaultPropertyInclusion { inclusion ->
+        inclusion.withValueInclusion(JsonInclude.Include.NON_NULL)
+    }
     .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+    .build()
 
 val json = "{ serialized definition }"
 

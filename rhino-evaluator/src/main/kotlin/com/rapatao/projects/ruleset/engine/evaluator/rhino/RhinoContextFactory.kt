@@ -13,7 +13,7 @@ import org.mozilla.javascript.ContextFactory
  * @see org.mozilla.javascript.Context
  */
 open class RhinoContextFactory(
-    private val optimizationLevel: Int = -1,
+    private val interpretedMode: Boolean = true,
     private val wrapJavaPrimitives: Boolean = false,
     private val languageVersion: Int = Context.VERSION_DEFAULT,
 ) : ContextFactory() {
@@ -41,7 +41,7 @@ open class RhinoContextFactory(
     override fun makeContext(): Context {
         val context = super.makeContext()
 
-        context.optimizationLevel = optimizationLevel
+        context.isInterpretedMode = interpretedMode
         context.wrapFactory.isJavaPrimitiveWrap = wrapJavaPrimitives
         context.languageVersion = languageVersion
 

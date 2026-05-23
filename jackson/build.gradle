@@ -1,8 +1,8 @@
 dependencies {
     implementation project(":core")
 
-    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
+    implementation("tools.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("tools.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 
     testImplementation project(":tests")
     testImplementation project(":kotlin-evaluator")

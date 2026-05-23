@@ -1,8 +1,6 @@
 package com.rapatao.projects.ruleset.jackson
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator
 import com.rapatao.projects.ruleset.engine.helper.Helper.compareMatcher
@@ -15,12 +13,18 @@ import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonMapperBuilder
+import tools.jackson.module.kotlin.readValue
 
 class SerializationTest {
 
-    private val mapper = jacksonObjectMapper()
-        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    val mapper: JsonMapper = jacksonMapperBuilder()
+        .changeDefaultPropertyInclusion { inclusion ->
+            inclusion.withValueInclusion(JsonInclude.Include.NON_NULL)
+        }
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+        .build()
 
     companion object {
         @JvmStatic
