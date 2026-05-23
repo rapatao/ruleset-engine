@@ -7,7 +7,6 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "io.gitlab.arturbosch.detekt" version "${detektVersion}"
     id "org.jetbrains.kotlinx.kover" version "${koverVersion}"
-    id "io.github.gradle-nexus.publish-plugin" version "${publishPluginVersion}"
     id "com.github.ben-manes.versions" version "${benManerVersionsVersion}"
 }
 
@@ -88,6 +87,18 @@ allprojects {
     }
 
     publishing {
+        repositories {
+            maven {
+                name = "mavenCentral"
+                url = version.endsWith("SNAPSHOT")
+                    ? "https://central.sonatype.com/repository/maven-snapshots/"
+                    : "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
+                credentials {
+                    username = System.getenv('OSSRH_USERNAME')
+                    password = System.getenv('OSSRH_PASSWORD')
+                }
+            }
+        }
         publications {
             maven(MavenPublication) {
                 from components.java
@@ -127,15 +138,6 @@ allprojects {
     tasks.named("dependencyUpdates").configure {
         rejectVersionIf {
             isNonStable(it.candidate.version)
-        }
-    }
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            username = System.getenv('OSSRH_USERNAME')
-            password = System.getenv('OSSRH_PASSWORD')
         }
     }
 }

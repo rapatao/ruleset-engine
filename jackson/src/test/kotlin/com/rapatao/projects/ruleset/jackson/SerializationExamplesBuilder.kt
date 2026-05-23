@@ -1,7 +1,6 @@
 package com.rapatao.projects.ruleset.jackson
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.rapatao.projects.ruleset.engine.cases.TestData
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator
 import com.rapatao.projects.ruleset.engine.types.Expression
@@ -19,6 +18,8 @@ import com.rapatao.projects.ruleset.engine.types.builder.extensions.lessThan
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.notEqualsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.startsWith
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.appendText
@@ -28,9 +29,12 @@ import kotlin.io.path.writeText
 
 internal class SerializationExamplesBuilder {
 
-    private val mapper = jacksonObjectMapper()
-        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    val mapper: JsonMapper = jacksonMapperBuilder()
+        .changeDefaultPropertyInclusion { inclusion ->
+            inclusion.withValueInclusion(JsonInclude.Include.NON_NULL)
+        }
         .addMixIn(Expression::class.java, ExpressionMixin::class.java)
+        .build()
 
     private val engine = KotlinEvaluator()
 
