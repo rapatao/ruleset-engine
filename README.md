@@ -155,9 +155,30 @@ val evaluator = com.rapatao.projects.ruleset.engine.evaluator.graaljs.GraalJSEva
 
 #### How it works
 
-The evaluator holds a shared polyglot `Engine` and builds a new `Context` per `evaluate` call. Input data is injected as
-context bindings (maps by key, other objects by Kotlin reflection with `HostAccess.ALL`), and each operator evaluates a
-JavaScript `Source` against that context, so both operands are arbitrary JavaScript.
+The evaluator holds a shared polyglot `Engine` and, by default, builds a new `Context` per `evaluate` call and closes it
+afterwards. Input data is injected into a fresh JavaScript object created for that evaluation (maps by key, other
+objects by Kotlin reflection with `HostAccess.ALL`), and each operator evaluates a JavaScript `Source` resolved against
+that object, so both operands are arbitrary JavaScript.
+
+#### Reusing the context
+
+Building a `Context` is what the engine spends almost all of its time on. `reuseContextPerThread` keeps one context per
+thread instead, which is roughly 25x faster on the benchmark below:
+
+```kotlin
+val evaluator = GraalJSEvaluator(reuseContextPerThread = true)
+```
+
+| | default (`false`) | `reuseContextPerThread = true` |
+|---------------------------------|--------------------------------|-------------------------------------------------|
+| context lifetime | built and closed per `evaluate` | one per thread, alive as long as the thread |
+| concurrent `evaluate` | safe | safe, each thread has its own context |
+| input bindings between calls | isolated | isolated, the input object is replaced per call |
+| globals a rule writes | discarded with the context | visible to later calls on the same thread |
+
+So the reused mode is safe to call concurrently and never leaks input data between evaluations, but a rule that writes
+to `globalThis` or redefines a builtin affects later evaluations on the same thread. Use it with a bounded thread pool:
+per-thread contexts are not closed, so unbounded thread creation retains them.
 
 Both the `Engine` and the `Context.Builder` are constructor parameters, which is where the engine is tuned:
 
@@ -182,8 +203,9 @@ pass a restricted `Context.Builder`.
 
 #### Trade-offs
 
-* The slowest of the three engines in the measurement below, and most of that cost is context creation rather than the
-  rule itself
+* The slowest of the three engines in the measurement below when left on the default context handling, and most of that
+  cost is context creation rather than the rule itself. `reuseContextPerThread = true` removes it, at the cost of the
+  global-state isolation described above
 * On a stock (non-GraalVM) JDK, Truffle runs in interpreter-only mode. The evaluator sets
   `engine.WarnInterpreterOnly=false`, so the usual warning is not printed. Running on a GraalVM JDK, or adding the Graal
   compiler to the runtime classpath, is what unlocks its performance
@@ -216,6 +238,7 @@ Every evaluator module ships a `bench` task that replays the full test rule set 
 ./gradlew :kotlin-evaluator:bench
 ./gradlew :rhino-evaluator:bench
 ./gradlew :graaljs-evaluator:bench -PbenchIterations=5000
+./gradlew :graaljs-evaluator:bench -PbenchIterations=5000 -PbenchReuse=true
 ```
 
 Each iteration evaluates the 147 expressions from `com.rapatao.projects.ruleset.engine.cases.TestData` against the same
@@ -227,14 +250,21 @@ Numbers below come from that benchmark, 2000 iterations (294,000 evaluations per
 Amazon Corretto 21.0.11. Treat them as relative magnitudes, not absolute figures: the harness is a simple timing loop,
 not JMH, and the GraalJS run is interpreter-only because Corretto is not a GraalVM JDK.
 
-| engine  | ops/s   | avg per iteration | p50       | p99       | relative cost |
-|---------|---------|-------------------|-----------|-----------|---------------|
-| Kotlin  | 566,752 | 259us             | 210us     | 638us     | 1x            |
-| Rhino   | 47,827  | 3.07ms            | 2.99ms    | 4.60ms    | ~12x          |
-| GraalJS | 9,688   | 15.17ms           | 14.97ms   | 17.15ms   | ~58x          |
+| engine               | ops/s    | avg per iteration | p50       | p99       | relative cost |
+|----------------------|----------|-------------------|-----------|-----------|---------------|
+| Kotlin               | 566,752  | 259us             | 210us     | 638us     | 1x            |
+| GraalJS (reused ctx) | ~240,000 | ~590us            | ~500us    | ~2.0ms    | ~2x           |
+| Rhino                | 47,827   | 3.07ms            | 2.99ms    | 4.60ms    | ~12x          |
+| GraalJS              | 9,391    | 15.65ms           | 15.57ms   | 17.36ms   | ~60x          |
 
-All three engines are stable under load: the p99 stays within 1.2x to 3x of the median, so there are no pathological
-outliers, only different constant costs.
+Most engines are stable under load, with the p99 within 1.2x to 3x of the median. The reused-context GraalJS row is the
+exception: it varied between 185,000 and 294,000 ops/s across runs here, so it is quoted as an approximation. Once the
+context cost is gone, an iteration is short enough that the timing loop measures JIT and GC noise as much as the
+engine.
+
+`GraalJS (reused ctx)` is the same engine with `reuseContextPerThread = true`. Closing the per-call context and
+injecting the input into a per-evaluation object costs the default mode about 4% (9,750 to 9,391 ops/s here), and buys
+deterministic context release plus binding isolation that holds under reuse.
 
 ### Where the time goes
 
@@ -255,12 +285,14 @@ Reading of the table:
   running one small script per operator, which is why deep rule trees cost more than the numbers for a single rule
   suggest
 * **GraalJS**: context creation dominates almost entirely. On this setup the rule itself is nearly free compared to the
-  polyglot context it runs in
+  polyglot context it runs in, which is what `reuseContextPerThread = true` removes
 
 ### Practical guidance
 
 * Reuse the evaluator instance. Operators are resolved once in the constructor, and for GraalJS the shared `Engine`
   caches parsed sources across contexts, so a new evaluator per request throws that away
+* On GraalJS, set `reuseContextPerThread = true` unless rules are untrusted or deliberately write globals. It is the
+  single largest win available on that engine
 * Pass the narrowest input object that satisfies the rule. All three engines materialise the whole input per call
 * Prefer `Map` inputs over arbitrary objects when the data is already in that shape: the object path goes through
   Kotlin reflection
@@ -271,10 +303,11 @@ Reading of the table:
 * On Rhino, keep the default `interpretedMode = true`. Compiled mode measures about 10x slower here, because each
   operator compiles a new script that is thrown away
 
-Both JS engines rebuild their context per `evaluate` call, and that dominates their cost. Overriding `call` to reuse a
-context makes the benchmark suite about 48x faster on GraalJS (16.6ms to 0.35ms) and about 11x faster on Rhino (3.5ms
-to 0.30ms), at the price of thread safety and binding isolation between evaluations. See
-[docs/tasks](docs/tasks) for the analysis and the trade-offs.
+Both JS engines rebuild their context per `evaluate` call, and that dominates their cost. On GraalJS this is now an
+opt-in: `reuseContextPerThread = true` keeps one context per thread and runs the suite roughly 25x faster (15.6ms to
+about 0.6ms) while staying thread-safe and isolating input bindings. Rhino still rebuilds its scope per call; reusing it
+there is about 11x faster (3.5ms to 0.30ms) but is not implemented. See [docs/tasks](docs/tasks) for the analysis and
+the trade-offs.
 
 ## Get started
 

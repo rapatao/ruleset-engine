@@ -27,6 +27,9 @@ import org.graalvm.polyglot.Value
  *
  * @property engine The GraalVM Polyglot Engine instance used by this evaluator engine.
  * @property contextBuilder A builder instance used to create a JavaScript Context with custom options and settings.
+ * @property reuseContextPerThread When `false` (the default), every evaluation builds a new Context and closes it
+ * afterwards. When `true`, each thread keeps one Context and reuses it across evaluations, which removes the context
+ * construction cost from every call. See the README for the trade-offs of the reused mode.
  *
  * @see org.graalvm.polyglot.Context.Builder
  * @see org.graalvm.polyglot.Engine
@@ -41,6 +44,7 @@ open class GraalJSEvaluator(
         .allowHostAccess(HostAccess.ALL).allowHostClassLookup { true }
         .option("js.nashorn-compat", "true").allowExperimentalOptions(true),
     operators: List<Operator> = listOf(),
+    private val reuseContextPerThread: Boolean = false,
 ) : Evaluator(
     operators = listOf(
         Equals(),
@@ -58,17 +62,30 @@ open class GraalJSEvaluator(
     ) + operators,
 ) {
 
+    private val threadContext = ThreadLocal.withInitial { contextBuilder.build() }
+
     override fun <T> call(inputData: Any, block: EvalContext.() -> T): T =
-        createContext().let {
-            parseParameters(
-                it.getBindings("js"),
-                inputData,
-            )
-            block(GraalJSContext(this, it))
+        if (reuseContextPerThread) {
+            evaluateWith(threadContext.get(), inputData, block)
+        } else {
+            contextBuilder.build().use { evaluateWith(it, inputData, block) }
         }
 
-    private fun createContext(): Context {
-        return contextBuilder.build()
+    private fun <T> evaluateWith(context: Context, inputData: Any, block: EvalContext.() -> T): T {
+        val scope = context.eval("js", "({})")
+
+        parseParameters(scope, inputData)
+
+        val bindings = context.getBindings("js")
+        // an operator may evaluate another expression through EvalContext.engine(), which reuses this context
+        val outerScope = bindings.getMember(INPUT_SCOPE)
+        bindings.putMember(INPUT_SCOPE, scope)
+
+        return try {
+            block(GraalJSContext(this, context))
+        } finally {
+            outerScope?.let { bindings.putMember(INPUT_SCOPE, it) }
+        }
     }
 
     /**
@@ -81,6 +98,9 @@ open class GraalJSEvaluator(
     /**
      * Parses parameters and injects them into the given scope based on the input data.
      *
+     * The scope is a fresh JavaScript object created for the evaluation, and it is replaced on every call, so the
+     * injected members are never visible to another evaluation.
+     *
      * @param bindings the values object where the parameters will be injected
      * @param inputData the input data containing the parameters
      */
@@ -89,5 +109,12 @@ open class GraalJSEvaluator(
             is Map<*, *> -> MapInjector.inject(bindings, inputData)
             else -> TypedInjector.inject(bindings, inputData)
         }
+    }
+
+    internal companion object {
+        /**
+         * Name of the global member holding the input data of the current evaluation.
+         */
+        const val INPUT_SCOPE = "__ruleset_input__"
     }
 }
