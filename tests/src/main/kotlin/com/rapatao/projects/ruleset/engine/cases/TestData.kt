@@ -16,6 +16,9 @@ object TestData {
         val tags: List<String>,
         val arrTags: Array<String>,
         val nullableStr: String? = null,
+        val weight: BigDecimal = BigDecimal("1.5"),
+        val scaled: BigDecimal = BigDecimal("10.00"),
+        val quantities: List<Int> = listOf(1, 2),
     )
 
     val inputData = RequestData(
@@ -44,5 +47,6 @@ object TestData {
         ExpressionCases.cases() +
             MatcherCases.cases() +
             OperatorWithCases.cases() +
-            ContainsCases.cases()
+            ContainsCases.cases() +
+            NumberCases.cases()
 }

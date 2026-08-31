@@ -42,9 +42,11 @@ val evaluator = com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalu
 Operands that are field paths (`item.price`, `item.tags[0]`, ...) are resolved against the input on demand, one path
 at a time: maps are read by key, collections and arrays by index, and arbitrary objects by Kotlin reflection
 (`memberProperties`, reflected once per class and cached). Only the nodes a path names are visited, so the cost tracks
-the rule rather than the input. Numbers are normalised to `BigDecimal` so that an `Int` operand and a `BigDecimal`
-field compare as expected, and operators are plain Kotlin functions (`==`, `>`, `String.contains`,
-`Collection.contains`, ...).
+the rule rather than the input. Operators are plain Kotlin functions (`==`, `>`, `String.contains`, ...).
+
+Numbers are normalised to `BigDecimal`, elements of a list included, so an `Int` operand and a `BigDecimal` field
+compare as expected and `listOf(1, 2) expContains 1` matches. They compare by value rather than by representation, so
+`10` and `10.00` are the same number and a fraction is never truncated.
 
 A path that does not exist throws, which `onFailure` turns into a rule result. A path exists when every step of it
 does: a map holds the key, an object has the property, an index is in range. Nothing exists below a `null`, a string
@@ -53,6 +55,19 @@ or a number, so `item.name.length` throws rather than resolving through reflecti
 Operands are literals or field paths only. A quoted operand (`"\"value\""`) is a string literal, an unquoted one is
 first tried as a number or boolean literal and then as a field path. There is no expression language, so
 `item.price * 2` is not supported: model it as a field on the input, or as a custom operator.
+
+A list written in an expression holds operands, and each element is resolved by those same rules:
+
+```kotlin
+// the literal "test", and whatever item.name holds
+listOf("\"test\"", "item.name") expContains "\"product name\""
+
+// looks for fields named test and brand-new, and throws when the input has neither
+listOf("test", "brand-new") expContains "\"test\""
+```
+
+An unquoted string element is a field path, exactly as an unquoted scalar operand is. Quote it to compare against the
+text itself.
 
 #### Best for
 

@@ -15,7 +15,7 @@ Every evaluator module ships a `bench` task that replays the full test rule set 
 ./gradlew :kotlin-evaluator:bench -PbenchWide=200
 ```
 
-Each iteration evaluates the 150 expressions from `com.rapatao.projects.ruleset.engine.cases.TestData` against the same
+Each iteration evaluates the 173 expressions from `com.rapatao.projects.ruleset.engine.cases.TestData` against the same
 input object, after 100 warmup iterations. Results are printed and written to `bench_<engine>.txt`.
 
 Each run reports throughput, the latency distribution of an iteration (avg, stddev, min, max, p50 to p99), the bytes
@@ -34,29 +34,32 @@ Two things to set up before trusting a run:
 
 ## Results
 
-2000 iterations (300,000 evaluations per engine), Apple M3 Pro, Amazon Corretto 21.0.11, three runs per configuration
-in one session at full power, medians below. These are relative magnitudes, not absolute figures: the harness is a
+2000 iterations of the 173 expression suite, 346,000 evaluations per engine, Apple M3 Pro, Amazon Corretto 21.0.11,
+three runs per configuration in one session at full power, medians below. These are relative magnitudes, not absolute figures: the harness is a
 simple timing loop, not JMH, and the GraalJS run is interpreter-only because Corretto is not a GraalVM JDK.
 
 | engine               | ops/s     | avg per iteration | stddev | p50     | p99     | relative cost |
 |----------------------|-----------|-------------------|--------|---------|---------|---------------|
-| Kotlin               | 2,134,802 | 70us              | 49us   | 60us    | 180us   | 1x            |
-| Rhino                | 374,528   | 401us             | 211us  | 324us   | 1.18ms  | ~5.7x         |
-| GraalJS (reused ctx) | 250,969   | 598us             | 387us  | 508us   | 2.19ms  | ~8.5x         |
-| GraalJS              | 8,930     | 16.80ms           | 514us  | 16.61ms | 18.46ms | ~239x         |
+| Kotlin               | 1,506,886 | 115us             | 93us   | 83us    | 425us   | 1x            |
+| Rhino                | 288,132   | 600us             | 240us  | 490us   | 1.41ms  | ~5.2x         |
+| GraalJS (reused ctx) | 240,662   | 719us             | 439us  | 580us   | 2.58ms  | ~6.3x         |
+| GraalJS              | 8,959     | 19.31ms           | 640us  | 19.09ms | 21.08ms | ~168x         |
 
 Run-to-run spread differs by engine, and sets how large a difference has to be before it means anything:
 
 | engine               | observed across runs   | p99 vs p50 |
 |----------------------|------------------------|------------|
-| Kotlin               | 2,116,000 to 2,220,000 | ~3.0x      |
-| Rhino                | 369,000 to 378,000     | ~3.6x      |
-| GraalJS (reused ctx) | 247,000 to 251,000     | ~4.3x      |
-| GraalJS              | 8,692 to 9,152         | ~1.1x      |
+| Kotlin               | 1,454,000 to 1,621,000 | ~5.1x      |
+| Rhino                | 287,000 to 320,000     | ~2.9x      |
+| GraalJS (reused ctx) | 237,000 to 257,000     | ~4.4x      |
+| GraalJS              | 8,771 to 9,176         | ~1.1x      |
 
-Every engine sits within 5% across runs, while the p99 of an iteration is 3 to 4 times its p50 on the three fast
-configurations. The tail is GC and JIT, not the engine. Default GraalJS is the exception: an iteration is so dominated
-by context creation that nothing else is visible in it.
+The three fast configurations move by about 10% across runs and their p99 is 3 to 5 times their p50. The tail is GC
+and JIT, not the engine, so read a difference smaller than that as noise. Default GraalJS is the exception on both
+counts: an iteration is so dominated by context creation that nothing else is visible in it.
+
+The Kotlin engine on a wide input is the least stable measurement here, spanning 1,409,000 to 2,195,000 across its
+three runs. Its iteration is short enough that the loop measures the JVM more than the engine.
 
 ### Allocation
 
@@ -65,16 +68,16 @@ collections that ran during the measured loop:
 
 | engine               | alloc per evaluation | vs Kotlin | gc during the run |
 |----------------------|----------------------|-----------|-------------------|
-| Kotlin               | 866 B                | 1x        | 2, 3ms            |
-| GraalJS (reused ctx) | 5,836 B              | ~6.7x     | 13, 17ms          |
-| Rhino                | 10,156 B             | ~11.7x    | 14, 20ms          |
-| GraalJS              | 127,953 B            | ~148x     | 247, 113ms        |
+| Kotlin               | 893 B                | 1x        | 2, 3ms            |
+| GraalJS (reused ctx) | 5,850 B              | ~6.6x     | 15, 19ms          |
+| Rhino                | 11,741 B             | ~13.1x    | 17, 22ms          |
+| GraalJS              | 128,763 B            | ~144x     | 425, 186ms        |
 
 This is the steadiest number the harness produces: it varies by under 0.5% across runs, where throughput varies by 5%.
 
 The order is not the throughput order. Reused-context GraalJS allocates less per evaluation than Rhino and is still
 slower, so Rhino's cost is not allocation-bound: it compiles a fresh script per operator invocation, and compilation
-is work rather than garbage. Default GraalJS allocates a whole polyglot `Context` per call, which is the 148x.
+is work rather than garbage. Default GraalJS allocates a whole polyglot `Context` per call, which is the 144x.
 
 ### Input width
 
@@ -83,10 +86,10 @@ fields and a 200 element list.
 
 | engine               | ops/s default | ops/s wide(200) | wide is       | alloc default | alloc wide(200) | wide allocates |
 |----------------------|---------------|-----------------|---------------|---------------|-----------------|----------------|
-| Kotlin               | 2,134,802     | 2,192,601       | unchanged     | 866 B         | 852 B           | unchanged      |
-| Rhino                | 374,528       | 149,098         | ~2.5x slower  | 10,156 B      | 22,281 B        | ~2.2x more     |
-| GraalJS (reused ctx) | 250,969       | 16,363          | ~15.3x slower | 5,836 B       | 85,560 B        | ~14.7x more    |
-| GraalJS              | 8,930         | 6,034           | ~1.5x slower  | 127,953 B     | 207,737 B       | ~1.6x more     |
+| Kotlin               | 1,506,886     | 1,768,634       | unchanged     | 893 B         | 872 B           | unchanged      |
+| Rhino                | 288,132       | 138,658         | ~2.1x slower  | 11,741 B      | 23,788 B        | ~2.0x more     |
+| GraalJS (reused ctx) | 240,662       | 16,313          | ~14.8x slower | 5,850 B       | 85,596 B        | ~14.6x more    |
+| GraalJS              | 8,959         | 5,875           | ~1.5x slower  | 128,763 B     | 208,161 B       | ~1.6x more     |
 
 Each factor compares the two columns to its left, within the same row. A row varies the input only: the engine and its
 configuration are held constant across it, so `reuseContextPerThread` is on in both columns of the reused row and off
@@ -95,14 +98,14 @@ in both columns of the row below it. The Results table above prices the reuse se
 For both JS engines the allocation factor tracks the throughput factor, which identifies the cost: they inject every
 top-level entry of the input into the scope on every `evaluate`, and pay for it whether a rule reads it or not.
 Neither pays for *depth*, since a nested object is handed over whole and JS walks into it lazily. Reused-context
-GraalJS runs 166 collections over the wide input against 13 over the default one, and Rhino 29 against 14.
+GraalJS runs 157 collections over the wide input against 15 over the default one, and Rhino 34 against 17.
 
-Default GraalJS shows the smallest factor because context creation, at ~17ms per iteration, dominates the injection.
+Default GraalJS shows the smallest factor because context creation, at ~19ms per iteration, dominates the injection.
 In the reused-context mode the injection is the dominant remaining cost.
 
-The Kotlin engine resolves the paths a rule names and never visits the rest, so its cost tracks the rule. It is
-slightly faster on the wide input, consistently across runs, because that input roots at a `Map` and the default one
-roots at a data class: one hash lookup replaces one reflective property read.
+The Kotlin engine resolves the paths a rule names and never visits the rest, so its cost tracks the rule. Its two
+columns overlap across runs, with the wide one reading slightly faster: that input roots at a `Map` while the default
+one roots at a data class, so one hash lookup replaces one reflective property read.
 
 `GraalJS (reused ctx)` is the same engine with `reuseContextPerThread = true`. Closing the per-call context and
 injecting the input into a per-evaluation object costs the default mode about 4% (9,750 to 9,391 ops/s), and buys
@@ -146,9 +149,9 @@ Reading of the table:
 * On GraalJS, set `reuseContextPerThread = true` unless rules are untrusted or deliberately write globals. It is the
   single largest win available on that engine
 * On the JS engines, pass the narrowest input object that satisfies the rule: both inject every top-level entry per
-  call, worth 2.5x on Rhino and 15.3x on reused-context GraalJS for 200 extra fields. Nesting the parts a rule does not
+  call, worth 2.1x on Rhino and 14.8x on reused-context GraalJS for 200 extra fields. Nesting the parts a rule does not
   read one level deeper avoids it. The Kotlin engine reads only the paths a rule names and is flat here
-* Watch allocation, not just throughput, if the service is latency-sensitive: an evaluation costs 866 B on the Kotlin
+* Watch allocation, not just throughput, if the service is latency-sensitive: an evaluation costs 893 B on the Kotlin
   engine and 128 KB on default GraalJS, and that is what fills the nursery and sets the GC rate under load
 * Prefer `Map` inputs over arbitrary objects when the data is already in that shape: the object path goes through
   Kotlin reflection. On the Kotlin engine this is now a small difference, since the properties of each class are

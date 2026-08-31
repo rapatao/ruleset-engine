@@ -4,6 +4,7 @@ import com.rapatao.projects.ruleset.engine.Evaluator
 import com.rapatao.projects.ruleset.engine.context.EvalContext
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
 import java.math.BigDecimal
+import java.math.BigInteger
 
 /**
  * KotlinContext is a class that implements the EvalContext interface.
@@ -25,19 +26,29 @@ class KotlinContext(
 
     override fun engine(): Evaluator = evaluator
 
-    private fun Any?.asValue(): Any? {
-        val result = this.resolved()
+    private fun Any?.asValue(): Any? = this.resolved().normalized()
 
-        return when {
-            result is Number && (result is Double || result is Float) -> BigDecimal(result.toDouble())
-            result is Number && result !is Byte -> BigDecimal.valueOf(result.toLong())
-            else -> result
-        }
+    /**
+     * Numbers become `BigDecimal` so that an `Int` operand and a `BigDecimal` field compare as equal.
+     *
+     * A `BigDecimal` is already one and is kept as it is, fraction included. A `BigInteger` is converted directly,
+     * because going through `toLong` overflows above `Long.MAX_VALUE`.
+     *
+     * A collection is normalized element by element, and only when it holds a number, so that
+     * `listOf(1, 2) expContains 1` matches. The scan keeps a collection of non-numbers as it is, which is the
+     * common case and the one on the hot path.
+     */
+    private fun Any?.normalized(): Any? = when {
+        this is BigDecimal -> this
+        this is BigInteger -> BigDecimal(this)
+        this is Number && (this is Double || this is Float) -> BigDecimal(this.toDouble())
+        this is Number && this !is Byte -> BigDecimal.valueOf(this.toLong())
+        this is Collection<*> && this.any { it is Number || it is Collection<*> } -> this.map { it.normalized() }
+        else -> this
     }
 
     private fun Any?.resolved(): Any? = when {
-        // A list written in the expression holds operands, so each element is resolved on its own. Elements keep
-        // their own type, as the elements of a list read from the input data do.
+        // A list written in the expression holds operands, so each element is resolved on its own.
         this is Collection<*> -> this.map { it.resolved() }
         this !is String -> this
         this == "null" -> null
