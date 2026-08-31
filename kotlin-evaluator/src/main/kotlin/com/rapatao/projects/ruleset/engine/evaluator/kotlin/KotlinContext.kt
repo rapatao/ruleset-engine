@@ -25,10 +25,12 @@ class KotlinContext(
 
     private fun Any?.asValue(): Any? {
         val result = when {
-            this is String && this == "null" -> null
-            this is String && !this.trim().matches(Regex("^\".*\"$")) -> rawValue()
-            this is String && this.trim().matches(Regex("\".*\"")) -> this.unwrap()
-            else -> this
+            this !is String -> this
+            this == "null" -> null
+            else -> {
+                val trimmed = this.trim()
+                if (QUOTED.matches(trimmed)) trimmed.unwrap() else trimmed.rawValue()
+            }
         }
 
         return when {
@@ -64,6 +66,11 @@ class KotlinContext(
     }
 
     private fun String.unwrap() = this.trim()
-        .replace(Regex("^\""), "")
-        .replace(Regex("\"$"), "")
+        .removePrefix("\"")
+        .removeSuffix("\"")
+
+    private companion object {
+        // Regex.matches is a full-input match, so no anchors are needed.
+        private val QUOTED = Regex("\".*\"")
+    }
 }
