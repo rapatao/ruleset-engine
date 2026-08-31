@@ -22,6 +22,11 @@ import org.mozilla.javascript.ScriptableObject
 
 /**
  * An evaluator engine implementation that uses Mozilla Rhino to evaluate JavaScript contexts with customizable options.
+ *
+ * The JavaScript standard objects are built once per evaluator instance and sealed, and every evaluation runs in a
+ * cheap child scope that has them as its prototype. Input data is injected into that child scope, so bindings are
+ * never shared between evaluations and the standard objects are never mutated, which keeps `evaluate` safe to call
+ * concurrently.
  */
 open class RhinoEvaluator(
     private val contextFactory: RhinoContextFactory = RhinoContextFactory(),
@@ -43,12 +48,21 @@ open class RhinoEvaluator(
     ) + operators,
 ) {
 
+    /**
+     * The sealed JavaScript standard objects shared by every evaluation of this evaluator.
+     */
+    private val sharedScope: ScriptableObject =
+        contextFactory.call { context -> context.initSafeStandardObjects(null, true) }
+
     override fun <T> call(
         inputData: Any,
         block: (context: EvalContext) -> T
     ): T {
         return contextFactory.call { context ->
-            val scope = context.initSafeStandardObjects()
+            val scope = context.newObject(sharedScope) as ScriptableObject
+            scope.prototype = sharedScope
+            // makes the child the top scope of the chain, so globals defined by a rule die with the evaluation
+            scope.parentScope = null
 
             parseParameters(scope, context, inputData)
 
@@ -60,6 +74,9 @@ open class RhinoEvaluator(
 
     /**
      * Parses parameters and injects them into the given scope based on the input data.
+     *
+     * The scope is a fresh child of the shared standard objects, created for this evaluation only, so the injected
+     * properties are never visible to another evaluation.
      *
      * @param scope the scriptable object scope where the parameters will be injected
      * @param context the context in which the parameters will be injected
