@@ -19,6 +19,4 @@ fun Any.asExpression(): Expression =
  * @param use The behavior to be applied when evaluation fails.
  * @return An [Expression] with the specified [OnFailure] behavior.
  */
-infix fun Expression.ifFail(use: OnFailure): Expression = Expression(
-    left = this.left, operator = this.operator, right = this.right, onFailure = use,
-)
+infix fun Expression.ifFail(use: OnFailure): Expression = this.copy(onFailure = use)

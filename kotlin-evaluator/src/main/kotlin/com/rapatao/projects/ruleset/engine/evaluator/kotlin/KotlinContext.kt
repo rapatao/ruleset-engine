@@ -54,16 +54,23 @@ class KotlinContext(
         this == "null" -> null
         else -> {
             val trimmed = this.trim()
-            if (QUOTED.matches(trimmed)) trimmed.unwrap() else trimmed.rawValue()
+            if (trimmed.isQuoted()) trimmed.unwrap() else trimmed.rawValue()
         }
     }
+
+    /** A quoted literal, which a regex would have to match across newlines to recognize. */
+    private fun String.isQuoted(): Boolean = this.length >= QUOTED_MIN && this[0] == '"' && this[this.length - 1] == '"'
 
     @Suppress("ReturnCount")
     private fun String.rawValue(): Any? {
         val key = this.unwrap()
 
-        key.toBigIntegerOrNull()?.let { return it }
-        key.toBigDecimalOrNull()?.let { return it }
+        // A path never starts like a number, so the number parses, which scan the whole text, are skipped for it.
+        if (key.startsLikeNumber()) {
+            key.toBigIntegerOrNull()?.let { return it }
+            key.toBigDecimalOrNull()?.let { return it }
+        }
+
         key.toBooleanStrictOrNull()?.let { return it }
 
         val resolved = InputPath.resolve(inputData, key)
@@ -75,12 +82,17 @@ class KotlinContext(
         return resolved
     }
 
+    private fun String.startsLikeNumber(): Boolean = this.isNotEmpty() && (this[0].isDigit() || this[0] in NUMBER_LEAD)
+
     private fun String.unwrap() = this.trim()
         .removePrefix("\"")
         .removeSuffix("\"")
 
     private companion object {
-        // Regex.matches is a full-input match, so no anchors are needed.
-        private val QUOTED = Regex("\".*\"")
+        /** `""` is the shortest quoted literal, so a single `"` is a path and not an empty one. */
+        private const val QUOTED_MIN = 2
+
+        /** The non-digit characters a number literal can start with. */
+        private const val NUMBER_LEAD = "-+."
     }
 }

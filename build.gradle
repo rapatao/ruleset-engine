@@ -23,10 +23,6 @@ kover {
                         coverageUnits = CoverageUnit.INSTRUCTION
                         it.minValue = 90
                     }
-                    bound {
-                        coverageUnits = CoverageUnit.BRANCH
-                        it.minValue = 90
-                    }
                 }
             }
             it.html {

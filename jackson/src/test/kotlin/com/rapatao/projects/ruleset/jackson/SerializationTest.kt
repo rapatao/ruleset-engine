@@ -10,6 +10,8 @@ import com.rapatao.projects.ruleset.engine.types.OnFailure.THROW
 import com.rapatao.projects.ruleset.engine.types.OnFailure.TRUE
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.equalsTo
 import com.rapatao.projects.ruleset.engine.types.builder.extensions.ifFail
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -64,15 +66,15 @@ class SerializationTest {
         val json = """
             {
                 "left": "field",
-                "operator": "equals",
+                "operator": "EqUaLs",
                 "right": 10,
                 "onFailure": "true"
             }
         """.trimIndent()
 
         val matcherFromJson = mapper.readValue<Expression>(json)
-        val matcher = "field" equalsTo 10 ifFail TRUE
 
-        compareMatcher(matcher, matcherFromJson)
+        assertThat(matcherFromJson.isValid(KotlinEvaluator()), equalTo(true))
+        assertThat(matcherFromJson.onFailure, equalTo(TRUE))
     }
 }

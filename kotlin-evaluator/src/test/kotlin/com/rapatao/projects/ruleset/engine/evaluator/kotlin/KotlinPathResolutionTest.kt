@@ -99,6 +99,15 @@ class KotlinPathResolutionTest {
     }
 
     @Test
+    @DisplayName("a quoted literal is a literal even when it spans lines or is empty")
+    fun assertQuotedLiteral() {
+        resolves("\"a\nb\"", "\"a\nb\"", mapOf("a" to 1))
+        resolves("\"\"", "\"\"", mapOf("a" to 1))
+        // A lone quote is not a literal, so it stays a path, and no path is named that way here.
+        absent("\"", mapOf("a" to 1))
+    }
+
+    @Test
     @DisplayName("cached reflection resolves the same path across evaluations")
     fun assertRepeatedReflectionResolution() {
         val input = Holder(value = "x", nested = Holder(value = "y"))

@@ -54,11 +54,11 @@ abstract class Evaluator(
     abstract fun name(): String
 
     /**
-     * Return the operator implementation for the given name.
+     * Return the operator implementation for the given name. The name is matched case insensitively.
      *
      * @return The operator.
      */
-    fun operator(name: String): Operator? = declaredOperators[name]
+    fun operator(name: String): Operator? = declaredOperators[name.lowercase()]
 
     private fun List<Expression>.processNoneMatch(context: EvalContext): Boolean {
         return this.none {
@@ -95,10 +95,11 @@ abstract class Evaluator(
 
     private fun Expression.processExpression(context: EvalContext): Boolean {
         return usingFailureWrapper(this.onFailure) {
-            requireNotNull(this.operator) { "expression operator must not be null" }
+            val name = this.operator
+            requireNotNull(name) { "expression operator must not be null" }
 
-            val operator = operator(this.operator)
-            requireNotNull(operator) { "Unknown operator: $operator" }
+            val operator = operator(name)
+            requireNotNull(operator) { "Unknown operator: $name" }
 
             context.process(left = this.left, operator = operator, right = this.right)
         }
