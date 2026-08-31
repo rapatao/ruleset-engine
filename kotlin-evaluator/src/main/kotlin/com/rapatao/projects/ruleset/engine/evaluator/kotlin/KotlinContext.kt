@@ -9,12 +9,14 @@ import java.math.BigDecimal
  * KotlinContext is a class that implements the EvalContext interface.
  * It provides the ability to process expressions using Kotlin operations.
  *
+ * Operand paths are resolved by [InputPath] on demand, so only the nodes a path names are visited.
+ *
  * @param evaluator the evaluator implementation instance
- * @param inputData the map containing the input data to be used during expression evaluation
+ * @param inputData the input data to be used during expression evaluation
  */
 class KotlinContext(
     private val evaluator: Evaluator,
-    private val inputData: Map<String, Any?>
+    private val inputData: Any
 ) : EvalContext {
 
     override fun process(left: Any?, operator: Operator, right: Any?): Boolean {
@@ -40,29 +42,21 @@ class KotlinContext(
         }
     }
 
+    @Suppress("ReturnCount")
     private fun String.rawValue(): Any? {
         val key = this.unwrap()
 
-        return listOf(
-            {
-                key.toBigIntegerOrNull()
-            },
-            {
-                key.toBigDecimalOrNull()
-            },
-            {
-                key.toBooleanStrictOrNull()
-            },
-            {
-                inputData[key]
-            },
-            {
-                if (!inputData.containsKey(key)) {
-                    throw NoSuchElementException("$key not found")
-                }
-                null
-            }
-        ).firstNotNullOfOrNull { it() }
+        key.toBigIntegerOrNull()?.let { return it }
+        key.toBigDecimalOrNull()?.let { return it }
+        key.toBooleanStrictOrNull()?.let { return it }
+
+        val resolved = InputPath.resolve(inputData, key)
+
+        if (resolved === InputPath.ABSENT) {
+            throw NoSuchElementException("$key not found")
+        }
+
+        return resolved
     }
 
     private fun String.unwrap() = this.trim()

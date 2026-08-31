@@ -29,6 +29,17 @@ object TestData {
         )
     )
 
+    /**
+     * The same [inputData] item under a deliberately wide root: [size] extra scalar fields and a [size] element list.
+     *
+     * Every rule in [cases] roots at `item.*`, so the suite runs unchanged against it and the only difference is how
+     * much input surrounds the fields the rules read.
+     */
+    fun wideInput(size: Int): Map<String, Any?> =
+        mapOf("item" to inputData.item) +
+            (1..size).associate { "pad$it" to "value$it" } +
+            mapOf("padList" to (1..size).map { "element$it" })
+
     fun cases() =
         ExpressionCases.cases() +
             MatcherCases.cases() +

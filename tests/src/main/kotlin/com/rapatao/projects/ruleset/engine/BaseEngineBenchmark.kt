@@ -11,9 +11,26 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.measureTimedValue
 
-class BaseEngineBenchmark(private val evaluator: Evaluator) {
+/**
+ * Replays the full rule set from [TestData] against one engine.
+ *
+ * Every `bench` task passes the same arguments in the same order, and each benchmark reads the ones its engine
+ * supports:
+ *
+ * | index | property           | meaning                                              |
+ * |-------|--------------------|------------------------------------------------------|
+ * | 0     | `benchIterations`  | iterations of the whole rule set                     |
+ * | 1     | `benchWide`        | extra fields and list elements around the input, 0 off |
+ * | 2     | `benchReuse`       | GraalJS only, `reuseContextPerThread`                |
+ */
+class BaseEngineBenchmark(
+    private val evaluator: Evaluator,
+    private val wide: Int = 0,
+) {
 
     private val benchOut = Paths.get("bench_${evaluator.name()}.txt")
+
+    private val input = if (wide > 0) TestData.wideInput(wide) else TestData.inputData
 
     @Suppress("MagicNumber")
     fun main(args: Array<String>) {
@@ -24,9 +41,11 @@ class BaseEngineBenchmark(private val evaluator: Evaluator) {
             .map { it.get().first { arg -> arg is Expression } }
             .map { it as Expression }
 
+        appendLine("${evaluator.name()}> input: " + if (wide > 0) "wide($wide)" else "default")
+
         // ini: warmup
         appendLine("warmup ${evaluator.name()}: start")
-        repeat(100) { cases.forEach { expression -> evaluator.evaluate(expression, TestData.inputData) } }
+        repeat(100) { cases.forEach { expression -> evaluator.evaluate(expression, input) } }
         appendLine("warmup ${evaluator.name()}: done")
         // end: warmup
 
@@ -39,7 +58,7 @@ class BaseEngineBenchmark(private val evaluator: Evaluator) {
         repeat(iterations) {
             val time =
                 measureTimedValue {
-                    cases.forEach { expression -> evaluator.evaluate(expression, TestData.inputData) }
+                    cases.forEach { expression -> evaluator.evaluate(expression, input) }
                 }
 
             print("\r${evaluator.name()}: ${it + 1}")

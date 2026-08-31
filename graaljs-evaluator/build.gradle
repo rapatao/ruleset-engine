@@ -8,11 +8,13 @@ dependencies {
 
 tasks.register("bench", JavaExec) {
     group = "verification"
-    description = "Runs the engine benchmark. Iterations: -PbenchIterations=1000, reused context: -PbenchReuse=true"
+    description = "Runs the engine benchmark. Iterations: -PbenchIterations=1000, reused context: -PbenchReuse=true, " +
+        "wide input: -PbenchWide=200"
     classpath = sourceSets.test.runtimeClasspath
     mainClass = "com.rapatao.projects.ruleset.engine.evaluator.graaljs.GraalJSBenchmarkKt"
     args = [
         providers.gradleProperty("benchIterations").getOrElse("1000"),
+        providers.gradleProperty("benchWide").getOrElse("0"),
         providers.gradleProperty("benchReuse").getOrElse("false"),
     ]
 }

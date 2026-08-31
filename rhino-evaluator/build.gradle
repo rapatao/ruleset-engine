@@ -7,8 +7,12 @@ dependencies {
 
 tasks.register("bench", JavaExec) {
     group = "verification"
-    description = "Runs the engine benchmark. Iterations: -PbenchIterations=1000"
+    description = "Runs the engine benchmark. Iterations: -PbenchIterations=1000, wide input: -PbenchWide=200"
     classpath = sourceSets.test.runtimeClasspath
     mainClass = "com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoBenchmarkKt"
-    args = [providers.gradleProperty("benchIterations").getOrElse("1000")]
+    args = [
+        providers.gradleProperty("benchIterations").getOrElse("1000"),
+        providers.gradleProperty("benchWide").getOrElse("0"),
+        providers.gradleProperty("benchReuse").getOrElse("false"),
+    ]
 }
