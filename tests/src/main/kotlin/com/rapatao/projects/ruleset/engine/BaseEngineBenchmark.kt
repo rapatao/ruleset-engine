@@ -36,7 +36,8 @@ class BaseEngineBenchmark(
 
     private val benchOut = Paths.get("bench_${evaluator.name()}.txt")
 
-    private val input = if (wide > 0) TestData.wideInput(wide) else TestData.inputData
+    // Both roots are maps, so the wide run differs from the default one by width alone.
+    private val input: Any = if (wide > 0) TestData.wideInput(wide) else TestData.narrowInput
 
     @Suppress("MagicNumber")
     fun main(args: Array<String>) {

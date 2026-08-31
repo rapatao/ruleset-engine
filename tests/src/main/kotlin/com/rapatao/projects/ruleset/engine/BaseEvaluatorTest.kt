@@ -20,7 +20,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.reflect.full.memberProperties
 
@@ -63,19 +62,6 @@ abstract class BaseEvaluatorTest(
         } else {
             doEvaluationTest(evaluator, ruleSet, expected)
         }
-    }
-
-    @Test
-    @Suppress("MagicNumber")
-    fun assertSingleCaseForDebugging() {
-        val caseNumber = 122
-
-        val cases: List<Arguments> = tests()
-        val test = cases[caseNumber - 1].get()
-        runEvaluationTest(
-            test[0] as Expression,
-            test[1] as Boolean
-        )
     }
 
     @Test
@@ -144,6 +130,16 @@ abstract class BaseEvaluatorTest(
             evaluator.evaluate(invalidRule ifFail OnFailure.FALSE, input),
             equalTo(false)
         )
+    }
+
+    @Test
+    @DisplayName("ifFail keeps the matchers of a group expression")
+    @Suppress("MagicNumber")
+    fun assertIfFailKeepsGroupMatchers() {
+        val group = allMatch("item.field.that.dont.exist" equalsTo 10) ifFail OnFailure.FALSE
+
+        assertThat(group.allMatch?.size, equalTo(1))
+        assertThat(evaluator.evaluate(group, TestData.inputData), equalTo(false))
     }
 
     @Test

@@ -35,9 +35,9 @@ data class Expression(
      * @return Boolean value indicating whether the object is valid.
      */
     fun isValid(engine: Evaluator): Boolean {
-        val any = anyMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
-        val none = noneMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
-        val all = allMatch?.map { it.isValid(engine) }?.firstOrNull { !it } ?: true
+        val any = anyMatch?.all { it.isValid(engine) } ?: true
+        val none = noneMatch?.all { it.isValid(engine) } ?: true
+        val all = allMatch?.all { it.isValid(engine) } ?: true
 
         val something = (any && none && all) || parseable()
 

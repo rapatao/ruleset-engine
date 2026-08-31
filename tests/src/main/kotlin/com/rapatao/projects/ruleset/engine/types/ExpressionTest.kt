@@ -10,12 +10,17 @@ import org.junit.jupiter.api.Test
 
 class ExpressionTest {
 
+    private companion object {
+        fun operatorNamed(name: String) = object : Operator {
+            override fun process(context: EvalContext, left: Any?, right: Any?): Boolean = true
+            override fun name(): String = name
+        }
+    }
+
     private val dummyEval: Evaluator = object : Evaluator(
         listOf(
-            object : Operator {
-                override fun process(context: EvalContext, left: Any?, right: Any?): Boolean = true
-                override fun name(): String = "equals"
-            }
+            operatorNamed("equals"),
+            operatorNamed("mixedCase"),
         )
     ) {
         override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
@@ -23,6 +28,14 @@ class ExpressionTest {
         }
 
         override fun name(): String = "test"
+    }
+
+    @Test
+    @DisplayName("an operator is found regardless of the case of the name")
+    fun assertOperatorLookupIsCaseInsensitive() {
+        listOf("mixedCase", "mixedcase", "MIXEDCASE").forEach {
+            assertThat(it, Expression(operator = it).isValid(dummyEval), equalTo(true))
+        }
     }
 
     @Test
