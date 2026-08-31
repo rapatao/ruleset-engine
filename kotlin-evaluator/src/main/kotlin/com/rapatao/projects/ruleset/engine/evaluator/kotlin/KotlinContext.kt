@@ -26,19 +26,24 @@ class KotlinContext(
     override fun engine(): Evaluator = evaluator
 
     private fun Any?.asValue(): Any? {
-        val result = when {
-            this !is String -> this
-            this == "null" -> null
-            else -> {
-                val trimmed = this.trim()
-                if (QUOTED.matches(trimmed)) trimmed.unwrap() else trimmed.rawValue()
-            }
-        }
+        val result = this.resolved()
 
         return when {
             result is Number && (result is Double || result is Float) -> BigDecimal(result.toDouble())
             result is Number && result !is Byte -> BigDecimal.valueOf(result.toLong())
             else -> result
+        }
+    }
+
+    private fun Any?.resolved(): Any? = when {
+        // A list written in the expression holds operands, so each element is resolved on its own. Elements keep
+        // their own type, as the elements of a list read from the input data do.
+        this is Collection<*> -> this.map { it.resolved() }
+        this !is String -> this
+        this == "null" -> null
+        else -> {
+            val trimmed = this.trim()
+            if (QUOTED.matches(trimmed)) trimmed.unwrap() else trimmed.rawValue()
         }
     }
 

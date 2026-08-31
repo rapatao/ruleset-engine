@@ -2014,3 +2014,27 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 }
 ```
 
+```json
+{
+  "left" : [ "\"item1\"", "\"item2\"" ],
+  "operator" : "contains",
+  "right" : "\"item1\""
+}
+```
+
+```json
+{
+  "left" : [ "\"item1\"", "\"item2\"" ],
+  "operator" : "not_contains",
+  "right" : "\"item3\""
+}
+```
+
+```json
+{
+  "left" : [ "item.name", "\"something else\"" ],
+  "operator" : "contains",
+  "right" : "\"product name\""
+}
+```
+
