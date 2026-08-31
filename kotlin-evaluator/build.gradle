@@ -3,3 +3,11 @@ dependencies {
 
     testImplementation project(":tests")
 }
+
+tasks.register("bench", JavaExec) {
+    group = "verification"
+    description = "Runs the engine benchmark. Iterations: -PbenchIterations=1000"
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinBenchmarkKt"
+    args = [providers.gradleProperty("benchIterations").getOrElse("1000")]
+}
