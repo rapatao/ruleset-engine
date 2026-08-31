@@ -6,7 +6,18 @@ Simple yet powerful rules engine that offers the flexibility of using the built-
 
 ## Available Engines
 
-Below are the available engines that can be used to evaluate expressions:
+Below are the available engines that can be used to evaluate expressions. All of them implement the same
+`com.rapatao.projects.ruleset.engine.Evaluator` contract and accept the same `Expression` tree, so switching engine is a
+matter of changing the dependency and the instantiation line.
+
+A quick comparison, measured with the benchmark shipped in this repository (details in
+[Performance](#performance)):
+
+| engine    | operands            | throughput (ops/s) | relative | best fit                                             |
+|-----------|---------------------|--------------------|----------|------------------------------------------------------|
+| Kotlin    | field paths only    | ~566,000           | 1x       | high volume, plain comparison rules                  |
+| Rhino     | JavaScript          | ~47,800            | ~12x     | rules that need scripting, moderate volume           |
+| GraalJS   | JavaScript          | ~9,700             | ~58x     | modern ECMAScript, GraalVM deployments, low volume   |
 
 ### Kotlin engine implementation
 
@@ -25,6 +36,32 @@ Supported types:
 ```kotlin
 val evaluator = com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvaluator()
 ```
+
+#### How it works
+
+On each `evaluate` call the input data is flattened into a `Map<String, Any?>` keyed by dotted field paths
+(`item.price`, `item.tags[0]`, ...). Maps are walked by key, arbitrary objects by Kotlin reflection
+(`memberProperties`). Operands are then resolved against that map, with numbers normalised to `BigDecimal` so that an
+`Int` operand and a `BigDecimal` field compare as expected. Operators are plain Kotlin functions (`==`, `>`,
+`String.contains`, `Collection.contains`, ...).
+
+Operands are literals or field paths only. A quoted operand (`"\"value\""`) is a string literal, an unquoted one is
+first tried as a number or boolean literal and then as a field path. There is no expression language, so
+`item.price * 2` is not supported: model it as a field on the input, or as a custom operator.
+
+#### Best for
+
+* Rule sets made of comparisons over data you already have in memory
+* Hot paths where evaluation cost matters more than rule expressiveness
+* Environments where shipping a script interpreter is unwanted (smaller dependency surface, no scripting sandbox to
+  reason about)
+
+#### Trade-offs
+
+* No expressions in operands
+* Flattening walks the whole input graph on every evaluation, not just the fields the rule touches. Cost grows with the
+  size of the input object, not with the size of the rule, so prefer passing a narrow input object over a wide one
+* Reflection is used for non-map inputs; passing a `Map` avoids it
 
 #### Gradle
 
@@ -53,6 +90,42 @@ when rules contain complex logic or when you want to leverage JavaScript's exten
 val evaluator = com.rapatao.projects.ruleset.engine.evaluator.rhino.RhinoEvaluator()
 ```
 
+#### How it works
+
+Each `evaluate` call obtains a Rhino `Context`, creates a fresh safe standard scope and injects the input data into it
+(maps by key, other objects by Kotlin reflection). Every operator then builds a small JavaScript snippet
+(`true == ((left) == (right))`) and compiles and executes it in that scope, which means both operands are arbitrary
+JavaScript.
+
+The context is created through `RhinoContextFactory`, which is where the engine is tuned:
+
+```kotlin
+val evaluator = RhinoEvaluator(
+    contextFactory = RhinoContextFactory(
+        interpretedMode = false, // compile to bytecode instead of interpreting
+        languageVersion = Context.VERSION_ES6,
+    )
+)
+```
+
+`interpretedMode` defaults to `true`, and that default is the fast one for this engine. Because a fresh snippet is
+compiled per operator invocation and never cached, bytecode generation cost is paid on every evaluation and never
+amortised: measured on the benchmark rule set, `interpretedMode = false` is about 10x slower (34.3ms vs 3.3ms per
+iteration). Leave it as is unless you have measured your own workload.
+
+#### Best for
+
+* Rules that need real expressions in the operands (`item.price * quantity`, `item.name.toLowerCase()`, ternaries,
+  inline functions)
+* Rules authored or edited outside the codebase, for example loaded from JSON at runtime
+* Plain JVM deployments: Rhino is a small pure Java dependency with no native image or JDK requirements
+
+#### Trade-offs
+
+* Roughly an order of magnitude slower than the Kotlin engine
+* JavaScript language support is behind GraalJS; set `languageVersion` explicitly if you need ES6 syntax
+* The scope is rebuilt per `evaluate` call, so the whole input is injected even when the rule reads a single field
+
 #### Gradle
 
 ```groovy
@@ -80,6 +153,42 @@ when rules contain complex logic or when you want to leverage JavaScript's exten
 val evaluator = com.rapatao.projects.ruleset.engine.evaluator.graaljs.GraalJSEvaluator()
 ```
 
+#### How it works
+
+The evaluator holds a shared polyglot `Engine` and builds a new `Context` per `evaluate` call. Input data is injected as
+context bindings (maps by key, other objects by Kotlin reflection with `HostAccess.ALL`), and each operator evaluates a
+JavaScript `Source` against that context, so both operands are arbitrary JavaScript.
+
+Both the `Engine` and the `Context.Builder` are constructor parameters, which is where the engine is tuned:
+
+```kotlin
+val evaluator = GraalJSEvaluator(
+    contextBuilder = Context.newBuilder()
+        .engine(engine)
+        .option("js.ecmascript-version", "2023")
+        .allowHostAccess(HostAccess.EXPLICIT) // narrower than the default HostAccess.ALL
+)
+```
+
+The default builder enables `HostAccess.ALL`, `allowHostClassLookup { true }` and `js.nashorn-compat`. That is
+convenient, but it lets rule authors reach arbitrary JVM classes from a rule. If rules come from an untrusted source,
+pass a restricted `Context.Builder`.
+
+#### Best for
+
+* Modern ECMAScript in the operands (the default is `js.ecmascript-version` 2023)
+* Applications already running on GraalVM, where the Graal JIT compiles the rule scripts instead of interpreting them
+* Rule sets where evaluation is not on a hot path, for example batch or request-scoped decisions with a low call rate
+
+#### Trade-offs
+
+* The slowest of the three engines in the measurement below, and most of that cost is context creation rather than the
+  rule itself
+* On a stock (non-GraalVM) JDK, Truffle runs in interpreter-only mode. The evaluator sets
+  `engine.WarnInterpreterOnly=false`, so the usual warning is not printed. Running on a GraalVM JDK, or adding the Graal
+  compiler to the runtime classpath, is what unlocks its performance
+* The polyglot dependencies are considerably heavier than Rhino's single jar
+
 #### Gradle
 
 ```groovy
@@ -96,6 +205,76 @@ implementation "com.rapatao.ruleset:graaljs-evaluator:$rulesetVersion"
     <version>$rulesetVersion</version>
 </dependency>
 ```
+
+## Performance
+
+### Running the benchmark
+
+Every evaluator module ships a `bench` task that replays the full test rule set against its engine:
+
+```shell
+./gradlew :kotlin-evaluator:bench
+./gradlew :rhino-evaluator:bench
+./gradlew :graaljs-evaluator:bench -PbenchIterations=5000
+```
+
+Each iteration evaluates the 147 expressions from `com.rapatao.projects.ruleset.engine.cases.TestData` against the same
+input object, after 100 warmup iterations. Results are printed and written to `bench_<engine>.txt`.
+
+### Results
+
+Numbers below come from that benchmark, 2000 iterations (294,000 evaluations per engine), on an Apple M3 Pro with
+Amazon Corretto 21.0.11. Treat them as relative magnitudes, not absolute figures: the harness is a simple timing loop,
+not JMH, and the GraalJS run is interpreter-only because Corretto is not a GraalVM JDK.
+
+| engine  | ops/s   | avg per iteration | p50       | p99       | relative cost |
+|---------|---------|-------------------|-----------|-----------|---------------|
+| Kotlin  | 566,752 | 259us             | 210us     | 638us     | 1x            |
+| Rhino   | 47,827  | 3.07ms            | 2.99ms    | 4.60ms    | ~12x          |
+| GraalJS | 9,688   | 15.17ms           | 14.97ms   | 17.15ms   | ~58x          |
+
+All three engines are stable under load: the p99 stays within 1.2x to 3x of the median, so there are no pathological
+outliers, only different constant costs.
+
+### Where the time goes
+
+The `Evaluator` contract sets up a fresh evaluation context on every `evaluate` call. Measuring a single rule
+(`item.price equalsTo 10`) separates that fixed cost from the actual rule evaluation:
+
+| engine  | one `evaluate` call | context setup | setup share |
+|---------|---------------------|---------------|-------------|
+| Kotlin  | 4.7us               | 1.2us         | ~27%        |
+| Rhino   | 44.9us              | 16.8us        | ~37%        |
+| GraalJS | 122.4us             | 107.8us       | ~88%        |
+
+Reading of the table:
+
+* **Kotlin**: the fixed cost is flattening the input graph. It scales with the size of the input object, not with the
+  rule, so a wide input evaluated against a two-field rule pays for every other field
+* **Rhino**: the fixed cost is building a fresh standard scope and injecting the input. The remainder is compiling and
+  running one small script per operator, which is why deep rule trees cost more than the numbers for a single rule
+  suggest
+* **GraalJS**: context creation dominates almost entirely. On this setup the rule itself is nearly free compared to the
+  polyglot context it runs in
+
+### Practical guidance
+
+* Reuse the evaluator instance. Operators are resolved once in the constructor, and for GraalJS the shared `Engine`
+  caches parsed sources across contexts, so a new evaluator per request throws that away
+* Pass the narrowest input object that satisfies the rule. All three engines materialise the whole input per call
+* Prefer `Map` inputs over arbitrary objects when the data is already in that shape: the object path goes through
+  Kotlin reflection
+* Order `anyMatch` cheaply-first and `allMatch` most-selective-first. Evaluation short-circuits, and with the JS engines
+  every skipped expression is a script that is never compiled
+* On GraalJS, run on a GraalVM JDK (or put the Graal compiler on the runtime classpath) before drawing conclusions from
+  its numbers. Interpreter-only mode is the default penalty on a stock JDK
+* On Rhino, keep the default `interpretedMode = true`. Compiled mode measures about 10x slower here, because each
+  operator compiles a new script that is thrown away
+
+Both JS engines rebuild their context per `evaluate` call, and that dominates their cost. Overriding `call` to reuse a
+context makes the benchmark suite about 48x faster on GraalJS (16.6ms to 0.35ms) and about 11x faster on Rhino (3.5ms
+to 0.30ms), at the price of thread safety and binding isolation between evaluations. See
+[docs/tasks](docs/tasks) for the analysis and the trade-offs.
 
 ## Get started
 
