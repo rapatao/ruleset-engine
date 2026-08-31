@@ -2014,3 +2014,211 @@ To see more details, check its source: [here](src/test/kotlin/com/rapatao/projec
 }
 ```
 
+```json
+{
+  "left" : [ "\"item1\"", "\"item2\"" ],
+  "operator" : "contains",
+  "right" : "\"item1\""
+}
+```
+
+```json
+{
+  "left" : [ "\"item1\"", "\"item2\"" ],
+  "operator" : "not_contains",
+  "right" : "\"item3\""
+}
+```
+
+```json
+{
+  "left" : [ "item.name", "\"something else\"" ],
+  "operator" : "contains",
+  "right" : "\"product name\""
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "equals",
+  "right" : "1.5"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "equals",
+  "right" : "1.9"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "equals",
+  "right" : "1.0"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "equals",
+  "right" : "1"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "not_equals",
+  "right" : "1.9"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "greater_than",
+  "right" : "1.4"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "greater_than",
+  "right" : "1.6"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "less_than",
+  "right" : "1.6"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "less_than",
+  "right" : "1.4"
+}
+```
+
+```json
+{
+  "left" : "item.weight",
+  "operator" : "greater_or_equal_than",
+  "right" : "1.5"
+}
+```
+
+```json
+{
+  "left" : "item.scaled",
+  "operator" : "equals",
+  "right" : 10
+}
+```
+
+```json
+{
+  "left" : "item.scaled",
+  "operator" : "equals",
+  "right" : "10.0"
+}
+```
+
+```json
+{
+  "left" : "item.scaled",
+  "operator" : "equals",
+  "right" : "10.00"
+}
+```
+
+```json
+{
+  "left" : "item.scaled",
+  "operator" : "not_equals",
+  "right" : 10
+}
+```
+
+```json
+{
+  "left" : "item.scaled",
+  "operator" : "equals",
+  "right" : "10.01"
+}
+```
+
+```json
+{
+  "left" : "item.price",
+  "operator" : "equals",
+  "right" : "10.00"
+}
+```
+
+```json
+{
+  "left" : [ 1, 2 ],
+  "operator" : "contains",
+  "right" : 1
+}
+```
+
+```json
+{
+  "left" : [ 1, 2 ],
+  "operator" : "contains",
+  "right" : 3
+}
+```
+
+```json
+{
+  "left" : [ 1, 2 ],
+  "operator" : "not_contains",
+  "right" : 3
+}
+```
+
+```json
+{
+  "left" : "item.quantities",
+  "operator" : "contains",
+  "right" : "1"
+}
+```
+
+```json
+{
+  "left" : "item.quantities",
+  "operator" : "contains",
+  "right" : "3"
+}
+```
+
+```json
+{
+  "left" : "item.quantities",
+  "operator" : "not_contains",
+  "right" : "3"
+}
+```
+
+```json
+{
+  "left" : "item.quantities",
+  "operator" : "contains",
+  "right" : "1.0"
+}
+```
+

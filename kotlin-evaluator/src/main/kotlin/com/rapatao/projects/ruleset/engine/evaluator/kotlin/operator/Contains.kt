@@ -10,8 +10,8 @@ internal class Contains : ContainsOperator() {
     private fun Any?.checkContains(value: Any?): Boolean {
         return when {
             this is String && value is String -> this.contains(value)
-            this is Collection<*> -> this.contains(value)
-            this is Array<*> -> this.contains(value)
+            this is Collection<*> -> this.any { it.matches(value) }
+            this is Array<*> -> this.any { it.matches(value) }
             else -> throw UnsupportedOperationException("contains doesn't support ${this?.javaClass} type")
         }
     }

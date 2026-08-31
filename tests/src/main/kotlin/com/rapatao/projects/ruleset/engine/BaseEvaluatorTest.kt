@@ -24,11 +24,15 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.reflect.full.memberProperties
 
+// The shared contract every engine has to satisfy, so assertions accumulate here by design.
+@Suppress("TooManyFunctions")
 abstract class BaseEvaluatorTest(
     private val evaluator: Evaluator
 ) {
 
     companion object {
+        private const val WIDE_INPUT_SIZE = 20
+
         @JvmStatic
         fun tests() = TestData.cases()
 
@@ -72,6 +76,18 @@ abstract class BaseEvaluatorTest(
             test[0] as Expression,
             test[1] as Boolean
         )
+    }
+
+    @Test
+    @DisplayName("the wide benchmark input evaluates every case to the same result as the default one")
+    fun assertWideInputMatchesDefaultInput() {
+        val wide = TestData.wideInput(WIDE_INPUT_SIZE)
+
+        val differences = tests()
+            .map { it.get().first { arg -> arg is Expression } as Expression }
+            .filter { evaluator.evaluate(it, wide) != evaluator.evaluate(it, TestData.inputData) }
+
+        assertThat(differences, equalTo(emptyList()))
     }
 
     @Test

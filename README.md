@@ -10,14 +10,14 @@ Below are the available engines that can be used to evaluate expressions. All of
 `com.rapatao.projects.ruleset.engine.Evaluator` contract and accept the same `Expression` tree, so switching engine is a
 matter of changing the dependency and the instantiation line.
 
-A quick comparison, measured with the benchmark shipped in this repository (details in
-[BENCHMARKS.md](BENCHMARKS.md)):
+| engine  | operands         | best fit                                           |
+|---------|------------------|----------------------------------------------------|
+| Kotlin  | field paths only | high volume, plain comparison rules                |
+| Rhino   | JavaScript       | rules that need scripting, high volume             |
+| GraalJS | JavaScript       | modern ECMAScript, GraalVM deployments, low volume |
 
-| engine    | operands            | throughput (ops/s) | relative | best fit                                             |
-|-----------|---------------------|--------------------|----------|------------------------------------------------------|
-| Kotlin    | field paths only    | ~783,000           | 1x       | high volume, plain comparison rules                  |
-| Rhino     | JavaScript          | ~350,000           | ~2.2x    | rules that need scripting, high volume               |
-| GraalJS   | JavaScript          | ~9,700             | ~81x     | modern ECMAScript, GraalVM deployments, low volume   |
+Throughput, run-to-run spread, where the time goes inside each engine and tuning guidance are in
+[BENCHMARKS.md](BENCHMARKS.md).
 
 ### Kotlin engine implementation
 
@@ -39,15 +39,35 @@ val evaluator = com.rapatao.projects.ruleset.engine.evaluator.kotlin.KotlinEvalu
 
 #### How it works
 
-On each `evaluate` call the input data is flattened into a `Map<String, Any?>` keyed by dotted field paths
-(`item.price`, `item.tags[0]`, ...). Maps are walked by key, arbitrary objects by Kotlin reflection
-(`memberProperties`). Operands are then resolved against that map, with numbers normalised to `BigDecimal` so that an
-`Int` operand and a `BigDecimal` field compare as expected. Operators are plain Kotlin functions (`==`, `>`,
-`String.contains`, `Collection.contains`, ...).
+Operands that are field paths (`item.price`, `item.tags[0]`, ...) are resolved against the input on demand, one path
+at a time: maps are read by key, collections and arrays by index, and arbitrary objects by Kotlin reflection
+(`memberProperties`, reflected once per class and cached). Only the nodes a path names are visited, so the cost tracks
+the rule rather than the input. Operators are plain Kotlin functions (`==`, `>`, `String.contains`, ...).
+
+Numbers are normalised to `BigDecimal`, elements of a list included, so an `Int` operand and a `BigDecimal` field
+compare as expected and `listOf(1, 2) expContains 1` matches. They compare by value rather than by representation, so
+`10` and `10.00` are the same number and a fraction is never truncated.
+
+A path that does not exist throws, which `onFailure` turns into a rule result. A path exists when every step of it
+does: a map holds the key, an object has the property, an index is in range. Nothing exists below a `null`, a string
+or a number, so `item.name.length` throws rather than resolving through reflection.
 
 Operands are literals or field paths only. A quoted operand (`"\"value\""`) is a string literal, an unquoted one is
 first tried as a number or boolean literal and then as a field path. There is no expression language, so
 `item.price * 2` is not supported: model it as a field on the input, or as a custom operator.
+
+A list written in an expression holds operands, and each element is resolved by those same rules:
+
+```kotlin
+// the literal "test", and whatever item.name holds
+listOf("\"test\"", "item.name") expContains "\"product name\""
+
+// looks for fields named test and brand-new, and throws when the input has neither
+listOf("test", "brand-new") expContains "\"test\""
+```
+
+An unquoted string element is a field path, exactly as an unquoted scalar operand is. Quote it to compare against the
+text itself.
 
 #### Best for
 
@@ -59,9 +79,9 @@ first tried as a number or boolean literal and then as a field path. There is no
 #### Trade-offs
 
 * No expressions in operands
-* Flattening walks the whole input graph on every evaluation, not just the fields the rule touches. Cost grows with the
-  size of the input object, not with the size of the rule, so prefer passing a narrow input object over a wide one
-* Reflection is used for non-map inputs; passing a `Map` avoids it
+* Reflection is used for non-map inputs; passing a `Map` avoids it. The properties of each class are reflected once
+  and cached, so the cost falls on the first evaluation against a given input type
+* The cache is keyed by `Class` and never evicted, which pins classloaders in a container that redeploys
 
 #### Gradle
 
@@ -115,9 +135,8 @@ val evaluator = RhinoEvaluator(
 
 `interpretedMode` defaults to `true`, and that default is the fast one for this engine. Because a fresh snippet is
 compiled per operator invocation and never cached, bytecode generation cost is paid on every evaluation and never
-amortised: measured on the benchmark rule set, `interpretedMode = false` is about 100x slower (37.7ms vs 0.33ms per
-iteration). The gap widened with the shared standard scope, which sped up the interpreted path without touching the
-bytecode generation cost. Leave it as is unless you have measured your own workload.
+amortised, which makes `interpretedMode = false` far slower on the benchmark rule set
+(see [BENCHMARKS.md](BENCHMARKS.md)). Leave it as is unless you have measured your own workload.
 
 #### Best for
 
@@ -128,7 +147,7 @@ bytecode generation cost. Leave it as is unless you have measured your own workl
 
 #### Trade-offs
 
-* Around 1.6x the cost of the Kotlin engine
+* Slower than the Kotlin engine, faster than GraalJS (see [BENCHMARKS.md](BENCHMARKS.md))
 * JavaScript language support is behind GraalJS; set `languageVersion` explicitly if you need ES6 syntax
 * The standard objects are sealed, so a rule cannot monkey-patch a builtin (`Array.prototype.foo = ...` throws)
 * The whole input is injected per `evaluate` call, even when the rule reads a single field
@@ -171,7 +190,8 @@ that object, so both operands are arbitrary JavaScript.
 #### Reusing the context
 
 Building a `Context` is what the engine spends almost all of its time on. `reuseContextPerThread` keeps one context per
-thread instead, which is roughly 25x faster on the benchmark below:
+thread instead, which is the single largest change available on this engine
+(see [BENCHMARKS.md](BENCHMARKS.md)):
 
 ```kotlin
 val evaluator = GraalJSEvaluator(reuseContextPerThread = true)
@@ -211,9 +231,9 @@ pass a restricted `Context.Builder`.
 
 #### Trade-offs
 
-* The slowest of the three engines in the measurement below when left on the default context handling, and most of that
-  cost is context creation rather than the rule itself. `reuseContextPerThread = true` removes it, at the cost of the
-  global-state isolation described above
+* The slowest of the three engines when left on the default context handling, and most of that cost is context creation
+  rather than the rule itself. `reuseContextPerThread = true` removes it, at the cost of the global-state isolation
+  described above
 * On a stock (non-GraalVM) JDK, Truffle runs in interpreter-only mode. The evaluator sets
   `engine.WarnInterpreterOnly=false`, so the usual warning is not printed. Running on a GraalVM JDK, or adding the Graal
   compiler to the runtime classpath, is what unlocks its performance
@@ -235,12 +255,6 @@ implementation "com.rapatao.ruleset:graaljs-evaluator:$rulesetVersion"
     <version>$rulesetVersion</version>
 </dependency>
 ```
-
-## Performance
-
-The Kotlin engine runs the benchmark suite at about 783,000 ops/s, Rhino at about 350,000, and GraalJS at about 9,700
-on a stock JDK. Full results, how to reproduce them, where the time goes inside each engine, and tuning guidance are in
-[BENCHMARKS.md](BENCHMARKS.md).
 
 ## Get started
 

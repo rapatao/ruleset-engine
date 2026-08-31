@@ -54,5 +54,17 @@ object ContainsCases {
             "item.tags" expNotContains "\"different value\"",
             true,
         ),
+        Arguments.of(
+            listOf("\"item1\"", "\"item2\"") expContains "\"item1\"",
+            true,
+        ),
+        Arguments.of(
+            listOf("\"item1\"", "\"item2\"") expNotContains "\"item3\"",
+            true,
+        ),
+        Arguments.of(
+            listOf("item.name", "\"something else\"") expContains "\"product name\"",
+            true,
+        ),
     )
 }

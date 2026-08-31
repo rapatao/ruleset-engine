@@ -15,7 +15,6 @@ import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotEquals
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.NotStartsWith
 import com.rapatao.projects.ruleset.engine.evaluator.kotlin.operator.StartsWith
 import com.rapatao.projects.ruleset.engine.types.operators.Operator
-import kotlin.reflect.full.memberProperties
 
 /**
  * An evaluator engine implementation that uses Kotlin to process expressions.
@@ -41,68 +40,7 @@ open class KotlinEvaluator(
     ) + operators,
 ) {
 
-    override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T {
-        return block(KotlinContext(
-            this,
-            mutableMapOf<String, Any?>().apply {
-                parseKeys("", inputData)
-            }
-        ))
-    }
+    override fun <T> call(inputData: Any, block: (context: EvalContext) -> T): T = block(KotlinContext(this, inputData))
 
     override fun name(): String = "KotlinEval"
-
-    private fun MutableMap<String, Any?>.parseKeys(node: String, input: Any?) {
-        when {
-            input.isValue() -> {
-                this[node] = input
-            }
-
-            input is Collection<*> -> {
-                this[node] = input
-
-                input.forEachIndexed { index, value ->
-                    parseKeys("${node}[$index]", value)
-                }
-            }
-
-            input is Array<*> -> {
-                @Suppress("DuplicatedCode")
-                this[node] = input
-
-                input.forEachIndexed { index, value ->
-                    parseKeys("${node}[$index]", value)
-                }
-            }
-
-            input is Map<*, *> -> {
-                val currNode = node.childNode()
-
-                input.forEach { key, value ->
-                    this["${currNode}${key}"] = value
-
-                    parseKeys("${currNode}${key}", value)
-                }
-            }
-
-            else -> {
-                val currNode = node.childNode()
-
-                input?.javaClass?.kotlin?.memberProperties?.forEach {
-                    this["${currNode}${it.name}"] = it.get(input)
-
-                    parseKeys("${currNode}${it.name}", it.get(input))
-                }
-            }
-        }
-    }
-
-    private fun String.childNode() = if (this.isNotBlank()) "${this}." else this
-
-    private fun Any?.isValue(): Boolean =
-        this == null ||
-            this.javaClass.isPrimitive ||
-            this is Boolean ||
-            this is String ||
-            this is Number
 }

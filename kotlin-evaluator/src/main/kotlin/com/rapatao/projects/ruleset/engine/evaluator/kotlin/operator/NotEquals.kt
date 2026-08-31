@@ -5,5 +5,5 @@ import com.rapatao.projects.ruleset.engine.types.operators.NotEqualsOperator
 
 internal class NotEquals : NotEqualsOperator() {
     override fun process(context: EvalContext, left: Any?, right: Any?): Boolean =
-        left != right
+        !left.matches(right)
 }
