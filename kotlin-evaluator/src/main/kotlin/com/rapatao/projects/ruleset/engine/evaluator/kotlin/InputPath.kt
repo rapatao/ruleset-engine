@@ -1,6 +1,5 @@
 package com.rapatao.projects.ruleset.engine.evaluator.kotlin
 
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
@@ -17,9 +16,11 @@ internal object InputPath {
     /** Returned when a step of the path does not exist, which is distinct from a step resolving to `null`. */
     val ABSENT = Any()
 
-    // ponytail: unbounded and keyed by Class, so it pins classloaders in a redeploy container.
-    // Swap for a weak-keyed cache if that ever matters.
-    private val PROPERTIES = ConcurrentHashMap<Class<*>, Map<String, KProperty1<Any, *>>>()
+    private val PROPERTIES = object : ClassValue<Map<String, KProperty1<Any, *>>>() {
+        @Suppress("UNCHECKED_CAST")
+        override fun computeValue(type: Class<*>): Map<String, KProperty1<Any, *>> =
+            (type.kotlin.memberProperties as Collection<KProperty1<Any, *>>).associateBy { it.name }
+    }
 
     @Suppress("ReturnCount")
     fun resolve(root: Any, path: String): Any? {
@@ -69,7 +70,7 @@ internal object InputPath {
         this is Map<*, *> -> lookup(name)
         this is Collection<*> || this is Array<*> -> ABSENT
         else -> {
-            val property = propertiesOf(this.javaClass)[name]
+            val property = PROPERTIES.get(this.javaClass)[name]
             if (property == null) ABSENT else property.get(this)
         }
     }
@@ -102,10 +103,4 @@ internal object InputPath {
             this is Boolean ||
             this is String ||
             this is Number
-
-    @Suppress("UNCHECKED_CAST")
-    private fun propertiesOf(type: Class<*>): Map<String, KProperty1<Any, *>> =
-        PROPERTIES.computeIfAbsent(type) {
-            (it.kotlin.memberProperties as Collection<KProperty1<Any, *>>).associateBy { property -> property.name }
-        }
 }
